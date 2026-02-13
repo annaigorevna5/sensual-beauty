@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reviews | Sensual - Premium Body Cosmetics</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    <style>
+        /* CSS переменные для формы */
+        :root {
+            --color-primary: #0a2322;
+            --color-primary-dark: #0a5c5a;
+            --color-gold: #d4af37;
+            --text-light: #ffffff;
+            --text-gray: #a0a0a0;
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        /* Стили для формы отзыва */
+        .review-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 35, 34, 0.98);
+            backdrop-filter: blur(25px);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .review-modal-content {
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 40px;
+            position: relative;
+            animation: fadeInScale 0.4s ease;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.5);
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+        }
+        
+        .close-review-modal {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            z-index: 10;
+        }
+        
+        .close-review-modal:hover {
+            background: rgba(212, 175, 55, 0.2);
+            border-color: var(--color-gold);
+            color: var(--color-gold);
+            transform: rotate(90deg);
+        }
+        
+        .review-modal h2 {
+            color: var(--text-light);
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 600;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            color: var(--text-light);
+            margin-bottom: 10px;
+            font-weight: 500;
+            font-size: 1rem;
+        }
+        
+        /* Стили для всех полей ввода */
+        .glass-input {
+            width: 100%;
+            padding: 14px 20px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            color: var(--text-light);
+            font-family: 'Montserrat', sans-serif;
+            transition: var(--transition-smooth);
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+        
+        .glass-input:focus {
+            outline: none;
+            border-color: var(--color-gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+            background: rgba(255, 255, 255, 0.12);
+        }
+        
+        .glass-input::placeholder {
+            color: var(--text-gray);
+            opacity: 0.7;
+        }
+        
+        textarea.glass-input {
+            resize: vertical;
+            min-height: 120px;
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.5;
+        }
+        
+        /* Специальные стили для select */
+        select.glass-input {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23d4af37' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 20px center;
+            background-size: 16px;
+            padding-right: 50px;
+            cursor: pointer;
+        }
+        
+        /* Стили для опций select (только для Firefox) */
+        select.glass-input option {
+            background: rgba(10, 35, 34, 0.95);
+            color: var(--text-light);
+            padding: 10px;
+        }
+        
+        .rating-input {
+            display: flex;
+            gap: 10px;
+            font-size: 2rem;
+            color: var(--color-gold);
+            margin-top: 5px;
+        }
+        
+        .rating-input i {
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        
+        .rating-input i:hover {
+            transform: scale(1.2);
+        }
+        
+        .rating-input i.hover {
+            color: var(--color-gold);
+        }
+        
+        .rating-input i.fas {
+            color: var(--color-gold);
+        }
+        
+        .rating-input i.far {
+            color: rgba(212, 175, 55, 0.3);
+        }
+        
+        /* Стили для кнопки отправки */
+        .review-modal .glass-btn {
+            background: rgba(212, 175, 55, 0.2);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            padding: 16px 30px;
+            border-radius: 12px;
+            color: var(--text-light);
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+        }
+        
+        .review-modal .glass-btn:hover {
+            background: rgba(212, 175, 55, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.15);
+        }
+        
+        /* Анимации */
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .review-modal-content {
+                padding: 30px 20px;
+            }
+            
+            .review-modal h2 {
+                font-size: 1.7rem;
+            }
+            
+            .rating-input {
+                font-size: 1.7rem;
+            }
+            
+            .glass-input {
+                padding: 12px 15px;
+                font-size: 0.95rem;
+            }
+            
+            select.glass-input {
+                background-position: right 15px center;
+                padding-right: 45px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .review-modal-content {
+                padding: 25px 15px;
+            }
+            
+            .review-modal h2 {
+                font-size: 1.5rem;
+                margin-bottom: 25px;
+            }
+            
+            .form-group {
+                margin-bottom: 20px;
+            }
+            
+            .rating-input {
+                font-size: 1.5rem;
+                gap: 8px;
+            }
+            
+            .glass-input {
+                padding: 10px 12px;
+                font-size: 0.9rem;
+            }
+            
+            .review-modal .glass-btn {
+                padding: 14px 20px;
+                font-size: 0.95rem;
+            }
+        }
+        
+        /* Улучшения для мобильных устройств */
+        @media (max-height: 700px) {
+            .review-modal-content {
+                max-height: 85vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Динамическая стеклянная шапка -->
+    <header id="main-header" class="glass-header">
+        <nav class="container header-nav">
+            <!-- Золотая буква S с тенью -->
+            <div class="brand-logo">
+                <a href="index.html" class="gold-s" aria-label="Sensual Home">S</a>
+            </div>
+            
+            <!-- Основные навигационные ссылки -->
+            <ul class="nav-links">
+                <li><a href="shop.html" class="nav-link" data-text="Shop">Shop</a></li>
+                <li><a href="company.html" class="nav-link" data-text="Company">Company</a></li>
+                <li><a href="reviews.html" class="nav-link active" data-text="Reviews">Reviews</a></li>
+                <li><a href="contacts.html" class="nav-link" data-text="Contacts">Contacts</a></li>
+            </ul>
+            
+            <!-- Правая часть: телефон, корзина, меню -->
+            <div class="header-right">
+                <a href="tel:+15551234567" class="phone-link">+1 (555) 123-4567</a>
+                <a href="cart.html" class="cart-icon" aria-label="Shopping Cart">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-count">0</span>
+                </a>
+                <!-- Кнопка меню с выпадающими категориями -->
+                <div class="dropdown-menu">
+                    <button class="menu-toggle glass-btn" id="menu-toggle" aria-expanded="false" aria-controls="categories-dropdown">
+                        <i class="fas fa-bars"></i> Categories
+                    </button>
+                    <ul class="dropdown-content glass-panel" id="categories-dropdown">
+                        <li><a href="shop.html#scrubs" class="dropdown-link">Scrubs & Exfoliants</a></li>
+                        <li><a href="shop.html#creams" class="dropdown-link">Body Creams & Lotions</a></li>
+                        <li><a href="shop.html#shower-gels" class="dropdown-link">Shower Gels</a></li>
+                        <li><a href="shop.html#soaps" class="dropdown-link">Artisan Soaps</a></li>
+                        <li><a href="shop.html#for-men" class="dropdown-link">For Men</a></li>
+                        <li><a href="shop.html#for-women" class="dropdown-link">For Women</a></li>
+                        <li><a href="shop.html#gift-sets" class="dropdown-link">Gift Sets</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Reviews Content -->
+    <main class="reviews-page">
+        <!-- Hero Section -->
+        <section class="reviews-hero">
+            <div class="container">
+                <div class="reviews-hero-content">
+                    <h1 class="reviews-title animate-fade-up">Customer Reviews</h1>
+                    <p class="reviews-subtitle animate-fade-up-delay">
+                        Join thousands who have transformed their self-care rituals
+                    </p>
+                    <div class="overall-rating glass-panel animate-fade-scale">
+                        <div class="rating-number">4.8</div>
+                        <div class="rating-stars">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                        </div>
+                        <div class="rating-count">Based on 2,347 reviews</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Reviews Grid -->
+        <section class="reviews-section container">
+            <div class="reviews-filter">
+                <div class="filter-options">
+                    <button class="filter-btn active" data-filter="all">All Reviews</button>
+                    <button class="filter-btn" data-filter="5">5 Stars</button>
+                    <button class="filter-btn" data-filter="4">4 Stars</button>
+                    <button class="filter-btn" data-filter="3">3 Stars</button>
+                </div>
+                <button class="write-review-btn glass-btn">
+                    <i class="fas fa-pen"></i> Write a Review
+                </button>
+            </div>
+
+            <div class="reviews-grid">
+                <!-- Review 1 -->
+                <div class="review-card glass-panel scroll-animate" data-rating="5">
+                    <div class="review-header">
+                        <div class="reviewer-info">
+                            <div class="reviewer-avatar">AM</div>
+                            <div>
+                                <h4>Amanda M.</h4>
+                                <div class="review-meta">
+                                    <div class="review-stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <span class="review-date">2 weeks ago</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-product">
+                            <i class="fas fa-spa"></i> Silk & Saffron Body Elixir
+                        </div>
+                    </div>
+                    <div class="review-content">
+                        <h3>Absolutely divine!</h3>
+                        <p>
+                            I've tried countless luxury body creams, but nothing compares to this elixir. 
+                            The texture is like silk, and the scent is sophisticated without being overpowering. 
+                            My skin has never felt so nourished. Worth every penny!
+                        </p>
+                    </div>
+                    <div class="review-helpful">
+                        <button class="helpful-btn">
+                            <i class="fas fa-thumbs-up"></i> Helpful (42)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="review-card glass-panel scroll-animate" data-rating="5">
+                    <div class="review-header">
+                        <div class="reviewer-info">
+                            <div class="reviewer-avatar">JR</div>
+                            <div>
+                                <h4>James R.</h4>
+                                <div class="review-meta">
+                                    <div class="review-stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <span class="review-date">1 month ago</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-product">
+                            <i class="fas fa-user"></i> Men's Resilience Kit
+                        </div>
+                    </div>
+                    <div class="review-content">
+                        <h3>Finally, quality products for men</h3>
+                        <p>
+                            As someone who's skeptical of "men's" skincare, I was blown away by this kit. 
+                            The coffee scrub actually works, and the post-shave balm soothes without greasiness. 
+                            My wife keeps stealing it too!
+                        </p>
+                    </div>
+                    <div class="review-helpful">
+                        <button class="helpful-btn">
+                            <i class="fas fa-thumbs-up"></i> Helpful (28)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Review 3 -->
+                <div class="review-card glass-panel scroll-animate" data-rating="5">
+                    <div class="review-header">
+                        <div class="reviewer-info">
+                            <div class="reviewer-avatar">SC</div>
+                            <div>
+                                <h4>Sophia C.</h4>
+                                <div class="review-meta">
+                                    <div class="review-stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <span class="review-date">3 months ago</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-product">
+                            <i class="fas fa-gift"></i> Sensual Awakening Gift Set
+                        </div>
+                    </div>
+                    <div class="review-content">
+                        <h3>Perfect gift that keeps giving</h3>
+                        <p>
+                            Bought this as a birthday gift for my sister, and she hasn't stopped thanking me. 
+                            The packaging alone is stunning, but the products inside are even better. 
+                            I ended up buying one for myself too!
+                        </p>
+                    </div>
+                    <div class="review-helpful">
+                        <button class="helpful-btn">
+                            <i class="fas fa-thumbs-up"></i> Helpful (56)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Review 4 -->
+                <div class="review-card glass-panel scroll-animate" data-rating="4">
+                    <div class="review-header">
+                        <div class="reviewer-info">
+                            <div class="reviewer-avatar">TP</div>
+                            <div>
+                                <h4>Thomas P.</h4>
+                                <div class="review-meta">
+                                    <div class="review-stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </div>
+                                    <span class="review-date">2 weeks ago</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-product">
+                            <i class="fas fa-shower"></i> Black Orchid & Oud Shower Gel
+                        </div>
+                    </div>
+                    <div class="review-content">
+                        <h3>Luxurious scent, but...</h3>
+                        <p>
+                            The fragrance is incredible - deep and sophisticated. However, I wish the bottle 
+                            was larger for the price. A little goes a long way though, and the quality is 
+                            definitely there.
+                        </p>
+                    </div>
+                    <div class="review-helpful">
+                        <button class="helpful-btn">
+                            <i class="fas fa-thumbs-up"></i> Helpful (19)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Review 5 -->
+                <div class="review-card glass-panel scroll-animate" data-rating="5">
+                    <div class="review-header">
+                        <div class="reviewer-info">
+                            <div class="reviewer-avatar">EL</div>
+                            <div>
+                                <h4>Emma L.</h4>
+                                <div class="review-meta">
+                                    <div class="review-stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <span class="review-date">1 week ago</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-product">
+                            <i class="fas fa-spa"></i> Diamond & Pearl Exfoliant
+                        </div>
+                    </div>
+                    <div class="review-content">
+                        <h3>Game changer for sensitive skin</h3>
+                        <p>
+                            I have sensitive skin that usually reacts badly to scrubs, but this one is 
+                            incredibly gentle yet effective. My skin glows after use, and there's no redness 
+                            or irritation. Holy grail product!
+                        </p>
+                    </div>
+                    <div class="review-helpful">
+                        <button class="helpful-btn">
+                            <i class="fas fa-thumbs-up"></i> Helpful (31)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Review 6 -->
+                <div class="review-card glass-panel scroll-animate" data-rating="5">
+                    <div class="review-header">
+                        <div class="reviewer-info">
+                            <div class="reviewer-avatar">MR</div>
+                            <div>
+                                <h4>Michael R.</h4>
+                                <div class="review-meta">
+                                    <div class="review-stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <span class="review-date">2 months ago</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="review-product">
+                            <i class="fas fa-hand-holding-water"></i> White Truffle & Caviar Cream
+                        </div>
+                    </div>
+                    <div class="review-content">
+                        <h3>Investment in my skin</h3>
+                        <p>
+                            Yes, it's expensive. But after two months of use, the fine lines on my neck 
+                            have visibly diminished. The texture is rich but absorbs completely. This is 
+                            what luxury skincare should be.
+                        </p>
+                    </div>
+                    <div class="review-helpful">
+                        <button class="helpful-btn">
+                            <i class="fas fa-thumbs-up"></i> Helpful (24)
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="load-more-reviews">
+                <button class="glass-btn">
+                    <i class="fas fa-sync-alt"></i> Load More Reviews
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <!-- Футер -->
+    <footer class="main-footer">
+        <div class="container footer-content">
+            <div class="footer-brand">
+               <div class="brand-logo">
+                <a href="index.html" class="gold-s" aria-label="Sensual Home">S</a>
+            </div>              
+                <p class="footer-tagline">Elevating your daily ritual.</p>
+            </div>
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h4 class="footer-title">Explore</h4>
+                    <ul>
+                        <li><a href="shop.html">Shop All</a></li>
+                        <li><a href="shop.html#new">New Arrivals</a></li>
+                        <li><a href="shop.html#bestsellers">Bestsellers</a></li>
+                        <li><a href="gift-guide.html">Gift Guide</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4 class="footer-title">Company</h4>
+                    <ul>
+                        <li><a href="company.html">Our Story</a></li>
+                        <li><a href="company.html#ethics">Ethics</a></li>
+                        <li><a href="company.html#careers">Careers</a></li>
+                        <li><a href="reviews.html">Press</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4 class="footer-title">Support</h4>
+                    <ul>
+                        <li><a href="contacts.html">Contact Us</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="shipping.html">Shipping & Returns</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-contact">
+                <h4 class="footer-title">Stay Connected</h4>
+                <p class="contact-email"><i class="fas fa-envelope"></i> hello@sensual-beauty.com</p>
+                <p class="contact-phone"><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                <div class="social-icons">
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; <span id="current-year">2026</span> Sensual Body Cosmetics. All rights reserved. Developer: Anna Kolomina.</p>
+        </div>
+    </footer>
+
+    <!-- Review Form Modal -->
+    <div id="review-modal" class="review-modal" style="display: none;">
+        <div class="review-modal-content glass-panel">
+            <button class="close-review-modal">
+                <i class="fas fa-times"></i>
+            </button>
+            <h2>Write a Review</h2>
+            <form id="review-form">
+                <div class="form-group">
+                    <label>Select Product</label>
+                    <select class="glass-input" required>
+                        <option value="">Choose a product</option>
+                        <option value="elixir">Silk & Saffron Body Elixir</option>
+                        <option value="diamond">Diamond & Pearl Exfoliant</option>
+                        <option value="truffle">White Truffle & Caviar Cream</option>
+                        <option value="orchid">Black Orchid Shower Gel</option>
+                        <option value="giftset">Sensual Awakening Gift Set</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Your Rating</label>
+                    <div class="rating-input">
+                        <i class="far fa-star" data-rating="1"></i>
+                        <i class="far fa-star" data-rating="2"></i>
+                        <i class="far fa-star" data-rating="3"></i>
+                        <i class="far fa-star" data-rating="4"></i>
+                        <i class="far fa-star" data-rating="5"></i>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Review Title</label>
+                    <input type="text" class="glass-input" placeholder="Summarize your experience" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Your Review</label>
+                    <textarea class="glass-input" rows="5" 
+                              placeholder="Share your experience with this product..." required></textarea>
+                </div>
+                
+                <button type="submit" class="glass-btn">
+                    <i class="fas fa-paper-plane"></i> Submit Review
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Подключение JavaScript -->
+    <script src="js/main.js"></script>
+    <script src="js/cart.js"></script>
+    <script>
+        // Reviews page specific JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+            
+            // Review filtering
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const reviewCards = document.querySelectorAll('.review-card');
+            
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // Update active button
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Filter reviews
+                    const filterValue = this.dataset.filter;
+                    
+                    reviewCards.forEach(card => {
+                        if (filterValue === 'all' || card.dataset.rating === filterValue) {
+                            card.style.display = 'block';
+                            setTimeout(() => card.classList.add('animated'), 100);
+                        } else {
+                            card.style.display = 'none';
+                        }
+                    });
+                });
+            });
+            
+            // Review modal
+            const writeReviewBtn = document.querySelector('.write-review-btn');
+            const reviewModal = document.getElementById('review-modal');
+            const closeModalBtn = document.querySelector('.close-review-modal');
+            
+            if (writeReviewBtn && reviewModal && closeModalBtn) {
+                writeReviewBtn.addEventListener('click', () => {
+                    reviewModal.style.display = 'flex';
+                    document.body.style.overflow = 'hidden';
+                });
+                
+                closeModalBtn.addEventListener('click', () => {
+                    reviewModal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                });
+                
+                reviewModal.addEventListener('click', (e) => {
+                    if (e.target === reviewModal) {
+                        reviewModal.style.display = 'none';
+                        document.body.style.overflow = 'auto';
+                    }
+                });
+                
+                // Close modal with Escape key
+                document.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape' && reviewModal.style.display === 'flex') {
+                        reviewModal.style.display = 'none';
+                        document.body.style.overflow = 'auto';
+                    }
+                });
+            }
+            
+            // Star rating input
+            const starIcons = document.querySelectorAll('.rating-input i');
+            starIcons.forEach(star => {
+                star.addEventListener('click', function() {
+                    const rating = parseInt(this.dataset.rating);
+                    
+                    // Update stars
+                    starIcons.forEach((s, index) => {
+                        if (index < rating) {
+                            s.classList.remove('far');
+                            s.classList.add('fas');
+                        } else {
+                            s.classList.remove('fas');
+                            s.classList.add('far');
+                        }
+                    });
+                });
+                
+                star.addEventListener('mouseover', function() {
+                    const rating = parseInt(this.dataset.rating);
+                    
+                    starIcons.forEach((s, index) => {
+                        if (index < rating) {
+                            s.classList.add('hover');
+                        }
+                    });
+                });
+                
+                star.addEventListener('mouseout', function() {
+                    starIcons.forEach(s => s.classList.remove('hover'));
+                });
+            });
+            
+            // Review form submission
+            const reviewForm = document.getElementById('review-form');
+            if (reviewForm) {
+                reviewForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // Get form values
+                    const product = this.querySelector('select').value;
+                    const title = this.querySelector('input[type="text"]').value;
+                    const reviewText = this.querySelector('textarea').value;
+                    
+                    // Get selected rating
+                    let selectedRating = 0;
+                    starIcons.forEach((star, index) => {
+                        if (star.classList.contains('fas')) {
+                            selectedRating = Math.max(selectedRating, index + 1);
+                        }
+                    });
+                    
+                    // Validate form
+                    if (selectedRating === 0) {
+                        alert('Please select a rating');
+                        return;
+                    }
+                    
+                    if (!product) {
+                        alert('Please select a product');
+                        return;
+                    }
+                    
+                    // In a real application, you would send this data to a server
+                    // For demo purposes, we'll just show a success message
+                    alert('Thank you for your review! It has been submitted for moderation.');
+                    
+                    // Reset form and close modal
+                    this.reset();
+                    reviewModal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                    
+                    // Reset stars
+                    starIcons.forEach(star => {
+                        star.classList.remove('fas');
+                        star.classList.add('far');
+                    });
+                });
+            }
+            
+            // Scroll animations
+            const animatedElements = document.querySelectorAll('.scroll-animate');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animated');
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            animatedElements.forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>

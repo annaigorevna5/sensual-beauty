@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | Sensual - Premium Body Cosmetics</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <style>
+        /* Все ваши существующие стили остаются БЕЗ ИЗМЕНЕНИЙ */
+        .input-wrapper, .textarea-wrapper, .select-wrapper {
+            position: relative;
+            margin-bottom: 25px;
+        }
+        
+        .glass-input, .glass-textarea, .glass-select {
+            width: 100%;
+            padding: 18px 15px 10px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            color: var(--text-light);
+            font-family: var(--font-body);
+            transition: var(--transition-smooth);
+            font-size: 1rem;
+            resize: vertical;
+            cursor: pointer;
+        }
+        
+        .glass-textarea {
+            min-height: 150px;
+        }
+        
+        .glass-input:focus, .glass-textarea:focus, .glass-select:focus {
+            outline: none;
+            border-color: var(--color-gold);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+            background: rgba(255, 255, 255, 0.12);
+        }
+        
+        .input-wrapper label, .textarea-wrapper label, .select-wrapper label {
+            position: absolute;
+            top: 18px;
+            left: 15px;
+            color: var(--text-gray);
+            font-size: 1rem;
+            font-weight: 400;
+            pointer-events: none;
+            transition: all 0.3s ease;
+            transform-origin: left top;
+        }
+        
+        .glass-input:focus + label,
+        .glass-input:not(:placeholder-shown) + label,
+        .glass-textarea:focus + label,
+        .glass-textarea:not(:placeholder-shown) + label,
+        .glass-select:focus + label,
+        .glass-select:valid + label,
+        .glass-select:not([value=""]) + label {
+            transform: translateY(-12px) scale(0.85);
+            color: var(--color-gold);
+        }
+        
+        .glass-input::placeholder,
+        .glass-textarea::placeholder {
+            color: transparent;
+        }
+        
+        .input-line, .textarea-line, .select-line {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--color-gold);
+            transition: width 0.4s ease;
+        }
+        
+        .glass-input:focus ~ .input-line,
+        .glass-textarea:focus ~ .textarea-line,
+        .glass-select:focus ~ .select-line {
+            width: 100%;
+        }
+        
+        .select-wrapper {
+            position: relative;
+        }
+        
+        .select-arrow {
+            position: absolute;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            color: var(--text-gray);
+            pointer-events: none;
+            transition: var(--transition-smooth);
+            font-size: 0.9rem;
+        }
+        
+        .glass-select:focus ~ .select-arrow {
+            color: var(--color-gold);
+            transform: translateY(-50%) rotate(180deg);
+        }
+        
+        .glass-select {
+            appearance: none;
+            cursor: pointer;
+            padding-right: 45px;
+        }
+        
+        .glass-select option {
+            background: var(--color-primary-dark);
+            color: var(--text-light);
+            padding: 12px 15px;
+            font-size: 1rem;
+            border: none;
+        }
+        
+        .glass-select option:hover,
+        .glass-select option:focus,
+        .glass-select option:checked {
+            background: var(--color-gold);
+            color: var(--color-primary-dark);
+        }
+        
+        @-moz-document url-prefix() {
+            .glass-select {
+                text-indent: 0.01px;
+                text-overflow: '';
+            }
+            .glass-select option {
+                background: var(--color-primary-dark);
+            }
+        }
+        
+        .checkbox-group {
+            margin: 30px 0;
+        }
+        
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            color: var(--text-gray);
+            font-size: 0.95rem;
+            transition: var(--transition-smooth);
+        }
+        
+        .checkbox-label:hover {
+            color: var(--text-light);
+        }
+        
+        .checkbox-label input {
+            display: none;
+        }
+        
+        .custom-checkbox {
+            width: 22px;
+            height: 22px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-smooth);
+            flex-shrink: 0;
+        }
+        
+        .custom-checkbox i {
+            color: transparent;
+            font-size: 0.8rem;
+            transition: var(--transition-smooth);
+        }
+        
+        .checkbox-label input:checked + .custom-checkbox {
+            background: var(--color-gold);
+            border-color: var(--color-gold);
+        }
+        
+        .checkbox-label input:checked + .custom-checkbox i {
+            color: var(--color-primary-dark);
+        }
+        
+        .privacy-link {
+            color: var(--color-gold);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition-smooth);
+        }
+        
+        .privacy-link:hover {
+            color: var(--color-gold-light);
+            text-decoration: underline;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            background: rgba(212, 175, 55, 0.15);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            transition: var(--transition-smooth);
+        }
+        
+        .submit-btn:hover {
+            background: rgba(212, 175, 55, 0.25);
+            border-color: var(--color-gold);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.2);
+        }
+        
+        .form-success {
+            margin-top: 25px;
+            padding: 25px;
+            background: rgba(10, 92, 90, 0.2);
+            border: 1px solid rgba(136, 211, 206, 0.3);
+            border-radius: 12px;
+            text-align: center;
+            animation: fadeInScale 0.5s ease;
+        }
+        
+        .form-success i {
+            color: var(--color-gold);
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+        
+        .form-success h4 {
+            color: var(--text-light);
+            margin: 0 0 10px 0;
+            font-size: 1.3rem;
+        }
+        
+        .form-success p {
+            color: var(--text-gray);
+            margin: 0;
+            line-height: 1.6;
+        }
+        
+        /* FAQ Accordion Styles */
+        .faq-item {
+            margin-bottom: 15px;
+            transition: var(--transition-smooth);
+            overflow: hidden;
+        }
+        
+        .faq-item.active {
+            background: rgba(255, 255, 255, 0.03);
+        }
+        
+        .faq-question {
+            padding: 25px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            border-bottom: 1px solid transparent;
+        }
+        
+        .faq-item.active .faq-question {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.02);
+        }
+        
+        .faq-question:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+        
+        .faq-question h3 {
+            margin: 0;
+            color: var(--text-light);
+            font-size: 1.2rem;
+            font-weight: 500;
+            transition: var(--transition-smooth);
+        }
+        
+        .faq-item.active .faq-question h3 {
+            color: var(--color-gold);
+        }
+        
+        .faq-question i {
+            color: var(--color-gold);
+            transition: transform 0.3s ease;
+        }
+        
+        .faq-answer {
+            padding: 0 30px;
+            color: var(--text-gray);
+            line-height: 1.7;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.3s ease;
+        }
+        
+        .faq-item.active .faq-answer {
+            padding: 25px 30px 30px 30px;
+            max-height: 300px;
+        }
+        
+        .faq-answer p {
+            margin: 0;
+        }
+        
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+            
+            .glass-input, .glass-textarea, .glass-select {
+                padding: 16px 15px 8px;
+                font-size: 16px;
+            }
+            
+            .input-wrapper label, .textarea-wrapper label, .select-wrapper label {
+                top: 16px;
+            }
+            
+            .glass-select {
+                font-size: 16px;
+            }
+            
+            .faq-question {
+                padding: 20px;
+            }
+            
+            .faq-question h3 {
+                font-size: 1.1rem;
+            }
+            
+            .faq-answer {
+                padding: 0 20px;
+            }
+            
+            .faq-item.active .faq-answer {
+                padding: 20px;
+            }
+        }
+        
+        .form-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--color-gold);
+            animation: formSpinner 0.8s linear infinite;
+            margin-right: 10px;
+        }
+        
+        @keyframes formSpinner {
+            to { transform: rotate(360deg); }
+        }
+        
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 60px;
+            align-items: stretch;
+        }
+        
+        .contact-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            align-content: start;
+        }
+        
+        .contact-form-container {
+            height: 100%;
+        }
+        
+        .contact-form {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        #contact-form {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .contact-form h2 {
+            margin-bottom: 30px;
+            color: var(--text-light);
+            font-family: var(--font-heading);
+            font-size: 2rem;
+        }
+        
+        @media (max-width: 992px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+            .contact-info {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .contact-info {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ===== КАРТА ===== */
+        .map-container {
+            width: 100%;
+            height: 450px;
+            border-radius: 24px;
+            overflow: hidden;
+            padding: 0 !important;
+            position: relative;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        
+        #store-map {
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            background: #e5e3df; /* цвет фона пока грузится */
+        }
+        
+        /* Стили для тултипа */
+        .leaflet-popup-content-wrapper {
+            background: rgba(10, 20, 30, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            border-radius: 16px;
+            color: #fff;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .leaflet-popup-tip {
+            background: rgba(10, 20, 30, 0.95);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+        }
+        
+        .leaflet-popup-content {
+            margin: 16px 20px;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        .popup-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #D4AF37;
+            margin-bottom: 10px;
+        }
+        
+        .popup-address {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 12px;
+            color: #fff;
+        }
+        
+        .popup-address i {
+            color: #D4AF37;
+            margin-right: 8px;
+        }
+        
+        .popup-hours {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.9);
+            border-top: 1px solid rgba(212, 175, 55, 0.3);
+            padding-top: 12px;
+            margin-top: 5px;
+        }
+        
+        .popup-hours span {
+            color: #D4AF37;
+            font-weight: 500;
+        }
+        
+        /* Убираем атрибуцию полностью */
+        .leaflet-control-attribution {
+            display: none !important;
+        }
+        
+        /* Кастомная золотая метка */
+        .custom-marker {
+            background: transparent;
+            border: none;
+        }
+        
+        .custom-marker i {
+            filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.6));
+        }
+    </style>
+</head>
+<body>
+    <!-- Динамическая стеклянная шапка -->
+    <header id="main-header" class="glass-header">
+        <nav class="container header-nav">
+            <div class="brand-logo">
+                <a href="index.html" class="gold-s" aria-label="Sensual Home">S</a>
+            </div>
+            
+            <ul class="nav-links">
+                <li><a href="shop.html" class="nav-link" data-text="Shop">Shop</a></li>
+                <li><a href="company.html" class="nav-link" data-text="Company">Company</a></li>
+                <li><a href="reviews.html" class="nav-link" data-text="Reviews">Reviews</a></li>
+                <li><a href="contacts.html" class="nav-link active" data-text="Contacts">Contacts</a></li>
+            </ul>
+            
+            <div class="header-right">
+                <a href="tel:+15551234567" class="phone-link">+1 (555) 123-4567</a>
+                <a href="cart.html" class="cart-icon" aria-label="Shopping Cart">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-count">0</span>
+                </a>
+                <div class="dropdown-menu">
+                    <button class="menu-toggle glass-btn" id="menu-toggle" aria-expanded="false" aria-controls="categories-dropdown">
+                        <i class="fas fa-bars"></i> Categories
+                    </button>
+                    <ul class="dropdown-content glass-panel" id="categories-dropdown">
+                        <li><a href="shop.html#scrubs" class="dropdown-link">Scrubs & Exfoliants</a></li>
+                        <li><a href="shop.html#creams" class="dropdown-link">Body Creams & Lotions</a></li>
+                        <li><a href="shop.html#shower-gels" class="dropdown-link">Shower Gels</a></li>
+                        <li><a href="shop.html#soaps" class="dropdown-link">Artisan Soaps</a></li>
+                        <li><a href="shop.html#for-men" class="dropdown-link">For Men</a></li>
+                        <li><a href="shop.html#for-women" class="dropdown-link">For Women</a></li>
+                        <li><a href="shop.html#gift-sets" class="dropdown-link">Gift Sets</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Contacts Content -->
+    <main class="contacts-page">
+        <!-- Hero Section -->
+        <section class="contacts-hero">
+            <div class="container">
+                <div class="contacts-hero-content">
+                    <h1 class="contacts-title animate-fade-up">Get in Touch</h1>
+                    <p class="contacts-subtitle animate-fade-up-delay">
+                        We're here to help with any questions about our products or your order.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Grid -->
+        <section class="contact-section container">
+            <div class="contact-grid">
+                <!-- Contact Information -->
+                <div class="contact-info scroll-animate">
+                    <div class="info-card glass-panel">
+                        <div class="info-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <h3>Phone Support</h3>
+                        <p>Mon-Fri: 9am-6pm EST</p>
+                        <a href="tel:+15551234567" class="contact-link">+1 (555) 123-4567</a>
+                    </div>
+                    
+                    <div class="info-card glass-panel">
+                        <div class="info-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <h3>Email</h3>
+                        <p>Response within 24 hours</p>
+                        <a href="mailto:hello@sensual-beauty.com" class="contact-link">hello@sensual-beauty.com</a>
+                    </div>
+                    
+                    <div class="info-card glass-panel">
+                        <div class="info-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <h3>Our Studio</h3>
+                        <p>Visit by appointment only</p>
+                        <address class="contact-address">
+                            123 Luxury Avenue<br>
+                            Beverly Hills, CA 90210<br>
+                            United States
+                        </address>
+                    </div>
+                    
+                    <div class="info-card glass-panel">
+                        <div class="info-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <h3>Business Hours</h3>
+                        <p>Monday - Friday: 9am - 6pm EST</p>
+                        <p>Saturday: 10am - 4pm EST</p>
+                        <p>Sunday: Closed</p>
+                    </div>
+                </div>
+
+                <!-- Contact Form -->
+                <div class="contact-form-container scroll-animate" style="height: 100%;">
+                    <div class="contact-form glass-panel" style="height: 100%; display: flex; flex-direction: column;">
+                        <h2>Send us a Message</h2>
+                        <form id="contact-form" style="flex: 1; display: flex; flex-direction: column;">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <div class="input-wrapper">
+                                        <input type="text" id="name" class="glass-input" required 
+                                               placeholder=" ">
+                                        <label for="name">Full Name *</label>
+                                        <div class="input-line"></div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-wrapper">
+                                        <input type="email" id="email" class="glass-input" required 
+                                               placeholder=" ">
+                                        <label for="email">Email Address *</label>
+                                        <div class="input-line"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <div class="select-wrapper">
+                                    <select id="subject" class="glass-select" required>
+                                        <option value="" disabled selected>Select a topic</option>
+                                        <option value="order">Order Inquiry</option>
+                                        <option value="product">Product Question</option>
+                                        <option value="shipping">Shipping & Returns</option>
+                                        <option value="wholesale">Wholesale Inquiry</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                    <label for="subject">Subject *</label>
+                                    <div class="select-arrow">
+                                        <i class="fas fa-chevron-down"></i>
+                                    </div>
+                                    <div class="select-line"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group" style="flex: 1;">
+                                <div class="textarea-wrapper" style="height: 100%;">
+                                    <textarea id="message" class="glass-textarea" rows="8" required
+                                              placeholder=" " style="height: 100%; min-height: 180px; resize: vertical;"></textarea>
+                                    <label for="message">Message *</label>
+                                    <div class="textarea-line"></div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" required>
+                                    <span class="custom-checkbox">
+                                        <i class="fas fa-check"></i>
+                                    </span>
+                                    <span class="checkbox-text">
+                                        I agree to the <a href="privacy.html" class="privacy-link">Privacy Policy</a>
+                                    </span>
+                                </label>
+                            </div>
+                            
+                            <button type="submit" class="glass-btn submit-btn">
+                                <i class="fas fa-paper-plane"></i> Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq-section container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <div class="faq-grid">
+                <div class="faq-item glass-panel scroll-animate">
+                    <div class="faq-question">
+                        <h3>What is your return policy?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer" style="display: none;">
+                        <p>We offer a 30-day return policy for unused products in original packaging. Shipping costs for returns are the responsibility of the customer, unless the return is due to our error.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item glass-panel scroll-animate">
+                    <div class="faq-question">
+                        <h3>Do you ship internationally?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer" style="display: none;">
+                        <p>Yes, we ship to over 50 countries. International shipping typically takes 7-14 business days. Customs duties and taxes are the responsibility of the recipient.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item glass-panel scroll-animate">
+                    <div class="faq-question">
+                        <h3>Are your products cruelty-free?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer" style="display: none;">
+                        <p>Absolutely. We are Leaping Bunny certified and never test on animals. All our suppliers must adhere to our strict cruelty-free standards.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item glass-panel scroll-animate">
+                    <div class="faq-question">
+                        <h3>How do I track my order?</h3>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer" style="display: none;">
+                        <p>Once your order ships, you'll receive a tracking number via email. You can also track your order by logging into your account on our website.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- MAP SECTION -->
+        <section class="map-section">
+            <div class="container">
+                <div class="map-container glass-panel">
+                    <div id="store-map"></div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Футер -->
+    <footer class="main-footer">
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <div class="brand-logo">
+                <a href="index.html" class="gold-s" aria-label="Sensual Home">S</a>
+            </div>               
+                <p class="footer-tagline">Elevating your daily ritual.</p>
+            </div>
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h4 class="footer-title">Explore</h4>
+                    <ul>
+                        <li><a href="shop.html">Shop All</a></li>
+                        <li><a href="shop.html#new">New Arrivals</a></li>
+                        <li><a href="shop.html#bestsellers">Bestsellers</a></li>
+                        <li><a href="gift-guide.html">Gift Guide</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4 class="footer-title">Company</h4>
+                    <ul>
+                        <li><a href="company.html">Our Story</a></li>
+                        <li><a href="company.html#ethics">Ethics</a></li>
+                        <li><a href="company.html#careers">Careers</a></li>
+                        <li><a href="reviews.html">Press</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4 class="footer-title">Support</h4>
+                    <ul>
+                        <li><a href="contacts.html">Contact Us</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="shipping.html">Shipping & Returns</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-contact">
+                <h4 class="footer-title">Stay Connected</h4>
+                <p class="contact-email"><i class="fas fa-envelope"></i> hello@sensual-beauty.com</p>
+                <p class="contact-phone"><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                <div class="social-icons">
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; <span id="current-year">2026</span> Sensual Body Cosmetics. All rights reserved. Developer: Anna Kolomina.</p>
+        </div>
+    </footer>
+
+    <!-- Скрипты -->
+    <script src="js/main.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+            
+            // FAQ Accordion
+            const faqQuestions = document.querySelectorAll('.faq-question');
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', function() {
+                    const faqItem = this.closest('.faq-item');
+                    const answer = faqItem.querySelector('.faq-answer');
+                    const icon = this.querySelector('i');
+                    const isActive = faqItem.classList.contains('active');
+                    
+                    document.querySelectorAll('.faq-item').forEach(item => {
+                        if (item !== faqItem) {
+                            item.classList.remove('active');
+                            const otherAnswer = item.querySelector('.faq-answer');
+                            const otherIcon = item.querySelector('.faq-question i');
+                            otherAnswer.style.display = 'none';
+                            otherIcon.classList.remove('fa-chevron-up');
+                            otherIcon.classList.add('fa-chevron-down');
+                        }
+                    });
+                    
+                    if (isActive) {
+                        faqItem.classList.remove('active');
+                        answer.style.display = 'none';
+                        icon.classList.remove('fa-chevron-up');
+                        icon.classList.add('fa-chevron-down');
+                    } else {
+                        faqItem.classList.add('active');
+                        answer.style.display = 'block';
+                        icon.classList.remove('fa-chevron-down');
+                        icon.classList.add('fa-chevron-up');
+                    }
+                });
+            });
+            
+            // Contact form
+            const contactForm = document.getElementById('contact-form');
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const submitBtn = this.querySelector('button[type="submit"]');
+                    const originalText = submitBtn.innerHTML;
+                    
+                    submitBtn.innerHTML = '<div class="form-spinner"></div>Sending...';
+                    submitBtn.disabled = true;
+                    
+                    setTimeout(() => {
+                        const successMsg = document.createElement('div');
+                        successMsg.className = 'form-success';
+                        successMsg.innerHTML = `
+                            <i class="fas fa-check-circle"></i>
+                            <h4>Message Sent!</h4>
+                            <p>
+                                Thank you for contacting us. We'll respond within 24 hours.
+                                A confirmation email has been sent to your email address.
+                            </p>
+                        `;
+                        contactForm.parentNode.insertBefore(successMsg, contactForm.nextSibling);
+                        contactForm.reset();
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.disabled = false;
+                        
+                        setTimeout(() => {
+                            successMsg.style.animation = 'fadeOutDown 0.5s ease forwards';
+                            setTimeout(() => successMsg.remove(), 500);
+                        }, 5000);
+                    }, 1500);
+                });
+            }
+            
+            // Scroll animations
+            const animatedElements = document.querySelectorAll('.scroll-animate');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animated');
+                    }
+                });
+            }, { threshold: 0.1 });
+            animatedElements.forEach(el => observer.observe(el));
+            
+            // ============ КАРТА ============
+            // Координаты Beverly Hills
+            const storeLat = 34.0739;
+            const storeLng = -118.3999;
+            
+            // Инициализация карты - СВЕТЛАЯ ТЕМА
+            const map = L.map('store-map', {
+                attributionControl: false // Полностью убираем атрибуцию
+            }).setView([storeLat, storeLng], 16);
+            
+            // Стандартные тайлы OpenStreetMap - светлые, с улицами и названиями
+            L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                maxZoom: 19,
+                detectRetina: true
+            }).addTo(map);
+            
+            // Кастомная золотая метка
+            const goldIcon = L.divIcon({
+                html: '<i class="fas fa-map-marker-alt" style="color: #D4AF37; font-size: 36px; text-shadow: 0 0 15px rgba(0,0,0,0.5);"></i>',
+                className: 'custom-marker',
+                iconSize: [36, 36],
+                iconAnchor: [18, 36],
+                popupAnchor: [0, -36]
+            });
+            
+            // Маркер
+            const marker = L.marker([storeLat, storeLng], { icon: goldIcon }).addTo(map);
+            
+            // Тултип с адресом и часами работы
+            const popupContent = `
+                <div>
+                    <div class="popup-title">✨ Sensual Studio</div>
+                    <div class="popup-address">
+                        <i class="fas fa-map-pin"></i> 123 Luxury Avenue<br>
+                        Beverly Hills, CA 90210<br>
+                        United States
+                    </div>
+                    <div class="popup-hours">
+                        <span>🕒 HOURS</span><br>
+                        Monday – Friday: 9am – 6pm EST<br>
+                        Saturday: 10am – 4pm EST<br>
+                        Sunday: Closed
+                    </div>
+                </div>
+            `;
+            
+            marker.bindPopup(popupContent).openPopup();
+            
+            // Корректировка размера карты
+            setTimeout(() => {
+                map.invalidateSize();
+            }, 200);
+        });
+    </script>
+    <style>
+        select.glass-select::-ms-expand { display: none; }
+        select.glass-select {
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        select.glass-select:-moz-focusring {
+            color: transparent;
+            text-shadow: 0 0 0 var(--text-light);
+        }
+    </style>
+</body>
+</html>

@@ -1,0 +1,932 @@
+/* ANIMATIONS.CSS - Updated for dark luxury theme */
+
+/* Fade In Up Animation */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInScale {
+    0% {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Gold Shine Effect - ОБНОВЛЕН для золотых элементов */
+@keyframes goldShine {
+    0% {
+        background-position: -200px 0;
+    }
+    100% {
+        background-position: calc(200px + 100%) 0;
+    }
+}
+
+@keyframes goldPulse {
+    0%, 100% {
+        box-shadow: 0 0 10px rgba(212, 175, 55, 0.3),
+                    0 0 20px rgba(212, 175, 55, 0.2);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(212, 175, 55, 0.5),
+                    0 0 40px rgba(212, 175, 55, 0.3);
+    }
+}
+
+/* Floating Animation */
+@keyframes floating {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-15px);
+    }
+}
+
+@keyframes floating-slow {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+/* Luxury Pulse Animation */
+@keyframes luxuryPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.6);
+    }
+    70% {
+        box-shadow: 0 0 0 20px rgba(212, 175, 55, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(212, 175, 55, 0);
+    }
+}
+
+/* Button Click Ripple - Gold version */
+@keyframes goldRipple {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+        background: rgba(212, 175, 55, 0.6);
+    }
+    100% {
+        transform: scale(4);
+        opacity: 0;
+        background: rgba(212, 175, 55, 0);
+    }
+}
+
+/* Page Transition */
+@keyframes pageTransitionIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeOutRight {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+}
+
+/* Text Glow Gold */
+@keyframes textGlowGold {
+    0%, 100% {
+        text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+    }
+    50% {
+        text-shadow: 0 0 20px rgba(212, 175, 55, 0.8),
+                     0 0 30px rgba(212, 175, 55, 0.4);
+    }
+}
+
+/* Shimmer Loader Gold */
+@keyframes goldShimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+/* Rotation */
+@keyframes rotateSlow {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Bounce In Luxury */
+@keyframes bounceInLuxury {
+    0% {
+        opacity: 0;
+        transform: scale(0.3) translateY(100px);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05) translateY(-10px);
+    }
+    70% {
+        transform: scale(0.95) translateY(5px);
+    }
+    100% {
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Glass Border Flow */
+@keyframes borderFlow {
+    0% {
+        border-color: rgba(212, 175, 55, 0.3);
+        box-shadow: 0 0 20px rgba(212, 175, 55, 0.1);
+    }
+    50% {
+        border-color: rgba(212, 175, 55, 0.6);
+        box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+    }
+    100% {
+        border-color: rgba(212, 175, 55, 0.3);
+        box-shadow: 0 0 20px rgba(212, 175, 55, 0.1);
+    }
+}
+
+/* Image Reveal */
+@keyframes imageReveal {
+    from {
+        clip-path: inset(0 100% 0 0);
+    }
+    to {
+        clip-path: inset(0 0 0 0);
+    }
+}
+
+/* ============================================
+   ANIMATION CLASSES - Apply to elements
+=============================================== */
+
+/* Fade Animations */
+.animate-fade-up {
+    animation: fadeInUp 1s ease forwards;
+    opacity: 0;
+}
+
+.animate-fade-up-delay {
+    animation: fadeInUp 1s ease 0.3s forwards;
+    opacity: 0;
+}
+
+.animate-fade-down {
+    animation: fadeInDown 0.8s ease forwards;
+    opacity: 0;
+}
+
+.animate-fade-left {
+    animation: fadeInLeft 0.8s ease forwards;
+    opacity: 0;
+}
+
+.animate-fade-right {
+    animation: fadeInRight 0.8s ease forwards;
+    opacity: 0;
+}
+
+.animate-fade-scale {
+    animation: fadeInScale 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    opacity: 0;
+}
+
+/* Page Load Animation */
+.page-transition {
+    animation: pageTransitionIn 0.8s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+
+/* Floating Elements */
+.floating-element {
+    animation: floating 4s ease-in-out infinite;
+}
+
+.floating-element-slow {
+    animation: floating-slow 6s ease-in-out infinite;
+}
+
+/* Gold Shine Elements */
+.gold-shine {
+    position: relative;
+    overflow: hidden;
+}
+
+.gold-shine::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(212, 175, 55, 0.2),
+        transparent
+    );
+    animation: goldShine 3s infinite;
+    pointer-events: none;
+}
+
+/* Button Effects */
+.btn-ripple {
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-ripple-effect {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(212, 175, 55, 0.6);
+    transform: scale(0);
+    animation: goldRipple 0.6s linear;
+    pointer-events: none;
+}
+
+/* Card Hover Effects */
+.animate-card {
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.animate-card:hover {
+    transform: translateY(-15px) scale(1.02);
+    animation: borderFlow 2s infinite;
+}
+
+/* Gold Pulse for Special Elements */
+.gold-pulse {
+    animation: luxuryPulse 2s infinite;
+}
+
+/* Text Glow Gold Animation */
+.text-glow-gold {
+    animation: textGlowGold 3s ease-in-out infinite;
+}
+
+/* Gold Shimmer Loading */
+.gold-shimmer {
+    background: linear-gradient(90deg, 
+        transparent 0%, 
+        rgba(212, 175, 55, 0.2) 50%, 
+        transparent 100%);
+    background-size: 1000px 100%;
+    animation: goldShimmer 2s infinite;
+}
+
+/* Rotating Elements */
+.rotate-slow {
+    animation: rotateSlow 20s linear infinite;
+}
+
+/* Bounce In Luxury Animation */
+.bounce-in-luxury {
+    animation: bounceInLuxury 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    opacity: 0;
+}
+
+/* Border Flow Animation */
+.border-flow {
+    animation: borderFlow 3s infinite;
+}
+
+/* Image Reveal Animation */
+.image-reveal {
+    animation: imageReveal 1.2s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+
+/* Staggered Children Animations */
+.stagger-container > * {
+    opacity: 0;
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.stagger-container > *:nth-child(1) { animation-delay: 0.1s; }
+.stagger-container > *:nth-child(2) { animation-delay: 0.2s; }
+.stagger-container > *:nth-child(3) { animation-delay: 0.3s; }
+.stagger-container > *:nth-child(4) { animation-delay: 0.4s; }
+.stagger-container > *:nth-child(5) { animation-delay: 0.5s; }
+.stagger-container > *:nth-child(6) { animation-delay: 0.6s; }
+.stagger-container > *:nth-child(7) { animation-delay: 0.7s; }
+.stagger-container > *:nth-child(8) { animation-delay: 0.8s; }
+
+/* Scroll Triggered Animations */
+.scroll-animate {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.scroll-animate.animated {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Menu Icon Animation */
+.menu-icon {
+    transition: transform 0.4s ease;
+}
+
+.menu-icon.active {
+    transform: rotate(90deg);
+}
+
+/* Cart Icon Bounce Gold */
+@keyframes cartBounceGold {
+    0%, 100% { 
+        transform: scale(1);
+        color: var(--text-gray);
+    }
+    30% { 
+        transform: scale(1.4);
+        color: var(--color-gold);
+    }
+    50% { 
+        transform: scale(0.9);
+        color: var(--color-gold);
+    }
+    70% { 
+        transform: scale(1.2);
+        color: var(--color-gold);
+    }
+}
+
+.cart-bounce-gold {
+    animation: cartBounceGold 0.8s ease;
+}
+
+/* Price Glow Animation */
+@keyframes priceGlow {
+    0%, 100% {
+        text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+    }
+    50% {
+        text-shadow: 0 0 20px rgba(212, 175, 55, 0.6),
+                     0 0 30px rgba(212, 175, 55, 0.3);
+    }
+}
+
+.price-glow {
+    animation: priceGlow 3s infinite;
+}
+
+/* Section Title Underline Animation */
+@keyframes underlineExpand {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100px;
+    }
+}
+
+.underline-animate::after {
+    animation: underlineExpand 0.8s ease forwards;
+}
+
+/* Hover Scale Effect */
+.hover-scale {
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.hover-scale:hover {
+    transform: scale(1.05);
+}
+
+/* Loading Spinner Gold */
+@keyframes spinnerGold {
+    0% {
+        transform: rotate(0deg);
+        border-top-color: var(--color-gold);
+    }
+    100% {
+        transform: rotate(360deg);
+        border-top-color: var(--color-gold-light);
+    }
+}
+
+.spinner-gold {
+    border: 3px solid transparent;
+    border-top: 3px solid var(--color-gold);
+    border-radius: 50%;
+    animation: spinnerGold 1s linear infinite;
+}
+/* ============================================
+   MODAL ANIMATIONS FIXES
+=============================================== */
+
+/* Fix for modal backdrop */
+.quick-view-modal::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 30% 30%, rgba(212, 175, 55, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+/* Smooth fade out animation for modals */
+@keyframes fadeOutScale {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+}
+
+@keyframes fadeOutUp {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+}
+
+@keyframes fadeOutDown {
+    from {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+}
+
+/* Modal entrance animations */
+.modal-entrance {
+    animation: fadeInScale 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.modal-exit {
+    animation: fadeOutScale 0.4s ease forwards;
+}
+
+/* Ripple effect for buttons in modals */
+.modal-ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.6);
+    transform: scale(0);
+    animation: modalRipple 0.6s linear;
+    pointer-events: none;
+}
+
+@keyframes modalRipple {
+    0% {
+        transform: scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+/* Shake animation for form errors */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.shake {
+    animation: shake 0.5s ease;
+}
+
+/* Loading animation for modals */
+.modal-loading {
+    display: inline-block;
+    position: relative;
+    width: 80px;
+    height: 80px;
+}
+
+.modal-loading div {
+    box-sizing: border-box;
+    display: block;
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    margin: 8px;
+    border: 6px solid var(--color-gold);
+    border-radius: 50%;
+    animation: modal-loading 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    border-color: var(--color-gold) transparent transparent transparent;
+}
+
+.modal-loading div:nth-child(1) {
+    animation-delay: -0.45s;
+}
+
+.modal-loading div:nth-child(2) {
+    animation-delay: -0.3s;
+}
+
+.modal-loading div:nth-child(3) {
+    animation-delay: -0.15s;
+}
+
+@keyframes modal-loading {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Quantity selector animations */
+.quantity-selector {
+    transition: var(--transition-smooth);
+}
+
+.quantity-selector:focus-within {
+    box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.3);
+}
+
+.qty-button {
+    transition: var(--transition-smooth);
+}
+
+.qty-button:hover {
+    background: rgba(212, 175, 55, 0.1) !important;
+    color: var(--color-gold) !important;
+}
+
+/* Form input focus effects */
+.glass-input:focus, .glass-select:focus {
+    border-color: var(--color-gold) !important;
+    box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2) !important;
+    outline: none !important;
+}
+
+/* Smooth scroll for modal content */
+.quick-view-content, .review-modal-content {
+    scrollbar-width: thin;
+    scrollbar-color: var(--color-gold) rgba(255, 255, 255, 0.05);
+}
+
+.quick-view-content::-webkit-scrollbar,
+.review-modal-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.quick-view-content::-webkit-scrollbar-track,
+.review-modal-content::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+.quick-view-content::-webkit-scrollbar-thumb,
+.review-modal-content::-webkit-scrollbar-thumb {
+    background: var(--color-gold);
+    border-radius: 4px;
+}
+
+/* Product image hover effect in quick view */
+.quick-view-image {
+    position: relative;
+    overflow: hidden;
+}
+
+.quick-view-image::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, 
+        transparent 0%,
+        rgba(10, 35, 34, 0.1) 100%);
+    transition: opacity 0.3s ease;
+}
+
+.quick-view-image:hover::after {
+    opacity: 0.5;
+}
+
+/* Price glow animation in quick view */
+@keyframes pricePulse {
+    0%, 100% {
+        text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
+    }
+    50% {
+        text-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
+    }
+}
+
+.price-glow-animate {
+    animation: pricePulse 2s infinite;
+}
+
+/* Success checkmark animation */
+@keyframes checkmark {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.checkmark-animate {
+    animation: checkmark 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Floating label animation for forms */
+.form-group {
+    position: relative;
+}
+
+.form-group label {
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus + label,
+.form-group input:not(:placeholder-shown) + label,
+.form-group textarea:focus + label,
+.form-group textarea:not(:placeholder-shown) + label {
+    transform: translateY(-25px);
+    font-size: 0.8rem;
+    color: var(--color-gold);
+}
+/* ============================================
+   FIXED MODAL ANIMATIONS
+=============================================== */
+
+/* Keyframes for modal animations */
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        backdrop-filter: blur(0);
+    }
+    to {
+        opacity: 1;
+        backdrop-filter: blur(25px);
+    }
+}
+
+@keyframes modalFadeOut {
+    from {
+        opacity: 1;
+        backdrop-filter: blur(25px);
+    }
+    to {
+        opacity: 0;
+        backdrop-filter: blur(0);
+    }
+}
+
+@keyframes modalContentIn {
+    from {
+        opacity: 0;
+        transform: translateY(40px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes modalContentOut {
+    from {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: translateY(40px) scale(0.95);
+    }
+}
+
+/* Modal backdrop glow effect */
+@keyframes modalGlow {
+    0%, 100% {
+        box-shadow: 0 0 20px rgba(212, 175, 55, 0.1);
+    }
+    50% {
+        box-shadow: 0 0 40px rgba(212, 175, 55, 0.2);
+    }
+}
+
+/* Apply animations to modals */
+.quick-view-modal[style*="display: flex"] {
+    animation: modalFadeIn 0.4s ease forwards !important;
+}
+
+.quick-view-modal.modal-exiting {
+    animation: modalFadeOut 0.4s ease forwards !important;
+}
+
+.quick-view-content {
+    animation: modalContentIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards !important;
+}
+
+.quick-view-content.modal-exiting {
+    animation: modalContentOut 0.4s ease forwards !important;
+}
+
+/* Input focus animations */
+@keyframes inputFocus {
+    from {
+        transform: scaleX(0);
+    }
+    to {
+        transform: scaleX(1);
+    }
+}
+
+.input-line, .textarea-line {
+    transform-origin: left center;
+}
+
+.glass-input:focus ~ .input-line,
+.glass-textarea:focus ~ .textarea-line {
+    animation: inputFocus 0.4s ease forwards;
+}
+
+/* Checkbox check animation */
+@keyframes checkmarkIn {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.custom-checkbox i {
+    animation: checkmarkIn 0.3s ease;
+}
+
+/* Button submit animation */
+@keyframes buttonPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4);
+    }
+    70% {
+        box-shadow: 0 0 0 10px rgba(212, 175, 55, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(212, 175, 55, 0);
+    }
+}
+
+.submit-btn:active {
+    animation: buttonPulse 0.4s ease;
+}
+
+/* Loading spinner for forms */
+@keyframes formSpinner {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.form-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: var(--color-gold);
+    animation: formSpinner 0.8s linear infinite;
+    margin-right: 10px;
+}
+
+/* Success message animation */
+@keyframes successMessage {
+    0% {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.form-success {
+    animation: successMessage 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* Shake animation for invalid fields */
+@keyframes fieldShake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.field-error {
+    animation: fieldShake 0.5s ease;
+    border-color: rgba(255, 100, 100, 0.5) !important;
+}
+
+/* Quantity button animations */
+@keyframes quantityClick {
+    0% { transform: scale(1); }
+    50% { transform: scale(0.9); }
+    100% { transform: scale(1); }
+}
+
+.qty-decrease:active, .qty-increase:active {
+    animation: quantityClick 0.2s ease;
+}
+
+/* Wishlist heart animation */
+@keyframes heartBeat {
+    0% { transform: scale(1); }
+    14% { transform: scale(1.3); }
+    28% { transform: scale(1); }
+    42% { transform: scale(1.3); }
+    70% { transform: scale(1); }
+}
+
+.wishlist-btn.active i {
+    animation: heartBeat 0.8s ease;
+    color: #ff4757 !important;
+}

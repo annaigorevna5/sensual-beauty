@@ -1,0 +1,16 @@
+{
+  "name": "sensual-beauty",
+  "version": "1.0.0",
+  "description": "A premium body cosmetics website",
+  "main": "index.html",
+  "scripts": {
+    "start": "live-server --port=3000 --watch=./",
+    "dev": "live-server --port=3000 --watch=./"
+  },
+  "keywords": ["cosmetics", "beauty", "luxury"],
+  "author": "Sensual Brand",
+  "license": "ISC",
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}

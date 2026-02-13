@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensual | Premium Body Cosmetics</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+</head>
+<body>
+    <!-- Динамическая стеклянная шапка -->
+    <header id="main-header" class="glass-header">
+        <nav class="container header-nav">
+            <!-- Золотая буква S с тенью -->
+            <div class="brand-logo">
+                <a href="index.html" class="gold-s" aria-label="Sensual Home">S</a>
+            </div>
+            
+            <!-- Основные навигационные ссылки -->
+            <ul class="nav-links">
+                <li><a href="shop.html" class="nav-link" data-text="Shop">Shop</a></li>
+                <li><a href="company.html" class="nav-link" data-text="Company">Company</a></li>
+                <li><a href="reviews.html" class="nav-link" data-text="Reviews">Reviews</a></li>
+                <li><a href="contacts.html" class="nav-link" data-text="Contacts">Contacts</a></li>
+            </ul>
+            
+            <!-- Правая часть: телефон, корзина, меню -->
+            <div class="header-right">
+                <a href="tel:+15551234567" class="phone-link">+1 (555) 123-4567</a>
+                <a href="cart.html" class="cart-icon" aria-label="Shopping Cart">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-count">0</span>
+                </a>
+                <!-- Кнопка меню с выпадающими категориями -->
+                <div class="dropdown-menu">
+                    <button class="menu-toggle glass-btn" id="menu-toggle" aria-expanded="false" aria-controls="categories-dropdown">
+                        <i class="fas fa-bars"></i> Categories
+                    </button>
+                    <ul class="dropdown-content glass-panel" id="categories-dropdown">
+                        <li><a href="shop.html#scrubs" class="dropdown-link">Scrubs & Exfoliants</a></li>
+                        <li><a href="shop.html#creams" class="dropdown-link">Body Creams & Lotions</a></li>
+                        <li><a href="shop.html#shower-gels" class="dropdown-link">Shower Gels</a></li>
+                        <li><a href="shop.html#soaps" class="dropdown-link">Artisan Soaps</a></li>
+                        <li><a href="shop.html#for-men" class="dropdown-link">For Men</a></li>
+                        <li><a href="shop.html#for-women" class="dropdown-link">For Women</a></li>
+                        <li><a href="shop.html#gift-sets" class="dropdown-link">Gift Sets</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Главная герой-секция с видео и стеклянными элементами поверх -->
+    <main>
+        <section class="hero-section">
+            <!-- Видео фон (ваше видео test.video.mp4) -->
+            <div class="video-container">
+                <video autoplay muted loop playsinline class="hero-video" id="hero-video" preload="auto">
+                    <source src="video/video.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <!-- Затемнение для лучшей читаемости текста -->
+                <div class="video-overlay"></div>
+            </div>
+
+            <!-- Контент поверх видео: название бренда и описание слева -->
+            <div class="hero-content container">
+                <div class="brand-intro">
+                    <h1 class="brand-title animate-fade-up">Sensual</h1>
+                    <p class="brand-tagline animate-fade-up-delay">
+                        Where luxury meets care. Immerse yourself in the art of sensual body rituals, crafted with rare botanicals and transformative ingredients for unparalleled radiance.
+                    </p>
+                </div>
+
+                               <!-- Контейнер для циклических тултипов -->
+                <div class="tooltips-container">
+                    <!-- Тулутип 1 (активный по умолчанию) -->
+                    <aside class="product-preview glass-panel animate-slide-left tooltip active" data-tooltip="1">
+                        <h3 class="preview-title">Editor's Choice</h3>
+                        <h4 class="product-name">Silk & Saffron Body Elixir</h4>
+                        <p class="product-desc">A luxurious blend for silky, fragrant skin. 200ml</p>
+                        <div class="price">$84.00</div>
+                        <button class="add-to-cart-btn glass-btn" data-product-id="1">
+                            <i class="fas fa-shopping-bag"></i> Add to Cart
+                        </button>
+                        <a href="shop.html#creams" class="product-link">View Details</a>
+                    </aside>
+                    
+                    <!-- Тулутип 2 -->
+                    <aside class="product-preview glass-panel animate-slide-left tooltip" data-tooltip="2">
+                        <h3 class="preview-title">Best Seller</h3>
+                        <h4 class="product-name">Diamond & Pearl Exfoliant</h4>
+                        <p class="product-desc">Micro-fine diamond powder for luminous skin. 150ml</p>
+                        <div class="price">$78.00</div>
+                        <button class="add-to-cart-btn glass-btn" data-product-id="5">
+                            <i class="fas fa-shopping-bag"></i> Add to Cart
+                        </button>
+                        <a href="shop.html#scrubs" class="product-link">View Details</a>
+                    </aside>
+                    
+                    <!-- Тулутип 3 -->
+                    <aside class="product-preview glass-panel animate-slide-left tooltip" data-tooltip="3">
+                        <h3 class="preview-title">New Arrival</h3>
+                        <h4 class="product-name">Black Orchid & Oud Shower Gel</h4>
+                        <p class="product-desc">Exotic, long-lasting fragrance experience. 300ml</p>
+                        <div class="price">$58.00</div>
+                        <button class="add-to-cart-btn glass-btn" data-product-id="6">
+                            <i class="fas fa-shopping-bag"></i> Add to Cart
+                        </button>
+                        <a href="shop.html#shower-gels" class="product-link">View Details</a>
+                    </aside>
+                    
+                    <!-- Индикаторы тултипов -->
+                    <div class="tooltip-indicators">
+                        <button class="tooltip-indicator active" data-tooltip="1"></button>
+                        <button class="tooltip-indicator" data-tooltip="2"></button>
+                        <button class="tooltip-indicator" data-tooltip="3"></button>
+                    </div>
+                </div>
+        </section>
+
+        <!-- Секция "О бренде" (будет видна при скролле) -->
+        <section class="about-section container">
+            <h2 class="section-title">The Sensual Philosophy</h2>
+            <div class="about-content">
+                <p class="about-text">
+                    At Sensual, we believe body care is a sacred ritual. Each product is a symphony of ethically sourced ingredients, designed to awaken the senses and nourish the skin. Our formulations are free from parabens, sulfates, and artificial colors.
+                </p>
+                <div class="about-stats">
+                    <div class="stat glass-panel">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">Natural Oils</div>
+                    </div>
+                    <div class="stat glass-panel">
+                        <div class="stat-number">24</div>
+                        <div class="stat-label">Botanical Extracts</div>
+                    </div>
+                    <div class="stat glass-panel">
+                        <div class="stat-number">1k+</div>
+                        <div class="stat-label">Five-Star Reviews</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Секция "Наборы" с фотографиями и ценниками -->
+        <section class="sets-section container">
+            <h2 class="section-title">Curated Gift Sets</h2>
+            <div class="sets-grid">
+                <!-- Набор 1 -->
+                <article class="set-card glass-panel animate-card">
+                    <div class="set-image">
+                        <!-- ВАЖНО: Замените src на ваше изображение -->
+                        <img src="images/1 Shop  Sensual Awakening Gift Set.jpeg" alt="Sensual Awakening Gift Set" loading="lazy">
+                    </div>
+                    <div class="set-info">
+                        <h3 class="set-name">Sensual Awakening</h3>
+                        <p class="set-desc">A complete ritual: scrub, shower gel, body cream, and candle.</p>
+                        <div class="set-price">$165.00</div>
+                        <button class="add-to-cart-btn glass-btn" data-product-id="2">
+                            <i class="fas fa-shopping-bag"></i> Add to Cart
+                        </button>
+                    </div>
+                </article>
+                <!-- Набор 2 -->
+                <article class="set-card glass-panel animate-card">
+                    <div class="set-image">
+                        <!-- ВАЖНО: Замените src на ваше изображение -->
+                        <img src="images/10 Shop Men Resilience Kit.jpeg" alt="Men Resilience Kit" loading="lazy">
+                    </div>
+                    <div class="set-info">
+                        <h3 class="set-name">Men's Resilience</h3>
+                        <p class="set-desc">Fortifying scrub, energizing gel, and post-shave balm.</p>
+                        <div class="set-price">$120.00</div>
+                        <button class="add-to-cart-btn glass-btn" data-product-id="3">
+                            <i class="fas fa-shopping-bag"></i> Add to Cart
+                        </button>
+                    </div>
+                </article>
+                <!-- Набор 3 -->
+                <article class="set-card glass-panel animate-card">
+                    <div class="set-image">
+                        <!-- ВАЖНО: Замените src на ваше изображение -->
+                        <img src="images/13 Shop Nightfall Relaxation Bundle.jpeg" alt="Nightfall Relaxation Bundle" loading="lazy">
+                    </div>
+                    <div class="set-info">
+                        <h3 class="set-name">Nightfall Relaxation</h3>
+                        <p class="set-desc">Lavender-infused soap, body lotion, and pillow mist.</p>
+                        <div class="set-price">$98.00</div>
+                        <button class="add-to-cart-btn glass-btn" data-product-id="4">
+                            <i class="fas fa-shopping-bag"></i> Add to Cart
+                        </button>
+                    </div>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <!-- Футер -->
+    <footer class="main-footer">
+        <div class="container footer-content">
+            <div class="footer-brand">
+              <div class="brand-logo">
+                <a href="index.html" class="gold-s" aria-label="Sensual Home">S</a>
+            </div>  
+                <p class="footer-tagline">Elevating your daily ritual.</p>
+            </div>
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h4 class="footer-title">Explore</h4>
+                    <ul>
+                        <li><a href="shop.html">Shop All</a></li>
+                        <li><a href="shop.html#new">New Arrivals</a></li>
+                        <li><a href="shop.html#bestsellers">Bestsellers</a></li>
+                        <li><a href="gift-guide.html">Gift Guide</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4 class="footer-title">Company</h4>
+                    <ul>
+                        <li><a href="company.html">Our Story</a></li>
+                        <li><a href="company.html#ethics">Ethics</a></li>
+                        <li><a href="company.html#careers">Careers</a></li>
+                        <li><a href="reviews.html">Press</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4 class="footer-title">Support</h4>
+                    <ul>
+                        <li><a href="contacts.html">Contact Us</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="shipping.html">Shipping & Returns</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-contact">
+                <h4 class="footer-title">Stay Connected</h4>
+                <p class="contact-email"><i class="fas fa-envelope"></i> hello@sensual-beauty.com</p>
+                <p class="contact-phone"><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                <div class="social-icons">
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; <span id="current-year">2026</span> Sensual Body Cosmetics. All rights reserved. Developer: Anna Kolomina.</p>
+        </div>
+    </footer>
+
+    <!-- Подключение JavaScript -->
+    <script src="js/main.js"></script>
+    <script src="js/cart.js"></script>
+</body>
+</html>

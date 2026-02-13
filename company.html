@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Story | Sensual - Premium Body Cosmetics</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+</head>
+<body>
+    <!-- Динамическая стеклянная шапка -->
+    <header id="main-header" class="glass-header">
+        <nav class="container header-nav">
+            <!-- Золотая буква S с тенью -->
+            <div class="brand-logo">
+                <a href="index.html" class="gold-s" aria-label="Sensual Home">S</a>
+            </div>
+            
+            <!-- Основные навигационные ссылки -->
+            <ul class="nav-links">
+                <li><a href="shop.html" class="nav-link" data-text="Shop">Shop</a></li>
+                <li><a href="company.html" class="nav-link active" data-text="Company">Company</a></li>
+                <li><a href="reviews.html" class="nav-link" data-text="Reviews">Reviews</a></li>
+                <li><a href="contacts.html" class="nav-link" data-text="Contacts">Contacts</a></li>
+            </ul>
+            
+            <!-- Правая часть: телефон, корзина, меню -->
+            <div class="header-right">
+                <a href="tel:+15551234567" class="phone-link">+1 (555) 123-4567</a>
+                <a href="cart.html" class="cart-icon" aria-label="Shopping Cart">
+                    <i class="fas fa-shopping-bag"></i>
+                    <span class="cart-count">0</span>
+                </a>
+                <!-- Кнопка меню с выпадающими категориями -->
+                <div class="dropdown-menu">
+                    <button class="menu-toggle glass-btn" id="menu-toggle" aria-expanded="false" aria-controls="categories-dropdown">
+                        <i class="fas fa-bars"></i> Categories
+                    </button>
+                    <ul class="dropdown-content glass-panel" id="categories-dropdown">
+                        <li><a href="shop.html#scrubs" class="dropdown-link">Scrubs & Exfoliants</a></li>
+                        <li><a href="shop.html#creams" class="dropdown-link">Body Creams & Lotions</a></li>
+                        <li><a href="shop.html#shower-gels" class="dropdown-link">Shower Gels</a></li>
+                        <li><a href="shop.html#soaps" class="dropdown-link">Artisan Soaps</a></li>
+                        <li><a href="shop.html#for-men" class="dropdown-link">For Men</a></li>
+                        <li><a href="shop.html#for-women" class="dropdown-link">For Women</a></li>
+                        <li><a href="shop.html#gift-sets" class="dropdown-link">Gift Sets</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Company Content -->
+    <main class="company-page">
+        <!-- Hero Section -->
+        <section class="company-hero">
+            <div class="container">
+                <div class="company-hero-content">
+                    <h1 class="company-title animate-fade-up">Our Story</h1>
+                    <p class="company-subtitle animate-fade-up-delay">
+                        Where luxury meets purpose, and every product tells a story of care and craftsmanship.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Story Section -->
+        <section class="story-section container">
+            <div class="story-grid">
+                <div class="story-content scroll-animate">
+                    <h2>The Beginning</h2>
+                    <p>
+                        Founded in 2015 by Isabelle Moreau, Sensual began as a personal quest for purity in body care. 
+                        After years of disappointment with products filled with synthetic ingredients, Isabelle returned 
+                        to her French grandmother's recipes, blending them with modern science.
+                    </p>
+                    <p>
+                        What started in a small Parisian apartment has grown into a global brand, but our core philosophy 
+                        remains unchanged: every product must honor both skin and soul.
+                    </p>
+                </div>
+                <div class="story-image glass-panel scroll-animate">
+                    <!-- ПРОСТО ЗАМЕНИТЕ ПУТЬ К ФОТО -->
+                    <img src="images/Company Logo.jpeg" 
+                         alt="The beginning of Sensual" 
+                         style="width: 100%; height: 400px; object-fit: cover; border-radius: 12px;">
+                </div>
+            </div>
+        </section>
+
+        <!-- Values Section -->
+        <section class="values-section">
+            <div class="container">
+                <h2 class="section-title">Our Values</h2>
+                <div class="values-grid">
+                    <div class="value-card glass-panel scroll-animate">
+                        <div class="value-icon">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <h3>Purity First</h3>
+                        <p>We never compromise on ingredient quality. Every formula is free from parabens, sulfates, and synthetic fragrances.</p>
+                    </div>
+                    <div class="value-card glass-panel scroll-animate">
+                        <div class="value-icon">
+                            <i class="fas fa-hand-holding-heart"></i>
+                        </div>
+                        <h3>Ethical Sourcing</h3>
+                        <p>Our ingredients are sustainably sourced, and we maintain direct relationships with farmers worldwide.</p>
+                    </div>
+                    <div class="value-card glass-panel scroll-animate">
+                        <div class="value-icon">
+                            <i class="fas fa-flask"></i>
+                        </div>
+                        <h3>Science & Nature</h3>
+                        <p>We blend traditional botanical wisdom with cutting-edge dermatological research for maximum efficacy.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Team Section -->
+        <section class="team-section container">
+            <h2 class="section-title">Meet Our Founders</h2>
+            <div class="team-grid">
+                <div class="team-member glass-panel scroll-animate">
+                    <!-- ЗАМЕНИТЕ ПУТЬ К ФОТО Isabelle -->
+                    <div style="height: 200px; border-radius: 12px; margin-bottom: 20px; overflow: hidden;">
+                        <img src="images/Company isabella.jpeg" 
+                             alt="Isabelle Moreau" 
+                             style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <h3>Isabelle Moreau</h3>
+                    <p class="member-title">Founder & CEO</p>
+                    <p class="member-bio">Former cosmetic chemist with 15 years experience in luxury skincare.</p>
+                </div>
+                <div class="team-member glass-panel scroll-animate">
+                    <!-- ЗАМЕНИТЕ ПУТЬ К ФОТО Marcus -->
+                    <div style="height: 200px; border-radius: 12px; margin-bottom: 20px; overflow: hidden;">
+                        <img src="images/Company man.jpeg" 
+                             alt="Dr. Marcus Chen" 
+                             style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <h3>Dr. Marcus Chen</h3>
+                    <p class="member-title">Head of Research</p>
+                    <p class="member-bio">Dermatologist specializing in botanical formulations and skin biochemistry.</p>
+                </div>
+                <div class="team-member glass-panel scroll-animate">
+                    <!-- ЗАМЕНИТЕ ПУТЬ К ФОТО Sophia -->
+                    <div style="height: 200px; border-radius: 12px; margin-bottom: 20px; overflow: hidden;">
+                        <img src="images/Company Rodrigez.jpeg" 
+                             alt="Sophia Rodriguez" 
+                             style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                    <h3>Sophia Rodriguez</h3>
+                    <p class="member-title">Creative Director</p>
+                    <p class="member-bio">Designer focused on creating sensory experiences through scent and texture.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sustainability Section -->
+        <section class="sustainability-section">
+            <div class="container">
+                <div class="sustainability-content glass-panel">
+                    <h2>Sustainability Commitment</h2>
+                    <div class="sustainability-stats">
+                        <div class="stat">
+                            <div class="stat-number">100%</div>
+                            <div class="stat-label">Recyclable Packaging</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">0</div>
+                            <div class="stat-label">Animal Testing</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">45%</div>
+                            <div class="stat-label">Carbon Neutral</div>
+                        </div>
+                    </div>
+                    <p>
+                        By 2025, we aim to be 100% carbon neutral and use only post-consumer recycled materials 
+                        in our packaging. We partner with One Tree Planted to plant a tree for every order.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Футер -->
+    <footer class="main-footer">
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <div class="brand-logo">
+                <a href="index.html" class="gold-s" aria-label="Sensual Home">S</a>
+            </div>
+                <p class="footer-tagline">Elevating your daily ritual.</p>
+            </div>
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h4 class="footer-title">Explore</h4>
+                    <ul>
+                        <li><a href="shop.html">Shop All</a></li>
+                        <li><a href="shop.html#new">New Arrivals</a></li>
+                        <li><a href="shop.html#bestsellers">Bestsellers</a></li>
+                        <li><a href="gift-guide.html">Gift Guide</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4 class="footer-title">Company</h4>
+                    <ul>
+                        <li><a href="company.html">Our Story</a></li>
+                        <li><a href="company.html#ethics">Ethics</a></li>
+                        <li><a href="company.html#careers">Careers</a></li>
+                        <li><a href="reviews.html">Press</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4 class="footer-title">Support</h4>
+                    <ul>
+                        <li><a href="contacts.html">Contact Us</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="shipping.html">Shipping & Returns</a></li>
+                        <li><a href="privacy.html">Privacy Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-contact">
+                <h4 class="footer-title">Stay Connected</h4>
+                <p class="contact-email"><i class="fas fa-envelope"></i> hello@sensual-beauty.com</p>
+                <p class="contact-phone"><i class="fas fa-phone"></i> +1 (555) 123-4567</p>
+                <div class="social-icons">
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+                    <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; <span id="current-year">2026</span> Sensual Body Cosmetics. All rights reserved. Developer: Anna Kolomina.</p>
+        </div>
+    </footer>
+
+    <!-- Подключение JavaScript -->
+    <script src="js/main.js"></script>
+    <script src="js/cart.js"></script>
+    <script>
+        // Company page specific JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('current-year').textContent = new Date().getFullYear();
+            
+            // Scroll animations
+            const animatedElements = document.querySelectorAll('.scroll-animate');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animated');
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            animatedElements.forEach(el => observer.observe(el));
+            
+            // Простая обработка ошибок для фото
+            function handleImageError(img) {
+                img.style.display = 'none';
+                const placeholder = document.createElement('div');
+                placeholder.style.cssText = 'width:100%; height:100%; background:linear-gradient(135deg, #0a2322 0%, #0a5c5a 100%); border-radius:12px; display:flex; align-items:center; justify-content:center;';
+                
+                if (img.closest('.story-image')) {
+                    placeholder.innerHTML = '<i class="fas fa-seedling" style="font-size:4rem; color:rgba(255,255,255,0.3);"></i>';
+                    placeholder.style.height = '400px';
+                } else {
+                    placeholder.innerHTML = '<i class="fas fa-user" style="font-size:2rem; color:rgba(255,255,255,0.3);"></i>';
+                    placeholder.style.height = '200px';
+                }
+                
+                img.parentElement.appendChild(placeholder);
+            }
+            
+            // Назначаем обработчики для всех изображений
+            document.querySelectorAll('.story-image img, .team-member img').forEach(img => {
+                img.addEventListener('error', function() {
+                    handleImageError(this);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
