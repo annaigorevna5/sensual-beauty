@@ -2567,3 +2567,438 @@ body.menu-open {
         max-width: 90%;
     }
 }
+/* ============================================
+   АДАПТИВНАЯ ШАПКА С БУРГЕР-МЕНЮ - ИСПРАВЛЕНО
+   ============================================ */
+
+/* Бургер-меню - видно только на мобильных */
+.burger-menu {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 21px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1001;
+    position: relative;
+}
+
+.burger-line {
+    width: 100%;
+    height: 2px;
+    background: var(--color-gold);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.burger-menu.active .burger-line:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+}
+
+.burger-menu.active .burger-line:nth-child(2) {
+    opacity: 0;
+}
+
+.burger-menu.active .burger-line:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+}
+
+/* Мобильное меню - исправлено, не пропадает */
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(10, 35, 34, 0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    z-index: 2000;
+    padding: 30px;
+    overflow-y: auto;
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    display: block;
+    visibility: visible;
+    opacity: 1;
+}
+
+.mobile-menu.active {
+    transform: translateX(0);
+}
+
+.mobile-menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.mobile-menu-header .brand-logo .gold-s {
+    font-size: 3rem;
+}
+
+.close-mobile-menu {
+    width: 44px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 50%;
+    color: var(--color-gold);
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.close-mobile-menu:hover {
+    background: rgba(212, 175, 55, 0.2);
+    transform: rotate(90deg);
+}
+
+.mobile-nav-links {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 40px 0;
+}
+
+.mobile-nav-link {
+    display: block;
+    padding: 18px 0;
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: var(--text-light);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.mobile-nav-link.active {
+    color: var(--color-gold);
+    padding-left: 15px;
+}
+
+.mobile-nav-link:hover {
+    color: var(--color-gold);
+    padding-left: 15px;
+}
+
+.mobile-categories {
+    margin-bottom: 40px;
+}
+
+.mobile-categories-title {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    color: var(--color-gold);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.mobile-categories-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.mobile-categories-list li {
+    margin-bottom: 15px;
+}
+
+.mobile-categories-list a {
+    color: var(--text-gray);
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    display: block;
+    padding: 8px 0;
+}
+
+.mobile-categories-list a:hover {
+    color: var(--color-gold);
+    padding-left: 10px;
+}
+
+.mobile-contact {
+    margin-top: 30px;
+    padding-top: 30px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mobile-phone {
+    color: var(--color-gold);
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.mobile-social {
+    display: flex;
+    gap: 20px;
+}
+
+.mobile-social a {
+    color: var(--text-gray);
+    font-size: 1.3rem;
+    transition: all 0.3s ease;
+}
+
+.mobile-social a:hover {
+    color: var(--color-gold);
+    transform: translateY(-3px);
+}
+
+/* Скрываем десктопное меню на мобильных */
+@media (max-width: 992px) {
+    .nav-links {
+        display: none !important;
+    }
+    
+    .desktop-only {
+        display: none !important;
+    }
+    
+    .burger-menu {
+        display: flex;
+    }
+    
+    .phone-link {
+        display: none;
+    }
+    
+    .header-right {
+        gap: 15px;
+    }
+}
+
+/* Десктоп - скрываем мобильное меню */
+@media (min-width: 993px) {
+    .mobile-menu {
+        display: none !important;
+    }
+    
+    .burger-menu {
+        display: none !important;
+    }
+}
+
+/* ============================================
+   ВИДЕО - ТОЛЬКО АВТОПЛЕЙ, БЕЗ КНОПОК
+   ============================================ */
+
+.video-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    overflow: hidden;
+    background-color: #0a2322;
+}
+
+.hero-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 1;
+}
+
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, 
+        rgba(10, 35, 34, 0.7) 0%, 
+        rgba(10, 35, 34, 0.4) 50%, 
+        rgba(10, 35, 34, 0.2) 100%);
+    z-index: -1;
+}
+
+/* Убираем все лишние элементы видео */
+video::-webkit-media-controls {
+    display: none !important;
+}
+
+video::-webkit-media-controls-enclosure {
+    display: none !important;
+}
+
+video::-webkit-media-controls-panel {
+    display: none !important;
+}
+
+video::-webkit-media-controls-play-button {
+    display: none !important;
+}
+
+video::-webkit-media-controls-start-playback-button {
+    display: none !important;
+}
+
+/* ============================================
+   АДАПТИВНЫЕ ТУЛТИПЫ ДЛЯ МОБИЛЬНЫХ
+   ============================================ */
+
+@media (max-width: 992px) {
+    .hero-content {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 30px;
+        padding-top: 80px;
+    }
+    
+    .brand-intro {
+        text-align: center;
+        max-width: 100%;
+        padding: 0 20px;
+    }
+    
+    .brand-title {
+        font-size: 3rem;
+    }
+    
+    .brand-tagline {
+        font-size: 1rem;
+        margin: 0 auto;
+    }
+    
+    .tooltips-wrapper {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .tooltips-container {
+        position: relative;
+        width: 280px;
+        height: 380px;
+        margin: 0 auto;
+    }
+    
+    .product-preview {
+        width: 280px;
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%) translateY(-50%);
+    }
+    
+    .product-name {
+        font-size: 1.3rem;
+    }
+    
+    .price {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .brand-title {
+        font-size: 2.5rem;
+    }
+    
+    .tooltips-container {
+        width: 260px;
+    }
+    
+    .product-preview {
+        width: 260px;
+        padding: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-section {
+        min-height: 800px;
+    }
+    
+    .brand-title {
+        font-size: 2rem;
+    }
+    
+    .tooltips-container {
+        width: 240px;
+    }
+    
+    .product-preview {
+        width: 240px;
+        padding: 16px;
+    }
+    
+    .product-name {
+        font-size: 1.2rem;
+    }
+}
+
+/* ============================================
+   УЛУЧШЕНИЯ ДЛЯ МОБИЛЬНЫХ ЭКРАНОВ
+   ============================================ */
+
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 1.8rem;
+    }
+    
+    .about-text {
+        font-size: 1rem;
+        padding: 0 15px;
+    }
+    
+    .about-stats {
+        gap: 20px;
+    }
+    
+    .stat {
+        min-width: 130px;
+        padding: 20px;
+    }
+    
+    .stat-number {
+        font-size: 2rem;
+    }
+    
+    .sets-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    
+    .footer-links {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+}
+
+/* Убираем дублирующийся медиазапрос */
+@media (max-width: 1100px) {
+    .hero-content {
+        flex-direction: column;
+        text-align: center;
+        justify-content: center;
+        gap: 40px;
+    }
+    
+    .brand-intro {
+        max-width: 90%;
+    }
+}
