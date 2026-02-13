@@ -20,7 +20,7 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            pointer-events: none; /* Отключает взаимодействие с видео */
+            pointer-events: none;
         }
         
         .video-container {
@@ -30,10 +30,9 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background: #000; /* Фallback на случай проблем с видео */
+            background: #0a2322;
         }
         
-        /* Убираем контролы на iOS */
         video::-webkit-media-controls {
             display: none !important;
         }
@@ -42,7 +41,8 @@
             display: none !important;
         }
         
-        video::--webkit-media-controls-play-button {
+        /* СКРЫВАЕМ ТОЧКИ ПЕРЕКЛЮЧЕНИЯ ТУЛТИПОВ */
+        .tooltip-indicators {
             display: none !important;
         }
     </style>
@@ -56,7 +56,7 @@
                 <a href="index.html" class="gold-s" aria-label="Sensual Home">S</a>
             </div>
             
-            <!-- ОСНОВНЫЕ НАВИГАЦИОННЫЕ ССЫЛКИ - ВИДИМЫ НА ВСЕХ УСТРОЙСТВАХ -->
+            <!-- ОСНОВНЫЕ НАВИГАЦИОННЫЕ ССЫЛКИ -->
             <ul class="nav-links" id="navLinks">
                 <li><a href="index.html" class="nav-link active" data-text="Home">Home</a></li>
                 <li><a href="shop.html" class="nav-link" data-text="Shop">Shop</a></li>
@@ -143,9 +143,7 @@
     <!-- ГЛАВНАЯ ГЕРОЙ-СЕКЦИЯ С ВИДЕО -->
     <main>
         <section class="hero-section">
-            <!-- ВИДЕО ФОН - АВТОПЛЕЙ ДЛЯ ВСЕХ УСТРОЙСТВ -->
             <div class="video-container">
-                <!-- Добавляем изображение-заглушку для iOS -->
                 <div class="video-fallback" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);"></div>
                 <video autoplay muted loop playsinline webkit-playsinline x5-playsinline disablepictureinpicture disableremoteplayback class="hero-video" id="heroVideo">
                     <source src="video/video.mp4" type="video/mp4">
@@ -163,10 +161,9 @@
                     </p>
                 </div>
 
-                <!-- Контейнер для циклических тултипов -->
+                <!-- Контейнер для циклических тултипов (БЕЗ ИНДИКАТОРОВ) -->
                 <div class="tooltips-wrapper">
                     <div class="tooltips-container">
-                        <!-- Тултип 1 -->
                         <aside class="product-preview glass-panel tooltip active" data-tooltip="1">
                             <h3 class="preview-title">Editor's Choice</h3>
                             <h4 class="product-name">Silk & Saffron Body Elixir</h4>
@@ -178,7 +175,6 @@
                             <a href="shop.html#creams" class="product-link">View Details</a>
                         </aside>
                         
-                        <!-- Тултип 2 -->
                         <aside class="product-preview glass-panel tooltip" data-tooltip="2">
                             <h3 class="preview-title">Best Seller</h3>
                             <h4 class="product-name">Diamond & Pearl Exfoliant</h4>
@@ -190,7 +186,6 @@
                             <a href="shop.html#scrubs" class="product-link">View Details</a>
                         </aside>
                         
-                        <!-- Тултип 3 -->
                         <aside class="product-preview glass-panel tooltip" data-tooltip="3">
                             <h3 class="preview-title">New Arrival</h3>
                             <h4 class="product-name">Black Orchid & Oud Shower Gel</h4>
@@ -203,12 +198,7 @@
                         </aside>
                     </div>
                     
-                    <!-- Индикаторы тултипов -->
-                    <div class="tooltip-indicators">
-                        <button class="tooltip-indicator active" data-tooltip="1"></button>
-                        <button class="tooltip-indicator" data-tooltip="2"></button>
-                        <button class="tooltip-indicator" data-tooltip="3"></button>
-                    </div>
+                    <!-- ИНДИКАТОРЫ ПОЛНОСТЬЮ УДАЛЕНЫ -->
                 </div>
             </div>
         </section>
@@ -347,11 +337,10 @@
         // ========== ТЕКУЩИЙ ГОД В ФУТЕРЕ ==========
         document.getElementById('current-year').textContent = new Date().getFullYear();
         
-        // ========== ВИДЕО - ИСПРАВЛЕННЫЙ АВТОПЛЕЙ ДЛЯ МОБИЛЬНЫХ ==========
+        // ========== ВИДЕО - ИСПРАВЛЕННЫЙ АВТОПЛЕЙ ==========
         const heroVideo = document.getElementById('heroVideo');
         
         if (heroVideo) {
-            // Принудительная настройка атрибутов для iOS
             heroVideo.setAttribute('playsinline', '');
             heroVideo.setAttribute('webkit-playsinline', '');
             heroVideo.setAttribute('x5-playsinline', '');
@@ -359,23 +348,18 @@
             heroVideo.setAttribute('loop', '');
             heroVideo.setAttribute('autoplay', '');
             
-            // Пытаемся запустить видео
             const playPromise = heroVideo.play();
             
             if (playPromise !== undefined) {
                 playPromise.then(() => {
                     console.log('Видео успешно запущено');
-                    // Скрываем fallback если есть
                     const fallback = document.querySelector('.video-fallback');
                     if (fallback) fallback.style.display = 'none';
                 }).catch(error => {
                     console.log('Автоплей заблокирован браузером:', error);
-                    
-                    // Показываем fallback фон
                     const fallback = document.querySelector('.video-fallback');
                     if (fallback) fallback.style.display = 'block';
                     
-                    // Пытаемся запустить видео после первого касания
                     const startVideo = () => {
                         heroVideo.play().then(() => {
                             if (fallback) fallback.style.display = 'none';
@@ -389,29 +373,37 @@
                 });
             }
             
-            // Полностью отключаем контролы видео
             heroVideo.controls = false;
             heroVideo.disableRemotePlayback = true;
-            
-            // Удаляем атрибуты контролов если они есть
             heroVideo.removeAttribute('controls');
         }
         
-        // ========== БУРГЕР-МЕНЮ ==========
+        // ========== БУРГЕР-МЕНЮ - ИСПРАВЛЕНО (МЕНЮ НЕ ЗАКРЫВАЕТСЯ ПРИ ПЕРЕХОДЕ) ==========
         const burgerMenu = document.getElementById('burgerMenu');
         const mobileMenu = document.getElementById('mobileMenu');
         const closeMobileMenu = document.getElementById('closeMobileMenu');
+        
+        // СОХРАНЯЕМ СОСТОЯНИЕ МЕНЮ В SESSIONSTORAGE
+        function saveMenuState(isOpen) {
+            sessionStorage.setItem('mobileMenuOpen', isOpen ? 'true' : 'false');
+        }
+        
+        function getMenuState() {
+            return sessionStorage.getItem('mobileMenuOpen') === 'true';
+        }
         
         function openMobileMenu() {
             mobileMenu.classList.add('active');
             burgerMenu.classList.add('active');
             document.body.classList.add('menu-open');
+            saveMenuState(true);
         }
         
         function closeMobileMenuFunc() {
             mobileMenu.classList.remove('active');
             burgerMenu.classList.remove('active');
             document.body.classList.remove('menu-open');
+            saveMenuState(false);
         }
         
         if (burgerMenu && mobileMenu) {
@@ -421,13 +413,18 @@
                 closeMobileMenu.addEventListener('click', closeMobileMenuFunc);
             }
             
-            // Закрыть при клике на ссылку
+            // ИСПРАВЛЕНИЕ: НЕ ЗАКРЫВАЕМ МЕНЮ ПРИ КЛИКЕ НА ССЫЛКИ
             const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
             mobileNavLinks.forEach(link => {
-                link.addEventListener('click', closeMobileMenuFunc);
+                link.addEventListener('click', function(e) {
+                    // НЕ вызываем closeMobileMenuFunc() - меню остается открытым!
+                    // Просто добавляем класс active
+                    mobileNavLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                });
             });
             
-            // Закрыть при клике вне меню
+            // Закрыть только при клике на крестик или вне меню
             window.addEventListener('click', function(e) {
                 if (mobileMenu.classList.contains('active')) {
                     if (!mobileMenu.contains(e.target) && !burgerMenu.contains(e.target)) {
@@ -435,33 +432,31 @@
                     }
                 }
             });
+            
+            // ПРИ ЗАГРУЗКЕ СТРАНИЦЫ - ВОССТАНАВЛИВАЕМ СОСТОЯНИЕ МЕНЮ
+            window.addEventListener('pageshow', function() {
+                if (getMenuState()) {
+                    openMobileMenu();
+                }
+                
+                // Обновляем активные ссылки
+                setActiveNavLink();
+            });
         }
         
-        // ========== ЦИКЛИЧЕСКИЕ ТУЛТИПЫ ==========
+        // ========== ЦИКЛИЧЕСКИЕ ТУЛТИПЫ (БЕЗ ИНДИКАТОРОВ) ==========
         const tooltips = document.querySelectorAll('.tooltip');
-        const indicators = document.querySelectorAll('.tooltip-indicator');
         let currentTooltip = 1;
         let tooltipInterval;
         
         function showTooltip(index) {
-            // Скрыть все тултипы
             tooltips.forEach(t => {
                 t.classList.remove('active');
             });
             
-            // Убрать активные индикаторы
-            indicators.forEach(i => i.classList.remove('active'));
-            
-            // Показать нужный тултип
             const activeTooltip = document.querySelector(`.tooltip[data-tooltip="${index}"]`);
             if (activeTooltip) {
                 activeTooltip.classList.add('active');
-            }
-            
-            // Активировать индикатор
-            const activeIndicator = document.querySelector(`.tooltip-indicator[data-tooltip="${index}"]`);
-            if (activeIndicator) {
-                activeIndicator.classList.add('active');
             }
             
             currentTooltip = index;
@@ -475,34 +470,17 @@
             showTooltip(next);
         }
         
-        // Запустить цикл, если есть тултипы
         if (tooltips.length > 0) {
-            // Показать первый тултип
             showTooltip(1);
-            
-            // Запускаем интервал
             tooltipInterval = setInterval(nextTooltip, 5000);
-            
-            // Клик по индикаторам
-            indicators.forEach(indicator => {
-                indicator.addEventListener('click', function() {
-                    const index = parseInt(this.dataset.tooltip);
-                    showTooltip(index);
-                    
-                    // Сбросить интервал
-                    clearInterval(tooltipInterval);
-                    tooltipInterval = setInterval(nextTooltip, 5000);
-                });
-            });
         }
         
-        // ========== ИСПРАВЛЕННЫЙ СКРОЛЛ ШАПКИ (БЕЗ ДЕРГАНИЙ) ==========
+        // ========== ИСПРАВЛЕННЫЙ СКРОЛЛ ШАПКИ ==========
         const header = document.getElementById('main-header');
         let lastScroll = 0;
         let ticking = false;
         
         if (header) {
-            // Инициализация состояния
             header.classList.remove('header-hidden');
             
             window.addEventListener('scroll', function() {
@@ -512,14 +490,12 @@
                     window.requestAnimationFrame(function() {
                         const currentScroll = lastScroll;
                         
-                        // Добавляем/убираем фон при скролле
                         if (currentScroll > 50) {
                             header.classList.add('header-scrolled');
                         } else {
                             header.classList.remove('header-scrolled');
                         }
                         
-                        // Скрываем/показываем шапку
                         if (currentScroll > 200) {
                             if (currentScroll > lastScroll) {
                                 header.classList.add('header-hidden');
@@ -557,15 +533,8 @@
         
         setActiveNavLink();
         
-        // ========== ПРИНУДИТЕЛЬНО ПОКАЗЫВАЕМ КНОПКИ И МЕНЮ ==========
+        // ========== ПРИНУДИТЕЛЬНО ПОКАЗЫВАЕМ КНОПКИ ==========
         document.addEventListener('DOMContentLoaded', function() {
-            // Убеждаемся что навигационные ссылки видны
-            const navLinks = document.querySelector('.nav-links');
-            if (navLinks) {
-                navLinks.style.display = 'flex';
-            }
-            
-            // Делаем все кнопки Add to Cart видимыми
             const addToCartBtns = document.querySelectorAll('.add-to-cart-btn');
             addToCartBtns.forEach(btn => {
                 btn.style.display = 'inline-flex';
@@ -573,17 +542,11 @@
                 btn.style.opacity = '1';
             });
             
-            // Проверяем видео на мобильных
-            if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-                console.log('Мобильное устройство обнаружено, применяем фиксы');
-                
-                // Дополнительная попытка запустить видео
-                if (heroVideo) {
-                    setTimeout(() => {
-                        heroVideo.play().catch(e => console.log('Отложенный автоплей не сработал'));
-                    }, 1000);
-                }
-            }
+            // Сохраняем состояние меню при уходе со страницы
+            window.addEventListener('beforeunload', function() {
+                const isMenuOpen = mobileMenu && mobileMenu.classList.contains('active');
+                saveMenuState(isMenuOpen);
+            });
         });
     </script>
 </body>
