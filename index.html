@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Sensual | Premium Body Cosmetics</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/animations.css">
@@ -11,6 +11,41 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    <style>
+        /* Критические стили для мобильного видео - iOS fix */
+        .hero-video {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            pointer-events: none; /* Отключает взаимодействие с видео */
+        }
+        
+        .video-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #000; /* Фallback на случай проблем с видео */
+        }
+        
+        /* Убираем контролы на iOS */
+        video::-webkit-media-controls {
+            display: none !important;
+        }
+        
+        video::-webkit-media-controls-enclosure {
+            display: none !important;
+        }
+        
+        video::--webkit-media-controls-play-button {
+            display: none !important;
+        }
+    </style>
 </head>
 <body>
     <!-- ДИНАМИЧЕСКАЯ СТЕКЛЯННАЯ ШАПКА -->
@@ -21,7 +56,7 @@
                 <a href="index.html" class="gold-s" aria-label="Sensual Home">S</a>
             </div>
             
-            <!-- ОСНОВНЫЕ НАВИГАЦИОННЫЕ ССЫЛКИ (ДЕСКТОП) -->
+            <!-- ОСНОВНЫЕ НАВИГАЦИОННЫЕ ССЫЛКИ - ВИДИМЫ НА ВСЕХ УСТРОЙСТВАХ -->
             <ul class="nav-links" id="navLinks">
                 <li><a href="index.html" class="nav-link active" data-text="Home">Home</a></li>
                 <li><a href="shop.html" class="nav-link" data-text="Shop">Shop</a></li>
@@ -108,9 +143,11 @@
     <!-- ГЛАВНАЯ ГЕРОЙ-СЕКЦИЯ С ВИДЕО -->
     <main>
         <section class="hero-section">
-            <!-- ВИДЕО ФОН - ТОЛЬКО АВТОПЛЕЙ, БЕЗ КНОПОК -->
+            <!-- ВИДЕО ФОН - АВТОПЛЕЙ ДЛЯ ВСЕХ УСТРОЙСТВ -->
             <div class="video-container">
-                <video autoplay muted loop playsinline class="hero-video" id="heroVideo">
+                <!-- Добавляем изображение-заглушку для iOS -->
+                <div class="video-fallback" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);"></div>
+                <video autoplay muted loop playsinline webkit-playsinline x5-playsinline disablepictureinpicture disableremoteplayback class="hero-video" id="heroVideo">
                     <source src="video/video.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
@@ -310,13 +347,54 @@
         // ========== ТЕКУЩИЙ ГОД В ФУТЕРЕ ==========
         document.getElementById('current-year').textContent = new Date().getFullYear();
         
-        // ========== ВИДЕО - ТОЛЬКО АВТОПЛЕЙ, БЕЗ КНОПОК ==========
+        // ========== ВИДЕО - ИСПРАВЛЕННЫЙ АВТОПЛЕЙ ДЛЯ МОБИЛЬНЫХ ==========
         const heroVideo = document.getElementById('heroVideo');
+        
         if (heroVideo) {
-            // Принудительно запускаем видео
-            heroVideo.play().catch(e => {
-                console.log('Автоплей заблокирован, но видео будет работать при взаимодействии');
-            });
+            // Принудительная настройка атрибутов для iOS
+            heroVideo.setAttribute('playsinline', '');
+            heroVideo.setAttribute('webkit-playsinline', '');
+            heroVideo.setAttribute('x5-playsinline', '');
+            heroVideo.setAttribute('muted', '');
+            heroVideo.setAttribute('loop', '');
+            heroVideo.setAttribute('autoplay', '');
+            
+            // Пытаемся запустить видео
+            const playPromise = heroVideo.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    console.log('Видео успешно запущено');
+                    // Скрываем fallback если есть
+                    const fallback = document.querySelector('.video-fallback');
+                    if (fallback) fallback.style.display = 'none';
+                }).catch(error => {
+                    console.log('Автоплей заблокирован браузером:', error);
+                    
+                    // Показываем fallback фон
+                    const fallback = document.querySelector('.video-fallback');
+                    if (fallback) fallback.style.display = 'block';
+                    
+                    // Пытаемся запустить видео после первого касания
+                    const startVideo = () => {
+                        heroVideo.play().then(() => {
+                            if (fallback) fallback.style.display = 'none';
+                        }).catch(e => console.log('Видео не запустилось'));
+                        document.removeEventListener('touchstart', startVideo);
+                        document.removeEventListener('click', startVideo);
+                    };
+                    
+                    document.addEventListener('touchstart', startVideo);
+                    document.addEventListener('click', startVideo);
+                });
+            }
+            
+            // Полностью отключаем контролы видео
+            heroVideo.controls = false;
+            heroVideo.disableRemotePlayback = true;
+            
+            // Удаляем атрибуты контролов если они есть
+            heroVideo.removeAttribute('controls');
         }
         
         // ========== БУРГЕР-МЕНЮ ==========
@@ -418,27 +496,46 @@
             });
         }
         
-        // ========== СКРОЛЛ ШАПКИ ==========
+        // ========== ИСПРАВЛЕННЫЙ СКРОЛЛ ШАПКИ (БЕЗ ДЕРГАНИЙ) ==========
         const header = document.getElementById('main-header');
         let lastScroll = 0;
+        let ticking = false;
         
         if (header) {
+            // Инициализация состояния
+            header.classList.remove('header-hidden');
+            
             window.addEventListener('scroll', function() {
-                const currentScroll = window.pageYOffset;
+                lastScroll = window.pageYOffset;
                 
-                if (currentScroll > 100) {
-                    header.classList.add('header-scrolled');
-                } else {
-                    header.classList.remove('header-scrolled');
+                if (!ticking) {
+                    window.requestAnimationFrame(function() {
+                        const currentScroll = lastScroll;
+                        
+                        // Добавляем/убираем фон при скролле
+                        if (currentScroll > 50) {
+                            header.classList.add('header-scrolled');
+                        } else {
+                            header.classList.remove('header-scrolled');
+                        }
+                        
+                        // Скрываем/показываем шапку
+                        if (currentScroll > 200) {
+                            if (currentScroll > lastScroll) {
+                                header.classList.add('header-hidden');
+                            } else {
+                                header.classList.remove('header-hidden');
+                            }
+                        } else {
+                            header.classList.remove('header-hidden');
+                        }
+                        
+                        lastScroll = currentScroll;
+                        ticking = false;
+                    });
+                    
+                    ticking = true;
                 }
-                
-                if (currentScroll > lastScroll && currentScroll > 300) {
-                    header.classList.add('header-hidden');
-                } else {
-                    header.classList.remove('header-hidden');
-                }
-                
-                lastScroll = currentScroll;
             });
         }
         
@@ -459,6 +556,35 @@
         }
         
         setActiveNavLink();
+        
+        // ========== ПРИНУДИТЕЛЬНО ПОКАЗЫВАЕМ КНОПКИ И МЕНЮ ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            // Убеждаемся что навигационные ссылки видны
+            const navLinks = document.querySelector('.nav-links');
+            if (navLinks) {
+                navLinks.style.display = 'flex';
+            }
+            
+            // Делаем все кнопки Add to Cart видимыми
+            const addToCartBtns = document.querySelectorAll('.add-to-cart-btn');
+            addToCartBtns.forEach(btn => {
+                btn.style.display = 'inline-flex';
+                btn.style.visibility = 'visible';
+                btn.style.opacity = '1';
+            });
+            
+            // Проверяем видео на мобильных
+            if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
+                console.log('Мобильное устройство обнаружено, применяем фиксы');
+                
+                // Дополнительная попытка запустить видео
+                if (heroVideo) {
+                    setTimeout(() => {
+                        heroVideo.play().catch(e => console.log('Отложенный автоплей не сработал'));
+                    }, 1000);
+                }
+            }
+        });
     </script>
 </body>
 </html>

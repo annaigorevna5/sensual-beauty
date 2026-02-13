@@ -64,7 +64,6 @@ body {
     min-height: 100vh;
 }
 
-/* Дорогой темно-бирюзовый фон с градиентами */
 body::before {
     content: '';
     position: fixed;
@@ -81,7 +80,6 @@ body::before {
     pointer-events: none;
 }
 
-/* Тонкая текстура для глубины */
 body::after {
     content: '';
     position: fixed;
@@ -183,7 +181,10 @@ body::after {
     color: var(--color-gold-light);
 }
 
-/* Dynamic Glass Header */
+/* ============================================
+   ИСПРАВЛЕННАЯ ШАПКА - БЕЗ ДЕРГАНИЙ
+   ============================================ */
+
 .glass-header {
     position: fixed;
     top: 0;
@@ -195,10 +196,10 @@ body::after {
     -webkit-backdrop-filter: blur(20px) saturate(180%);
     border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     z-index: 1000;
-    transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1), 
-                background 0.5s ease;
+    transition: transform 0.3s ease, background 0.3s ease;
     display: flex;
     align-items: center;
+    will-change: transform;
 }
 
 .glass-header.header-hidden {
@@ -206,9 +207,9 @@ body::after {
 }
 
 .glass-header.header-scrolled {
-    background: rgba(10, 35, 34, 0.9);
+    background: rgba(10, 35, 34, 0.95);
     backdrop-filter: blur(25px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
     box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
 }
 
@@ -220,7 +221,7 @@ body::after {
     height: 100%;
 }
 
-/* GOLDEN S LOGO - БЛЕСТЯЩАЯ ЗОЛОТАЯ БУКВА */
+/* GOLDEN S LOGO */
 .brand-logo .gold-s {
     font-family: var(--font-heading);
     font-size: 3rem;
@@ -241,7 +242,6 @@ body::after {
     letter-spacing: 1px;
 }
 
-/* Блестящий эффект для золотой буквы */
 .gold-s::after {
     content: 'S';
     position: absolute;
@@ -268,12 +268,15 @@ body::after {
         0 0 120px rgba(212, 175, 55, 0.2);
 }
 
-/* Navigation Links */
+/* ============================================
+   НАВИГАЦИОННЫЕ ССЫЛКИ - ВИДНЫ ВСЕГДА
+   ============================================ */
+
 .nav-links {
     display: flex;
     list-style: none;
-    gap: 40px;
-    margin-left: 40px;
+    gap: 30px;
+    margin-left: 20px;
 }
 
 .nav-link {
@@ -286,10 +289,12 @@ body::after {
     text-transform: uppercase;
     letter-spacing: 1.5px;
     transition: var(--transition-smooth);
+    white-space: nowrap;
 }
 
-.nav-link:hover {
-    color: var(--text-light);
+.nav-link:hover,
+.nav-link.active {
+    color: var(--color-gold);
 }
 
 .nav-link::after {
@@ -300,11 +305,12 @@ body::after {
     width: 0;
     height: 2px;
     background: var(--color-gold);
-    transition: width 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: width 0.3s ease;
     box-shadow: 0 0 10px var(--color-gold);
 }
 
-.nav-link:hover::after {
+.nav-link:hover::after,
+.nav-link.active::after {
     width: 100%;
 }
 
@@ -452,7 +458,10 @@ body::after {
     transform: scaleY(1);
 }
 
-/* Hero Section with Video */
+/* ============================================
+   ВИДЕО - ИСПРАВЛЕНО ДЛЯ МОБИЛЬНЫХ
+   ============================================ */
+
 .hero-section {
     position: relative;
     height: 100vh;
@@ -468,16 +477,53 @@ body::after {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -2;
+    z-index: 1;
+    overflow: hidden;
+    background: #0a2322;
 }
 
 .hero-video {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    pointer-events: none;
 }
 
-/* Темный оверлей для контраста с темным фоном */
+/* ПОЛНОСТЬЮ УБИРАЕМ КОНТРОЛЫ ВИДЕО ДЛЯ ВСЕХ БРАУЗЕРОВ */
+video::-webkit-media-controls,
+video::-webkit-media-controls-enclosure,
+video::-webkit-media-controls-panel,
+video::-webkit-media-controls-play-button,
+video::-webkit-media-controls-start-playback-button,
+video::-webkit-media-controls-timeline,
+video::-webkit-media-controls-current-time-display,
+video::-webkit-media-controls-time-remaining-display,
+video::-webkit-media-controls-mute-button,
+video::-webkit-media-controls-toggle-closed-captions-button,
+video::-webkit-media-controls-volume-slider,
+video::--webkit-media-controls-play-button,
+video::--webkit-media-controls-start-playback-button {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    pointer-events: none !important;
+}
+
+/* Скрываем контролы в Firefox */
+video::-moz-media-controls,
+video::-moz-media-controls-play-button,
+video::-moz-media-controls-mute-button {
+    display: none !important;
+}
+
+video {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
 .video-overlay {
     position: absolute;
     top: 0;
@@ -488,7 +534,7 @@ body::after {
         rgba(10, 35, 34, 0.8) 0%, 
         rgba(10, 35, 34, 0.5) 40%, 
         rgba(10, 35, 34, 0.3) 100%);
-    z-index: -1;
+    z-index: 2;
 }
 
 .hero-content {
@@ -498,10 +544,9 @@ body::after {
     width: 100%;
     padding-top: var(--header-height);
     position: relative;
-    z-index: 2;
+    z-index: 3;
 }
 
-/* Brand Intro Left Side */
 .brand-intro {
     max-width: 600px;
     color: var(--text-light);
@@ -529,14 +574,13 @@ body::after {
     color: var(--text-gray);
 }
 
-/* Product Preview Right Side - УМЕНЬШЕН В 3 РАЗА */
 .product-preview {
-    width: 240px; /* Было 340px */
-    padding: 20px; /* Было 35px */
+    width: 240px;
+    padding: 20px;
     color: var(--text-light);
     display: flex;
     flex-direction: column;
-    gap: 12px; /* Было 18px */
+    gap: 12px;
     position: absolute;
     top: 50%;
     right: 5%;
@@ -544,7 +588,7 @@ body::after {
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.8s ease, visibility 0.8s ease;
-    z-index: 2;
+    z-index: 4;
 }
 
 .product-preview.active {
@@ -553,41 +597,41 @@ body::after {
 }
 
 .preview-title {
-    font-size: 0.8rem; /* Было 0.9rem */
+    font-size: 0.8rem;
     text-transform: uppercase;
     letter-spacing: 1.5px;
     color: var(--color-gold);
-    margin-bottom: 3px; /* Было 5px */
+    margin-bottom: 3px;
     font-weight: 600;
 }
 
 .product-name {
     font-family: var(--font-heading);
-    font-size: 1.4rem; /* Было 1.9rem */
+    font-size: 1.4rem;
     font-weight: 600;
     line-height: 1.2;
     color: var(--text-light);
 }
 
 .product-desc {
-    font-size: 0.85rem; /* Было 0.95rem */
+    font-size: 0.85rem;
     color: var(--text-gray);
-    margin-bottom: 8px; /* Было 10px */
+    margin-bottom: 8px;
     line-height: 1.5;
 }
 
 .price {
-    font-size: 1.6rem; /* Было 2.2rem */
+    font-size: 1.6rem;
     font-weight: 700;
     color: var(--color-gold);
-    margin: 10px 0; /* Было 15px 0 */
-    text-shadow: 0 0 8px rgba(212, 175, 55, 0.3); /* Было 10px */
+    margin: 10px 0;
+    text-shadow: 0 0 8px rgba(212, 175, 55, 0.3);
 }
 
 .product-link {
     color: var(--text-gray);
     text-decoration: none;
-    font-size: 0.8rem; /* Было 0.9rem */
+    font-size: 0.8rem;
     transition: var(--transition-smooth);
     align-self: flex-start;
     position: relative;
@@ -613,14 +657,12 @@ body::after {
     width: 100%;
 }
 
-/* Контейнер для тултипов */
 .tooltips-container {
     position: relative;
     width: 240px;
     height: 380px;
 }
 
-/* Индикаторы тултипов */
 .tooltip-indicators {
     position: absolute;
     bottom: -40px;
@@ -628,7 +670,7 @@ body::after {
     transform: translateX(-50%);
     display: flex;
     gap: 10px;
-    z-index: 3;
+    z-index: 4;
 }
 
 .tooltip-indicator {
@@ -652,38 +694,200 @@ body::after {
     background: rgba(212, 175, 55, 0.5);
 }
 
-/* Анимации для тултипов */
-@keyframes tooltipFadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(-50%) translateX(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(-50%) translateX(0);
-    }
+/* ============================================
+   БУРГЕР-МЕНЮ И МОБИЛЬНАЯ НАВИГАЦИЯ - ИСПРАВЛЕНО
+   ============================================ */
+
+.burger-menu {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 21px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1002;
+    position: relative;
 }
 
-@keyframes tooltipFadeOut {
-    from {
-        opacity: 1;
-        transform: translateY(-50%) translateX(0);
-    }
-    to {
-        opacity: 0;
-        transform: translateY(-50%) translateX(-20px);
-    }
+.burger-line {
+    width: 100%;
+    height: 2px;
+    background: var(--color-gold);
+    border-radius: 10px;
+    transition: all 0.3s ease;
 }
 
-.tooltip.fade-in {
-    animation: tooltipFadeIn 0.8s ease forwards;
+.burger-menu.active .burger-line:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
 }
 
-.tooltip.fade-out {
-    animation: tooltipFadeOut 0.8s ease forwards;
+.burger-menu.active .burger-line:nth-child(2) {
+    opacity: 0;
 }
 
-/* About Section */
+.burger-menu.active .burger-line:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+}
+
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(10, 35, 34, 0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    z-index: 2000;
+    padding: 30px;
+    overflow-y: auto;
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    display: block;
+    visibility: visible;
+}
+
+.mobile-menu.active {
+    transform: translateX(0);
+}
+
+.mobile-menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.mobile-menu-header .brand-logo .gold-s {
+    font-size: 3rem;
+}
+
+.close-mobile-menu {
+    width: 44px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 50%;
+    color: var(--color-gold);
+    font-size: 1.3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.close-mobile-menu:hover {
+    background: rgba(212, 175, 55, 0.2);
+    transform: rotate(90deg);
+}
+
+.mobile-nav-links {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 40px 0;
+}
+
+.mobile-nav-link {
+    display: block;
+    padding: 18px 0;
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: var(--text-light);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.mobile-nav-link.active,
+.mobile-nav-link:hover {
+    color: var(--color-gold);
+    padding-left: 15px;
+}
+
+.mobile-categories {
+    margin-bottom: 40px;
+}
+
+.mobile-categories-title {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    color: var(--color-gold);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.mobile-categories-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.mobile-categories-list li {
+    margin-bottom: 15px;
+}
+
+.mobile-categories-list a {
+    color: var(--text-gray);
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    display: block;
+    padding: 8px 0;
+}
+
+.mobile-categories-list a:hover {
+    color: var(--color-gold);
+    padding-left: 10px;
+}
+
+.mobile-contact {
+    margin-top: 30px;
+    padding-top: 30px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mobile-phone {
+    color: var(--color-gold);
+    text-decoration: none;
+    font-size: 1.2rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.mobile-social {
+    display: flex;
+    gap: 20px;
+}
+
+.mobile-social a {
+    color: var(--text-gray);
+    font-size: 1.3rem;
+    transition: all 0.3s ease;
+}
+
+.mobile-social a:hover {
+    color: var(--color-gold);
+    transform: translateY(-3px);
+}
+
+body.menu-open {
+    overflow: hidden;
+}
+
+/* ============================================
+   ABOUT SECTION
+   ============================================ */
+
 .about-section {
     padding: 120px 0;
     position: relative;
@@ -778,7 +982,10 @@ body::after {
     font-weight: 500;
 }
 
-/* Sets Section */
+/* ============================================
+   SETS SECTION
+   ============================================ */
+
 .sets-section {
     padding: 120px 0 150px;
     position: relative;
@@ -881,7 +1088,34 @@ body::after {
     text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
 }
 
-/* Footer */
+.add-to-cart-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
+    background: rgba(212, 175, 55, 0.15);
+    border: 1px solid rgba(212, 175, 55, 0.4);
+    border-radius: 50px;
+    color: var(--color-gold);
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: var(--transition-smooth);
+    margin-top: 10px;
+    gap: 8px;
+}
+
+.add-to-cart-btn:hover {
+    background: rgba(212, 175, 55, 0.3);
+    border-color: var(--color-gold);
+    transform: translateY(-2px);
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+
 .main-footer {
     background: rgba(10, 35, 34, 0.9);
     backdrop-filter: blur(20px);
@@ -1068,70 +1302,9 @@ body::after {
     font-size: 0.9rem;
 }
 
-/* Responsive Base */
-@media (max-width: 1100px) {
-    .hero-content {
-        flex-direction: column;
-        text-align: center;
-        justify-content: center;
-        gap: 60px;
-    }
-    
-    .brand-intro {
-        max-width: 90%;
-    }
-    
-    .footer-content {
-        grid-template-columns: 1fr;
-        gap: 50px;
-    }
-    
-    .footer-links {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-@media (max-width: 768px) {
-    :root {
-        --header-height: 70px;
-    }
-    
-    .brand-title {
-        font-size: 3.5rem;
-    }
-    
-    .nav-links {
-        display: none;
-    }
-    
-    .header-right {
-        gap: 20px;
-    }
-    
-    .phone-link {
-        display: none;
-    }
-    
-    .sets-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .footer-links {
-        grid-template-columns: 1fr;
-    }
-    
-    .about-stats {
-        gap: 30px;
-    }
-    
-    .stat {
-        min-width: 150px;
-        padding: 25px;
-    }
-}
 /* ============================================
    COMPANY PAGE STYLES
-=============================================== */
+   ============================================ */
 
 .company-page, .reviews-page, .contacts-page {
     padding-top: var(--header-height);
@@ -1178,7 +1351,6 @@ body::after {
     line-height: 1.7;
 }
 
-/* Company Story Section */
 .story-section {
     padding: 80px 0;
 }
@@ -1220,7 +1392,11 @@ body::after {
     animation: rotateSlow 20s linear infinite;
 }
 
-/* Values Section */
+@keyframes rotateSlow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
 .values-section {
     padding: 80px 0;
     background: rgba(255, 255, 255, 0.02);
@@ -1301,7 +1477,6 @@ body::after {
     font-size: 1rem;
 }
 
-/* Team Section */
 .team-section {
     padding: 80px 0;
 }
@@ -1364,7 +1539,6 @@ body::after {
     font-size: 0.95rem;
 }
 
-/* Sustainability Section */
 .sustainability-section {
     padding: 80px 0;
     background: rgba(255, 255, 255, 0.02);
@@ -1400,7 +1574,7 @@ body::after {
 
 /* ============================================
    REVIEWS PAGE STYLES
-=============================================== */
+   ============================================ */
 
 .overall-rating {
     display: inline-flex;
@@ -1602,7 +1776,6 @@ body::after {
     font-size: 1rem;
 }
 
-/* Review Modal */
 .review-modal {
     position: fixed;
     top: 0;
@@ -1616,7 +1789,6 @@ body::after {
     align-items: center;
     justify-content: center;
     padding: 20px;
-    animation: fadeInScale 0.3s ease;
 }
 
 .review-modal-content {
@@ -1712,7 +1884,7 @@ body::after {
 
 /* ============================================
    CONTACTS PAGE STYLES
-=============================================== */
+   ============================================ */
 
 .contact-section {
     padding: 80px 0;
@@ -1808,7 +1980,6 @@ body::after {
     margin-bottom: 20px;
 }
 
-/* FAQ Section */
 .faq-section {
     padding: 80px 0;
     background: rgba(255, 255, 255, 0.02);
@@ -1862,7 +2033,6 @@ body::after {
     margin: 0 0 25px 0;
 }
 
-/* Map Section */
 .map-section {
     padding: 80px 0;
 }
@@ -1902,8 +2072,9 @@ body::after {
 }
 
 /* ============================================
-   QUICK VIEW MODAL FIXES
-=============================================== */
+   QUICK VIEW MODAL
+   ============================================ */
+
 .quick-view-content {
     max-width: 1000px;
     width: 100%;
@@ -1911,7 +2082,6 @@ body::after {
     overflow-y: auto;
     padding: 40px;
     position: relative;
-    animation: fadeInUp 0.5s ease;
 }
 
 .close-quick-view {
@@ -1940,21 +2110,61 @@ body::after {
     transform: rotate(90deg);
 }
 
-.quick-view-body {
-    position: relative;
-    z-index: 1;
-}
-
-/* Form Success Message */
-.form-success {
-    animation: fadeInScale 0.5s ease;
-}
-
 /* ============================================
-   RESPONSIVE FIXES
-=============================================== */
+   МЕДИА-ЗАПРОСЫ - ПОЛНОСТЬЮ ИСПРАВЛЕНЫ
+   ============================================ */
 
-@media (max-width: 992px) {
+@media (max-width: 1100px) {
+    .hero-content {
+        flex-direction: column;
+        text-align: center;
+        justify-content: center;
+        gap: 40px;
+        padding-top: 100px;
+    }
+    
+    .brand-intro {
+        max-width: 90%;
+    }
+    
+    .brand-title {
+        font-size: 4rem;
+    }
+    
+    .brand-tagline {
+        margin: 0 auto;
+    }
+    
+    .tooltips-wrapper {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .tooltips-container {
+        position: relative;
+        width: 280px;
+        height: 380px;
+        margin: 0 auto;
+    }
+    
+    .product-preview {
+        width: 280px;
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%) translateY(-50%);
+    }
+    
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 50px;
+    }
+    
+    .footer-links {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
     .story-grid {
         grid-template-columns: 1fr;
         gap: 40px;
@@ -1972,14 +2182,102 @@ body::after {
     .reviews-grid {
         grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     }
+}
+
+@media (max-width: 992px) {
+    .nav-links {
+        display: flex !important;
+        gap: 15px;
+    }
     
-    .quick-view-product {
-        grid-template-columns: 1fr !important;
-        gap: 30px;
+    .nav-link {
+        font-size: 0.85rem;
+    }
+    
+    .desktop-only {
+        display: none !important;
+    }
+    
+    .phone-link {
+        display: none;
+    }
+    
+    .burger-menu {
+        display: flex;
+    }
+    
+    .header-right {
+        gap: 15px;
+    }
+    
+    .hero-section {
+        min-height: 800px;
+        height: auto;
+        padding-bottom: 60px;
     }
 }
 
 @media (max-width: 768px) {
+    :root {
+        --header-height: 70px;
+    }
+    
+    .nav-links {
+        display: none !important;
+    }
+    
+    .brand-title {
+        font-size: 3rem;
+    }
+    
+    .brand-tagline {
+        font-size: 1rem;
+    }
+    
+    .tooltips-container {
+        width: 260px;
+    }
+    
+    .product-preview {
+        width: 260px;
+        padding: 18px;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    .about-text {
+        font-size: 1rem;
+        padding: 0 15px;
+    }
+    
+    .about-stats {
+        gap: 20px;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .stat {
+        width: 100%;
+        max-width: 280px;
+    }
+    
+    .sets-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .footer-content {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    
+    .footer-links {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
     .company-title, .reviews-title, .contacts-title {
         font-size: 2.8rem;
     }
@@ -2020,6 +2318,43 @@ body::after {
 }
 
 @media (max-width: 480px) {
+    .brand-title {
+        font-size: 2.2rem;
+    }
+    
+    .brand-tagline {
+        font-size: 0.9rem;
+    }
+    
+    .tooltips-container {
+        width: 240px;
+    }
+    
+    .product-preview {
+        width: 240px;
+        padding: 16px;
+    }
+    
+    .product-name {
+        font-size: 1.2rem;
+    }
+    
+    .price {
+        font-size: 1.4rem;
+    }
+    
+    .section-title {
+        font-size: 1.6rem;
+    }
+    
+    .set-name {
+        font-size: 1.4rem;
+    }
+    
+    .set-price {
+        font-size: 1.6rem;
+    }
+    
     .company-title, .reviews-title, .contacts-title {
         font-size: 2.2rem;
     }
@@ -2041,749 +2376,7 @@ body::after {
         font-size: 2rem;
     }
 }
-/* Video loading indicator */
-.video-loading {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    z-index: 1;
-    color: var(--text-light);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-}
 
-.loading-spinner {
-    width: 60px;
-    height: 60px;
-    border: 3px solid rgba(255, 255, 255, 0.1);
-    border-radius: 50%;
-    border-top-color: var(--color-gold);
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-.video-loading p {
-    font-size: 1.1rem;
-    font-weight: 300;
-    letter-spacing: 1px;
-    opacity: 0.8;
-}
-
-/* Video container improvements */
-.video-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -2;
-    overflow: hidden;
-}
-
-.hero-video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: opacity 1s ease;
-}
-
-/* Video loaded state */
-.video-loaded .video-loading {
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.5s ease, visibility 0.5s;
-}
-
-.video-loaded .hero-video {
-    opacity: 1;
-}
-
-/* ============================================
-   АДАПТИВНАЯ ШАПКА С БУРГЕР-МЕНЮ
-   ============================================ */
-
-/* Скрываем десктопное меню на мобильных */
-@media (max-width: 992px) {
-    .nav-links {
-        display: none !important;
-    }
-    
-    .desktop-only {
-        display: none !important;
-    }
-}
-
-/* Бургер-меню */
-.burger-menu {
-    display: none;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 30px;
-    height: 21px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    z-index: 1001;
-    position: relative;
-}
-
-.burger-line {
-    width: 100%;
-    height: 2px;
-    background: var(--color-gold);
-    border-radius: 10px;
-    transition: var(--transition-smooth);
-}
-
-.burger-menu.active .burger-line:nth-child(1) {
-    transform: translateY(9px) rotate(45deg);
-}
-
-.burger-menu.active .burger-line:nth-child(2) {
-    opacity: 0;
-}
-
-.burger-menu.active .burger-line:nth-child(3) {
-    transform: translateY(-9px) rotate(-45deg);
-}
-
-/* Мобильное меню */
-.mobile-menu {
-    position: fixed;
-    top: var(--header-height);
-    left: 0;
-    width: 100%;
-    height: calc(100vh - var(--header-height));
-    background: rgba(10, 35, 34, 0.98);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    z-index: 999;
-    padding: 40px 30px;
-    overflow-y: auto;
-    transform: translateX(100%);
-    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-    border-top: 1px solid rgba(212, 175, 55, 0.2);
-}
-
-.mobile-menu.active {
-    transform: translateX(0);
-}
-
-.mobile-nav-links {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 40px 0;
-}
-
-.mobile-nav-link {
-    display: block;
-    padding: 18px 0;
-    font-size: 1.3rem;
-    font-weight: 500;
-    color: var(--text-light);
-    text-decoration: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    transition: var(--transition-smooth);
-}
-
-.mobile-nav-link:hover {
-    color: var(--color-gold);
-    padding-left: 10px;
-}
-
-.mobile-categories {
-    margin-bottom: 40px;
-}
-
-.mobile-categories-title {
-    font-family: var(--font-heading);
-    font-size: 1.2rem;
-    color: var(--color-gold);
-    margin-bottom: 20px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid rgba(212, 175, 55, 0.3);
-}
-
-.mobile-categories-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.mobile-categories-list li {
-    margin-bottom: 15px;
-}
-
-.mobile-categories-list a {
-    color: var(--text-gray);
-    text-decoration: none;
-    font-size: 1rem;
-    transition: var(--transition-smooth);
-    display: block;
-    padding: 8px 0;
-}
-
-.mobile-categories-list a:hover {
-    color: var(--color-gold);
-    padding-left: 10px;
-}
-
-.mobile-contact {
-    margin-top: 30px;
-    padding-top: 30px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.mobile-phone {
-    color: var(--color-gold);
-    text-decoration: none;
-    font-size: 1.1rem;
-    font-weight: 600;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.mobile-phone::before {
-    content: '\f095';
-    font-family: 'Font Awesome 6 Free';
-    font-weight: 900;
-}
-
-body.menu-open {
-    overflow: hidden;
-}
-
-/* ============================================
-   АДАПТИВНЫЕ ТУЛТИПЫ ДЛЯ МОБИЛЬНЫХ
-   ============================================ */
-
-@media (max-width: 992px) {
-    .hero-content {
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 40px;
-        padding-top: 80px;
-    }
-    
-    .brand-intro {
-        text-align: center;
-        max-width: 100%;
-        padding: 0 20px;
-    }
-    
-    .brand-title {
-        font-size: 3.5rem;
-    }
-    
-    .brand-tagline {
-        font-size: 1.1rem;
-        margin: 0 auto;
-    }
-    
-    .tooltips-wrapper {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .tooltips-container {
-        position: relative;
-        width: 280px;
-        height: 400px;
-        margin: 0 auto;
-    }
-    
-    .product-preview {
-        width: 280px;
-        right: auto;
-        left: 50%;
-        transform: translateX(-50%) translateY(-50%);
-        margin: 0;
-    }
-    
-    .product-preview.active {
-        transform: translateX(-50%) translateY(-50%);
-    }
-    
-    @keyframes tooltipFadeIn {
-        from {
-            opacity: 0;
-            transform: translateX(-50%) translateY(-30%);
-        }
-        to {
-            opacity: 1;
-            transform: translateX(-50%) translateY(-50%);
-        }
-    }
-    
-    @keyframes tooltipFadeOut {
-        from {
-            opacity: 1;
-            transform: translateX(-50%) translateY(-50%);
-        }
-        to {
-            opacity: 0;
-            transform: translateX(-50%) translateY(-70%);
-        }
-    }
-    
-    .product-name {
-        font-size: 1.3rem;
-    }
-    
-    .price {
-        font-size: 1.5rem;
-    }
-}
-
-@media (max-width: 768px) {
-    .brand-title {
-        font-size: 2.8rem;
-    }
-    
-    .brand-tagline {
-        font-size: 1rem;
-    }
-    
-    .tooltips-container {
-        width: 260px;
-    }
-    
-    .product-preview {
-        width: 260px;
-        padding: 18px;
-    }
-}
-
-@media (max-width: 480px) {
-    .brand-title {
-        font-size: 2.2rem;
-    }
-    
-    .tooltips-container {
-        width: 240px;
-    }
-    
-    .product-preview {
-        width: 240px;
-        padding: 16px;
-    }
-    
-    .product-name {
-        font-size: 1.2rem;
-    }
-}
-
-/* ============================================
-   УЛУЧШЕННАЯ ЗАГРУЗКА ВИДЕО
-   ============================================ */
-
-.video-container {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -2;
-    overflow: hidden;
-    background-color: #0a2322; /* Цвет фона пока грузится видео */
-}
-
-.hero-video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0;
-    transition: opacity 1.5s ease;
-}
-
-.video-loaded .hero-video {
-    opacity: 1;
-}
-
-.video-loading {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    z-index: 1;
-    color: var(--text-light);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    transition: opacity 0.5s ease, visibility 0.5s ease;
-}
-
-.video-loaded .video-loading {
-    opacity: 0;
-    visibility: hidden;
-}
-
-.loading-spinner {
-    width: 60px;
-    height: 60px;
-    border: 3px solid rgba(255, 255, 255, 0.1);
-    border-radius: 50%;
-    border-top-color: var(--color-gold);
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    to {
-        transform: rotate(360deg);
-    }
-}
-
-/* ============================================
-   ИСПРАВЛЕНИЯ ДЛЯ МОБИЛЬНЫХ ЭКРАНОВ (ОБЩИЕ)
-   ============================================ */
-
-@media (max-width: 992px) {
-    .burger-menu {
-        display: flex;
-    }
-    
-    .header-right {
-        gap: 15px;
-    }
-    
-    .phone-link {
-        display: none;
-    }
-    
-    .hero-section {
-        min-height: 800px;
-        height: auto;
-        padding: 0 0 60px 0;
-    }
-    
-    .section-title {
-        font-size: 2.2rem;
-    }
-    
-    .about-text {
-        font-size: 1rem;
-        padding: 0 20px;
-    }
-    
-    .stat {
-        min-width: 150px;
-        padding: 25px;
-    }
-    
-    .stat-number {
-        font-size: 2.5rem;
-    }
-}
-
-@media (max-width: 768px) {
-    .section-title {
-        font-size: 1.8rem;
-    }
-    
-    .about-stats {
-        gap: 20px;
-    }
-    
-    .stat {
-        min-width: 130px;
-        padding: 20px;
-    }
-    
-    .stat-number {
-        font-size: 2rem;
-    }
-    
-    .stat-label {
-        font-size: 0.8rem;
-    }
-    
-    .sets-grid {
-        gap: 30px;
-    }
-    
-    .set-name {
-        font-size: 1.4rem;
-    }
-    
-    .set-price {
-        font-size: 1.6rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .hero-section {
-        min-height: 700px;
-    }
-    
-    .brand-title {
-        font-size: 2rem;
-    }
-    
-    .brand-tagline {
-        font-size: 0.95rem;
-    }
-    
-    .section-title {
-        font-size: 1.6rem;
-    }
-    
-    .about-stats {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .stat {
-        width: 100%;
-        max-width: 250px;
-    }
-}
-
-/* Убираем дублирующийся медиазапрос */
-@media (max-width: 1100px) {
-    .hero-content {
-        flex-direction: column;
-        text-align: center;
-        justify-content: center;
-        gap: 60px;
-    }
-    
-    .brand-intro {
-        max-width: 90%;
-    }
-}
-/* ============================================
-   АДАПТИВНАЯ ШАПКА С БУРГЕР-МЕНЮ - ИСПРАВЛЕНО
-   ============================================ */
-
-/* Бургер-меню - видно только на мобильных */
-.burger-menu {
-    display: none;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 30px;
-    height: 21px;
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    z-index: 1001;
-    position: relative;
-}
-
-.burger-line {
-    width: 100%;
-    height: 2px;
-    background: var(--color-gold);
-    border-radius: 10px;
-    transition: all 0.3s ease;
-}
-
-.burger-menu.active .burger-line:nth-child(1) {
-    transform: translateY(9px) rotate(45deg);
-}
-
-.burger-menu.active .burger-line:nth-child(2) {
-    opacity: 0;
-}
-
-.burger-menu.active .burger-line:nth-child(3) {
-    transform: translateY(-9px) rotate(-45deg);
-}
-
-/* Мобильное меню - исправлено, не пропадает */
-.mobile-menu {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background: rgba(10, 35, 34, 0.98);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    z-index: 2000;
-    padding: 30px;
-    overflow-y: auto;
-    transform: translateX(100%);
-    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-    display: block;
-    visibility: visible;
-    opacity: 1;
-}
-
-.mobile-menu.active {
-    transform: translateX(0);
-}
-
-.mobile-menu-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 40px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid rgba(212, 175, 55, 0.3);
-}
-
-.mobile-menu-header .brand-logo .gold-s {
-    font-size: 3rem;
-}
-
-.close-mobile-menu {
-    width: 44px;
-    height: 44px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(212, 175, 55, 0.3);
-    border-radius: 50%;
-    color: var(--color-gold);
-    font-size: 1.3rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.close-mobile-menu:hover {
-    background: rgba(212, 175, 55, 0.2);
-    transform: rotate(90deg);
-}
-
-.mobile-nav-links {
-    list-style: none;
-    padding: 0;
-    margin: 0 0 40px 0;
-}
-
-.mobile-nav-link {
-    display: block;
-    padding: 18px 0;
-    font-size: 1.4rem;
-    font-weight: 500;
-    color: var(--text-light);
-    text-decoration: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    transition: all 0.3s ease;
-}
-
-.mobile-nav-link.active {
-    color: var(--color-gold);
-    padding-left: 15px;
-}
-
-.mobile-nav-link:hover {
-    color: var(--color-gold);
-    padding-left: 15px;
-}
-
-.mobile-categories {
-    margin-bottom: 40px;
-}
-
-.mobile-categories-title {
-    font-family: var(--font-heading);
-    font-size: 1.2rem;
-    color: var(--color-gold);
-    margin-bottom: 20px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid rgba(212, 175, 55, 0.3);
-}
-
-.mobile-categories-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.mobile-categories-list li {
-    margin-bottom: 15px;
-}
-
-.mobile-categories-list a {
-    color: var(--text-gray);
-    text-decoration: none;
-    font-size: 1.1rem;
-    transition: all 0.3s ease;
-    display: block;
-    padding: 8px 0;
-}
-
-.mobile-categories-list a:hover {
-    color: var(--color-gold);
-    padding-left: 10px;
-}
-
-.mobile-contact {
-    margin-top: 30px;
-    padding-top: 30px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.mobile-phone {
-    color: var(--color-gold);
-    text-decoration: none;
-    font-size: 1.2rem;
-    font-weight: 600;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-.mobile-social {
-    display: flex;
-    gap: 20px;
-}
-
-.mobile-social a {
-    color: var(--text-gray);
-    font-size: 1.3rem;
-    transition: all 0.3s ease;
-}
-
-.mobile-social a:hover {
-    color: var(--color-gold);
-    transform: translateY(-3px);
-}
-
-/* Скрываем десктопное меню на мобильных */
-@media (max-width: 992px) {
-    .nav-links {
-        display: none !important;
-    }
-    
-    .desktop-only {
-        display: none !important;
-    }
-    
-    .burger-menu {
-        display: flex;
-    }
-    
-    .phone-link {
-        display: none;
-    }
-    
-    .header-right {
-        gap: 15px;
-    }
-}
-
-/* Десктоп - скрываем мобильное меню */
 @media (min-width: 993px) {
     .mobile-menu {
         display: none !important;
@@ -2794,211 +2387,67 @@ body.menu-open {
     }
 }
 
-/* ============================================
-   ВИДЕО - ТОЛЬКО АВТОПЛЕЙ, БЕЗ КНОПОК
-   ============================================ */
-
-.video-container {
+/* Video loading and fallback */
+.video-loading {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -2;
-    overflow: hidden;
-    background-color: #0a2322;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 2;
+    color: var(--text-light);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    transition: opacity 0.5s ease, visibility 0.5s;
 }
 
-.hero-video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+.loading-spinner {
+    width: 60px;
+    height: 60px;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    border-top-color: var(--color-gold);
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.video-loaded .video-loading {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.video-loaded .hero-video {
     opacity: 1;
 }
 
-.video-overlay {
+.video-fallback {
+    display: none;
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(to right, 
-        rgba(10, 35, 34, 0.7) 0%, 
-        rgba(10, 35, 34, 0.4) 50%, 
-        rgba(10, 35, 34, 0.2) 100%);
-    z-index: -1;
+    background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+    z-index: 1;
 }
 
-/* Убираем все лишние элементы видео */
-video::-webkit-media-controls {
-    display: none !important;
+/* Form animations */
+.form-success {
+    animation: fadeInScale 0.5s ease;
 }
 
-video::-webkit-media-controls-enclosure {
-    display: none !important;
-}
-
-video::-webkit-media-controls-panel {
-    display: none !important;
-}
-
-video::-webkit-media-controls-play-button {
-    display: none !important;
-}
-
-video::-webkit-media-controls-start-playback-button {
-    display: none !important;
-}
-
-/* ============================================
-   АДАПТИВНЫЕ ТУЛТИПЫ ДЛЯ МОБИЛЬНЫХ
-   ============================================ */
-
-@media (max-width: 992px) {
-    .hero-content {
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 30px;
-        padding-top: 80px;
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
     }
-    
-    .brand-intro {
-        text-align: center;
-        max-width: 100%;
-        padding: 0 20px;
-    }
-    
-    .brand-title {
-        font-size: 3rem;
-    }
-    
-    .brand-tagline {
-        font-size: 1rem;
-        margin: 0 auto;
-    }
-    
-    .tooltips-wrapper {
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .tooltips-container {
-        position: relative;
-        width: 280px;
-        height: 380px;
-        margin: 0 auto;
-    }
-    
-    .product-preview {
-        width: 280px;
-        left: 50%;
-        right: auto;
-        transform: translateX(-50%) translateY(-50%);
-    }
-    
-    .product-name {
-        font-size: 1.3rem;
-    }
-    
-    .price {
-        font-size: 1.5rem;
-    }
-}
-
-@media (max-width: 768px) {
-    .brand-title {
-        font-size: 2.5rem;
-    }
-    
-    .tooltips-container {
-        width: 260px;
-    }
-    
-    .product-preview {
-        width: 260px;
-        padding: 18px;
-    }
-}
-
-@media (max-width: 480px) {
-    .hero-section {
-        min-height: 800px;
-    }
-    
-    .brand-title {
-        font-size: 2rem;
-    }
-    
-    .tooltips-container {
-        width: 240px;
-    }
-    
-    .product-preview {
-        width: 240px;
-        padding: 16px;
-    }
-    
-    .product-name {
-        font-size: 1.2rem;
-    }
-}
-
-/* ============================================
-   УЛУЧШЕНИЯ ДЛЯ МОБИЛЬНЫХ ЭКРАНОВ
-   ============================================ */
-
-@media (max-width: 768px) {
-    .section-title {
-        font-size: 1.8rem;
-    }
-    
-    .about-text {
-        font-size: 1rem;
-        padding: 0 15px;
-    }
-    
-    .about-stats {
-        gap: 20px;
-    }
-    
-    .stat {
-        min-width: 130px;
-        padding: 20px;
-    }
-    
-    .stat-number {
-        font-size: 2rem;
-    }
-    
-    .sets-grid {
-        grid-template-columns: 1fr;
-        gap: 30px;
-    }
-    
-    .footer-content {
-        grid-template-columns: 1fr;
-        gap: 40px;
-    }
-    
-    .footer-links {
-        grid-template-columns: 1fr;
-        gap: 30px;
-    }
-}
-
-/* Убираем дублирующийся медиазапрос */
-@media (max-width: 1100px) {
-    .hero-content {
-        flex-direction: column;
-        text-align: center;
-        justify-content: center;
-        gap: 40px;
-    }
-    
-    .brand-intro {
-        max-width: 90%;
+    to {
+        opacity: 1;
+        transform: scale(1);
     }
 }
