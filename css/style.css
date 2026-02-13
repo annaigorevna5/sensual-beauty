@@ -2106,3 +2106,464 @@ body::after {
 .video-loaded .hero-video {
     opacity: 1;
 }
+
+/* ============================================
+   АДАПТИВНАЯ ШАПКА С БУРГЕР-МЕНЮ
+   ============================================ */
+
+/* Скрываем десктопное меню на мобильных */
+@media (max-width: 992px) {
+    .nav-links {
+        display: none !important;
+    }
+    
+    .desktop-only {
+        display: none !important;
+    }
+}
+
+/* Бургер-меню */
+.burger-menu {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 21px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1001;
+    position: relative;
+}
+
+.burger-line {
+    width: 100%;
+    height: 2px;
+    background: var(--color-gold);
+    border-radius: 10px;
+    transition: var(--transition-smooth);
+}
+
+.burger-menu.active .burger-line:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+}
+
+.burger-menu.active .burger-line:nth-child(2) {
+    opacity: 0;
+}
+
+.burger-menu.active .burger-line:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+}
+
+/* Мобильное меню */
+.mobile-menu {
+    position: fixed;
+    top: var(--header-height);
+    left: 0;
+    width: 100%;
+    height: calc(100vh - var(--header-height));
+    background: rgba(10, 35, 34, 0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    z-index: 999;
+    padding: 40px 30px;
+    overflow-y: auto;
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    border-top: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.mobile-menu.active {
+    transform: translateX(0);
+}
+
+.mobile-nav-links {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 40px 0;
+}
+
+.mobile-nav-link {
+    display: block;
+    padding: 18px 0;
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: var(--text-light);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: var(--transition-smooth);
+}
+
+.mobile-nav-link:hover {
+    color: var(--color-gold);
+    padding-left: 10px;
+}
+
+.mobile-categories {
+    margin-bottom: 40px;
+}
+
+.mobile-categories-title {
+    font-family: var(--font-heading);
+    font-size: 1.2rem;
+    color: var(--color-gold);
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.mobile-categories-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.mobile-categories-list li {
+    margin-bottom: 15px;
+}
+
+.mobile-categories-list a {
+    color: var(--text-gray);
+    text-decoration: none;
+    font-size: 1rem;
+    transition: var(--transition-smooth);
+    display: block;
+    padding: 8px 0;
+}
+
+.mobile-categories-list a:hover {
+    color: var(--color-gold);
+    padding-left: 10px;
+}
+
+.mobile-contact {
+    margin-top: 30px;
+    padding-top: 30px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mobile-phone {
+    color: var(--color-gold);
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.mobile-phone::before {
+    content: '\f095';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+}
+
+body.menu-open {
+    overflow: hidden;
+}
+
+/* ============================================
+   АДАПТИВНЫЕ ТУЛТИПЫ ДЛЯ МОБИЛЬНЫХ
+   ============================================ */
+
+@media (max-width: 992px) {
+    .hero-content {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 40px;
+        padding-top: 80px;
+    }
+    
+    .brand-intro {
+        text-align: center;
+        max-width: 100%;
+        padding: 0 20px;
+    }
+    
+    .brand-title {
+        font-size: 3.5rem;
+    }
+    
+    .brand-tagline {
+        font-size: 1.1rem;
+        margin: 0 auto;
+    }
+    
+    .tooltips-wrapper {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .tooltips-container {
+        position: relative;
+        width: 280px;
+        height: 400px;
+        margin: 0 auto;
+    }
+    
+    .product-preview {
+        width: 280px;
+        right: auto;
+        left: 50%;
+        transform: translateX(-50%) translateY(-50%);
+        margin: 0;
+    }
+    
+    .product-preview.active {
+        transform: translateX(-50%) translateY(-50%);
+    }
+    
+    @keyframes tooltipFadeIn {
+        from {
+            opacity: 0;
+            transform: translateX(-50%) translateY(-30%);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-50%);
+        }
+    }
+    
+    @keyframes tooltipFadeOut {
+        from {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-50%);
+        }
+        to {
+            opacity: 0;
+            transform: translateX(-50%) translateY(-70%);
+        }
+    }
+    
+    .product-name {
+        font-size: 1.3rem;
+    }
+    
+    .price {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .brand-title {
+        font-size: 2.8rem;
+    }
+    
+    .brand-tagline {
+        font-size: 1rem;
+    }
+    
+    .tooltips-container {
+        width: 260px;
+    }
+    
+    .product-preview {
+        width: 260px;
+        padding: 18px;
+    }
+}
+
+@media (max-width: 480px) {
+    .brand-title {
+        font-size: 2.2rem;
+    }
+    
+    .tooltips-container {
+        width: 240px;
+    }
+    
+    .product-preview {
+        width: 240px;
+        padding: 16px;
+    }
+    
+    .product-name {
+        font-size: 1.2rem;
+    }
+}
+
+/* ============================================
+   УЛУЧШЕННАЯ ЗАГРУЗКА ВИДЕО
+   ============================================ */
+
+.video-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -2;
+    overflow: hidden;
+    background-color: #0a2322; /* Цвет фона пока грузится видео */
+}
+
+.hero-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1.5s ease;
+}
+
+.video-loaded .hero-video {
+    opacity: 1;
+}
+
+.video-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    z-index: 1;
+    color: var(--text-light);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.video-loaded .video-loading {
+    opacity: 0;
+    visibility: hidden;
+}
+
+.loading-spinner {
+    width: 60px;
+    height: 60px;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    border-top-color: var(--color-gold);
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ============================================
+   ИСПРАВЛЕНИЯ ДЛЯ МОБИЛЬНЫХ ЭКРАНОВ (ОБЩИЕ)
+   ============================================ */
+
+@media (max-width: 992px) {
+    .burger-menu {
+        display: flex;
+    }
+    
+    .header-right {
+        gap: 15px;
+    }
+    
+    .phone-link {
+        display: none;
+    }
+    
+    .hero-section {
+        min-height: 800px;
+        height: auto;
+        padding: 0 0 60px 0;
+    }
+    
+    .section-title {
+        font-size: 2.2rem;
+    }
+    
+    .about-text {
+        font-size: 1rem;
+        padding: 0 20px;
+    }
+    
+    .stat {
+        min-width: 150px;
+        padding: 25px;
+    }
+    
+    .stat-number {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .section-title {
+        font-size: 1.8rem;
+    }
+    
+    .about-stats {
+        gap: 20px;
+    }
+    
+    .stat {
+        min-width: 130px;
+        padding: 20px;
+    }
+    
+    .stat-number {
+        font-size: 2rem;
+    }
+    
+    .stat-label {
+        font-size: 0.8rem;
+    }
+    
+    .sets-grid {
+        gap: 30px;
+    }
+    
+    .set-name {
+        font-size: 1.4rem;
+    }
+    
+    .set-price {
+        font-size: 1.6rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-section {
+        min-height: 700px;
+    }
+    
+    .brand-title {
+        font-size: 2rem;
+    }
+    
+    .brand-tagline {
+        font-size: 0.95rem;
+    }
+    
+    .section-title {
+        font-size: 1.6rem;
+    }
+    
+    .about-stats {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .stat {
+        width: 100%;
+        max-width: 250px;
+    }
+}
+
+/* Убираем дублирующийся медиазапрос */
+@media (max-width: 1100px) {
+    .hero-content {
+        flex-direction: column;
+        text-align: center;
+        justify-content: center;
+        gap: 60px;
+    }
+    
+    .brand-intro {
+        max-width: 90%;
+    }
+}

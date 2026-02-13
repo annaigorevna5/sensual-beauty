@@ -2,42 +2,43 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>Sensual | Premium Body Cosmetics</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/animations.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
 </head>
 <body>
-    <!-- Динамическая стеклянная шапка -->
+    <!-- ДИНАМИЧЕСКАЯ СТЕКЛЯННАЯ ШАПКА С БУРГЕР-МЕНЮ -->
     <header id="main-header" class="glass-header">
         <nav class="container header-nav">
-            <!-- Золотая буква S с тенью -->
+            <!-- Золотая буква S -->
             <div class="brand-logo">
                 <a href="index.html" class="gold-s" aria-label="Sensual Home">S</a>
             </div>
             
-            <!-- Основные навигационные ссылки -->
-            <ul class="nav-links">
+            <!-- ОСНОВНЫЕ НАВИГАЦИОННЫЕ ССЫЛКИ (ДЕСКТОП) -->
+            <ul class="nav-links" id="navLinks">
                 <li><a href="shop.html" class="nav-link" data-text="Shop">Shop</a></li>
                 <li><a href="company.html" class="nav-link" data-text="Company">Company</a></li>
                 <li><a href="reviews.html" class="nav-link" data-text="Reviews">Reviews</a></li>
                 <li><a href="contacts.html" class="nav-link" data-text="Contacts">Contacts</a></li>
             </ul>
             
-            <!-- Правая часть: телефон, корзина, меню -->
+            <!-- ПРАВАЯ ЧАСТЬ -->
             <div class="header-right">
                 <a href="tel:+15551234567" class="phone-link">+1 (555) 123-4567</a>
                 <a href="cart.html" class="cart-icon" aria-label="Shopping Cart">
                     <i class="fas fa-shopping-bag"></i>
                     <span class="cart-count">0</span>
                 </a>
-                <!-- Кнопка меню с выпадающими категориями -->
-                <div class="dropdown-menu">
+                
+                <!-- КНОПКА КАТЕГОРИЙ (ДЕСКТОП) -->
+                <div class="dropdown-menu desktop-only">
                     <button class="menu-toggle glass-btn" id="menu-toggle" aria-expanded="false" aria-controls="categories-dropdown">
                         <i class="fas fa-bars"></i> Categories
                     </button>
@@ -51,24 +52,61 @@
                         <li><a href="shop.html#gift-sets" class="dropdown-link">Gift Sets</a></li>
                     </ul>
                 </div>
+                
+                <!-- БУРГЕР-МЕНЮ ДЛЯ МОБИЛЬНЫХ -->
+                <button class="burger-menu" id="burgerMenu" aria-label="Menu">
+                    <span class="burger-line"></span>
+                    <span class="burger-line"></span>
+                    <span class="burger-line"></span>
+                </button>
             </div>
         </nav>
+        
+        <!-- МОБИЛЬНОЕ МЕНЮ (ВЫПАДАЮЩЕЕ) -->
+        <div class="mobile-menu" id="mobileMenu">
+            <ul class="mobile-nav-links">
+                <li><a href="shop.html" class="mobile-nav-link">Shop</a></li>
+                <li><a href="company.html" class="mobile-nav-link">Company</a></li>
+                <li><a href="reviews.html" class="mobile-nav-link">Reviews</a></li>
+                <li><a href="contacts.html" class="mobile-nav-link">Contacts</a></li>
+            </ul>
+            <div class="mobile-categories">
+                <h4 class="mobile-categories-title">Categories</h4>
+                <ul class="mobile-categories-list">
+                    <li><a href="shop.html#scrubs">Scrubs & Exfoliants</a></li>
+                    <li><a href="shop.html#creams">Body Creams & Lotions</a></li>
+                    <li><a href="shop.html#shower-gels">Shower Gels</a></li>
+                    <li><a href="shop.html#soaps">Artisan Soaps</a></li>
+                    <li><a href="shop.html#for-men">For Men</a></li>
+                    <li><a href="shop.html#for-women">For Women</a></li>
+                    <li><a href="shop.html#gift-sets">Gift Sets</a></li>
+                </ul>
+            </div>
+            <div class="mobile-contact">
+                <a href="tel:+15551234567" class="mobile-phone">+1 (555) 123-4567</a>
+            </div>
+        </div>
     </header>
 
-    <!-- Главная герой-секция с видео и стеклянными элементами поверх -->
+    <!-- ГЛАВНАЯ ГЕРОЙ-СЕКЦИЯ С ВИДЕО -->
     <main>
         <section class="hero-section">
-            <!-- Видео фон (ваше видео test.video.mp4) -->
-            <div class="video-container">
-                <video autoplay muted loop playsinline class="hero-video" id="hero-video" preload="auto">
+            <!-- Видео фон с ПОСТЕРОМ (ЗАГЛУШКОЙ) -->
+            <div class="video-container" id="videoContainer">
+                <div class="video-loading" id="videoLoading">
+                    <div class="loading-spinner"></div>
+                    <p>Loading sensory experience...</p>
+                </div>
+                <video autoplay muted loop playsinline class="hero-video" id="heroVideo" 
+                       preload="auto"
+                       poster="images/video-poster.jpg">
                     <source src="video/video.mp4" type="video/mp4">
                     Your browser does not support the video tag.
                 </video>
-                <!-- Затемнение для лучшей читаемости текста -->
                 <div class="video-overlay"></div>
             </div>
 
-            <!-- Контент поверх видео: название бренда и описание слева -->
+            <!-- Контент поверх видео -->
             <div class="hero-content container">
                 <div class="brand-intro">
                     <h1 class="brand-title animate-fade-up">Sensual</h1>
@@ -77,43 +115,45 @@
                     </p>
                 </div>
 
-                               <!-- Контейнер для циклических тултипов -->
-                <div class="tooltips-container">
-                    <!-- Тулутип 1 (активный по умолчанию) -->
-                    <aside class="product-preview glass-panel animate-slide-left tooltip active" data-tooltip="1">
-                        <h3 class="preview-title">Editor's Choice</h3>
-                        <h4 class="product-name">Silk & Saffron Body Elixir</h4>
-                        <p class="product-desc">A luxurious blend for silky, fragrant skin. 200ml</p>
-                        <div class="price">$84.00</div>
-                        <button class="add-to-cart-btn glass-btn" data-product-id="1">
-                            <i class="fas fa-shopping-bag"></i> Add to Cart
-                        </button>
-                        <a href="shop.html#creams" class="product-link">View Details</a>
-                    </aside>
-                    
-                    <!-- Тулутип 2 -->
-                    <aside class="product-preview glass-panel animate-slide-left tooltip" data-tooltip="2">
-                        <h3 class="preview-title">Best Seller</h3>
-                        <h4 class="product-name">Diamond & Pearl Exfoliant</h4>
-                        <p class="product-desc">Micro-fine diamond powder for luminous skin. 150ml</p>
-                        <div class="price">$78.00</div>
-                        <button class="add-to-cart-btn glass-btn" data-product-id="5">
-                            <i class="fas fa-shopping-bag"></i> Add to Cart
-                        </button>
-                        <a href="shop.html#scrubs" class="product-link">View Details</a>
-                    </aside>
-                    
-                    <!-- Тулутип 3 -->
-                    <aside class="product-preview glass-panel animate-slide-left tooltip" data-tooltip="3">
-                        <h3 class="preview-title">New Arrival</h3>
-                        <h4 class="product-name">Black Orchid & Oud Shower Gel</h4>
-                        <p class="product-desc">Exotic, long-lasting fragrance experience. 300ml</p>
-                        <div class="price">$58.00</div>
-                        <button class="add-to-cart-btn glass-btn" data-product-id="6">
-                            <i class="fas fa-shopping-bag"></i> Add to Cart
-                        </button>
-                        <a href="shop.html#shower-gels" class="product-link">View Details</a>
-                    </aside>
+                <!-- Контейнер для циклических тултипов -->
+                <div class="tooltips-wrapper">
+                    <div class="tooltips-container">
+                        <!-- Тултип 1 (активный по умолчанию) -->
+                        <aside class="product-preview glass-panel animate-slide-left tooltip active" data-tooltip="1">
+                            <h3 class="preview-title">Editor's Choice</h3>
+                            <h4 class="product-name">Silk & Saffron Body Elixir</h4>
+                            <p class="product-desc">A luxurious blend for silky, fragrant skin. 200ml</p>
+                            <div class="price">$84.00</div>
+                            <button class="add-to-cart-btn glass-btn" data-product-id="1">
+                                <i class="fas fa-shopping-bag"></i> Add
+                            </button>
+                            <a href="shop.html#creams" class="product-link">View Details</a>
+                        </aside>
+                        
+                        <!-- Тултип 2 -->
+                        <aside class="product-preview glass-panel animate-slide-left tooltip" data-tooltip="2">
+                            <h3 class="preview-title">Best Seller</h3>
+                            <h4 class="product-name">Diamond & Pearl Exfoliant</h4>
+                            <p class="product-desc">Micro-fine diamond powder for luminous skin. 150ml</p>
+                            <div class="price">$78.00</div>
+                            <button class="add-to-cart-btn glass-btn" data-product-id="5">
+                                <i class="fas fa-shopping-bag"></i> Add
+                            </button>
+                            <a href="shop.html#scrubs" class="product-link">View Details</a>
+                        </aside>
+                        
+                        <!-- Тултип 3 -->
+                        <aside class="product-preview glass-panel animate-slide-left tooltip" data-tooltip="3">
+                            <h3 class="preview-title">New Arrival</h3>
+                            <h4 class="product-name">Black Orchid & Oud Shower Gel</h4>
+                            <p class="product-desc">Exotic, long-lasting fragrance experience. 300ml</p>
+                            <div class="price">$58.00</div>
+                            <button class="add-to-cart-btn glass-btn" data-product-id="6">
+                                <i class="fas fa-shopping-bag"></i> Add
+                            </button>
+                            <a href="shop.html#shower-gels" class="product-link">View Details</a>
+                        </aside>
+                    </div>
                     
                     <!-- Индикаторы тултипов -->
                     <div class="tooltip-indicators">
@@ -122,9 +162,10 @@
                         <button class="tooltip-indicator" data-tooltip="3"></button>
                     </div>
                 </div>
+            </div>
         </section>
 
-        <!-- Секция "О бренде" (будет видна при скролле) -->
+        <!-- Секция "О бренде" -->
         <section class="about-section container">
             <h2 class="section-title">The Sensual Philosophy</h2>
             <div class="about-content">
@@ -148,14 +189,12 @@
             </div>
         </section>
 
-        <!-- Секция "Наборы" с фотографиями и ценниками -->
+        <!-- Секция "Наборы" -->
         <section class="sets-section container">
             <h2 class="section-title">Curated Gift Sets</h2>
             <div class="sets-grid">
-                <!-- Набор 1 -->
                 <article class="set-card glass-panel animate-card">
                     <div class="set-image">
-                        <!-- ВАЖНО: Замените src на ваше изображение -->
                         <img src="images/1 Shop  Sensual Awakening Gift Set.jpeg" alt="Sensual Awakening Gift Set" loading="lazy">
                     </div>
                     <div class="set-info">
@@ -167,10 +206,8 @@
                         </button>
                     </div>
                 </article>
-                <!-- Набор 2 -->
                 <article class="set-card glass-panel animate-card">
                     <div class="set-image">
-                        <!-- ВАЖНО: Замените src на ваше изображение -->
                         <img src="images/10 Shop Men Resilience Kit.jpeg" alt="Men Resilience Kit" loading="lazy">
                     </div>
                     <div class="set-info">
@@ -182,10 +219,8 @@
                         </button>
                     </div>
                 </article>
-                <!-- Набор 3 -->
                 <article class="set-card glass-panel animate-card">
                     <div class="set-image">
-                        <!-- ВАЖНО: Замените src на ваше изображение -->
                         <img src="images/13 Shop Nightfall Relaxation Bundle.jpeg" alt="Nightfall Relaxation Bundle" loading="lazy">
                     </div>
                     <div class="set-info">
@@ -205,9 +240,9 @@
     <footer class="main-footer">
         <div class="container footer-content">
             <div class="footer-brand">
-              <div class="brand-logo">
-                <a href="index.html" class="gold-s" aria-label="Sensual Home">S</a>
-            </div>  
+                <div class="brand-logo">
+                    <a href="index.html" class="gold-s" aria-label="Sensual Home">S</a>
+                </div>  
                 <p class="footer-tagline">Elevating your daily ritual.</p>
             </div>
             <div class="footer-links">
@@ -259,5 +294,142 @@
     <!-- Подключение JavaScript -->
     <script src="js/main.js"></script>
     <script src="js/cart.js"></script>
+    
+    <script>
+        // Текущий год в футере
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+        
+        // ========== ВИДЕО: УБИРАЕМ ИНДИКАТОР ЗАГРУЗКИ ==========
+        const heroVideo = document.getElementById('heroVideo');
+        const videoContainer = document.getElementById('videoContainer');
+        const videoLoading = document.getElementById('videoLoading');
+        
+        if (heroVideo) {
+            // Если видео уже загружено
+            if (heroVideo.readyState >= 3) {
+                videoContainer.classList.add('video-loaded');
+            }
+            
+            // Когда видео готово к воспроизведению
+            heroVideo.addEventListener('canplay', function() {
+                videoContainer.classList.add('video-loaded');
+            });
+            
+            // Если видео уже играет
+            heroVideo.addEventListener('playing', function() {
+                videoContainer.classList.add('video-loaded');
+            });
+            
+            // Если ошибка загрузки — скрываем индикатор всё равно
+            heroVideo.addEventListener('error', function() {
+                videoContainer.classList.add('video-loaded');
+                console.log('Видео не загрузилось, но индикатор скрыт');
+            });
+        }
+        
+        // ========== БУРГЕР-МЕНЮ ==========
+        const burgerMenu = document.getElementById('burgerMenu');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const navLinks = document.getElementById('navLinks');
+        
+        if (burgerMenu && mobileMenu) {
+            burgerMenu.addEventListener('click', function() {
+                this.classList.toggle('active');
+                mobileMenu.classList.toggle('active');
+                document.body.classList.toggle('menu-open');
+            });
+            
+            // Закрыть меню при клике на ссылку
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    burgerMenu.classList.remove('active');
+                    mobileMenu.classList.remove('active');
+                    document.body.classList.remove('menu-open');
+                });
+            });
+        }
+        
+        // ========== ЦИКЛИЧЕСКИЕ ТУЛТИПЫ ==========
+        const tooltips = document.querySelectorAll('.tooltip');
+        const indicators = document.querySelectorAll('.tooltip-indicator');
+        let currentTooltip = 1;
+        let tooltipInterval;
+        
+        function showTooltip(index) {
+            // Скрыть все тултипы
+            tooltips.forEach(t => {
+                t.classList.remove('active');
+                t.classList.remove('fade-in');
+                t.classList.add('fade-out');
+            });
+            
+            // Убрать активные индикаторы
+            indicators.forEach(i => i.classList.remove('active'));
+            
+            // Показать нужный тултип
+            const activeTooltip = document.querySelector(`.tooltip[data-tooltip="${index}"]`);
+            if (activeTooltip) {
+                activeTooltip.classList.add('active');
+                activeTooltip.classList.remove('fade-out');
+                activeTooltip.classList.add('fade-in');
+            }
+            
+            // Активировать индикатор
+            const activeIndicator = document.querySelector(`.tooltip-indicator[data-tooltip="${index}"]`);
+            if (activeIndicator) {
+                activeIndicator.classList.add('active');
+            }
+            
+            currentTooltip = index;
+        }
+        
+        function nextTooltip() {
+            let next = currentTooltip + 1;
+            if (next > tooltips.length) {
+                next = 1;
+            }
+            showTooltip(next);
+        }
+        
+        // Запустить цикл
+        if (tooltips.length > 0) {
+            tooltipInterval = setInterval(nextTooltip, 5000);
+            
+            // Клик по индикаторам
+            indicators.forEach(indicator => {
+                indicator.addEventListener('click', function() {
+                    const index = parseInt(this.dataset.tooltip);
+                    showTooltip(index);
+                    
+                    // Сбросить интервал
+                    clearInterval(tooltipInterval);
+                    tooltipInterval = setInterval(nextTooltip, 5000);
+                });
+            });
+        }
+        
+        // ========== СКРОЛЛ ШАПКИ ==========
+        const header = document.getElementById('main-header');
+        let lastScroll = 0;
+        
+        window.addEventListener('scroll', function() {
+            const currentScroll = window.pageYOffset;
+            
+            if (currentScroll > 100) {
+                header.classList.add('header-scrolled');
+            } else {
+                header.classList.remove('header-scrolled');
+            }
+            
+            if (currentScroll > lastScroll && currentScroll > 300) {
+                header.classList.add('header-hidden');
+            } else {
+                header.classList.remove('header-hidden');
+            }
+            
+            lastScroll = currentScroll;
+        });
+    </script>
 </body>
 </html>
