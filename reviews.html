@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Reviews | Sensual - Premium Body Cosmetics</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/animations.css">
@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
     <style>
-        /* CSS переменные для формы */
         :root {
             --color-primary: #0a2322;
             --color-primary-dark: #0a5c5a;
@@ -22,7 +21,10 @@
             --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
         
-        /* Стили для формы отзыва */
+        .tooltip-indicators {
+            display: none !important;
+        }
+        
         .review-modal {
             position: fixed;
             top: 0;
@@ -99,7 +101,6 @@
             font-size: 1rem;
         }
         
-        /* Стили для всех полей ввода */
         .glass-input {
             width: 100%;
             padding: 14px 20px;
@@ -132,7 +133,6 @@
             line-height: 1.5;
         }
         
-        /* Специальные стили для select */
         select.glass-input {
             appearance: none;
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23d4af37' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
@@ -143,7 +143,6 @@
             cursor: pointer;
         }
         
-        /* Стили для опций select (только для Firefox) */
         select.glass-input option {
             background: rgba(10, 35, 34, 0.95);
             color: var(--text-light);
@@ -179,7 +178,6 @@
             color: rgba(212, 175, 55, 0.3);
         }
         
-        /* Стили для кнопки отправки */
         .review-modal .glass-btn {
             background: rgba(212, 175, 55, 0.2);
             border: 1px solid rgba(212, 175, 55, 0.3);
@@ -205,7 +203,6 @@
             box-shadow: 0 10px 25px rgba(212, 175, 55, 0.15);
         }
         
-        /* Анимации */
         @keyframes fadeInScale {
             from {
                 opacity: 0;
@@ -222,7 +219,6 @@
             to { opacity: 1; }
         }
         
-        /* Адаптивность */
         @media (max-width: 768px) {
             .review-modal-content {
                 padding: 30px 20px;
@@ -277,7 +273,6 @@
             }
         }
         
-        /* Улучшения для мобильных устройств */
         @media (max-height: 700px) {
             .review-modal-content {
                 max-height: 85vh;
@@ -286,31 +281,29 @@
     </style>
 </head>
 <body>
-    <!-- Динамическая стеклянная шапка -->
+    <!-- ДИНАМИЧЕСКАЯ СТЕКЛЯННАЯ ШАПКА -->
     <header id="main-header" class="glass-header">
         <nav class="container header-nav">
-            <!-- Золотая буква S с тенью -->
             <div class="brand-logo">
                 <a href="index.html" class="gold-s" aria-label="Sensual Home">S</a>
             </div>
             
-            <!-- Основные навигационные ссылки -->
-            <ul class="nav-links">
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html" class="nav-link" data-text="Home">Home</a></li>
                 <li><a href="shop.html" class="nav-link" data-text="Shop">Shop</a></li>
                 <li><a href="company.html" class="nav-link" data-text="Company">Company</a></li>
                 <li><a href="reviews.html" class="nav-link active" data-text="Reviews">Reviews</a></li>
                 <li><a href="contacts.html" class="nav-link" data-text="Contacts">Contacts</a></li>
             </ul>
             
-            <!-- Правая часть: телефон, корзина, меню -->
             <div class="header-right">
                 <a href="tel:+15551234567" class="phone-link">+1 (555) 123-4567</a>
                 <a href="cart.html" class="cart-icon" aria-label="Shopping Cart">
                     <i class="fas fa-shopping-bag"></i>
                     <span class="cart-count">0</span>
                 </a>
-                <!-- Кнопка меню с выпадающими категориями -->
-                <div class="dropdown-menu">
+                
+                <div class="dropdown-menu desktop-only">
                     <button class="menu-toggle glass-btn" id="menu-toggle" aria-expanded="false" aria-controls="categories-dropdown">
                         <i class="fas fa-bars"></i> Categories
                     </button>
@@ -324,13 +317,58 @@
                         <li><a href="shop.html#gift-sets" class="dropdown-link">Gift Sets</a></li>
                     </ul>
                 </div>
+                
+                <button class="burger-menu" id="burgerMenu" aria-label="Menu">
+                    <span class="burger-line"></span>
+                    <span class="burger-line"></span>
+                    <span class="burger-line"></span>
+                </button>
             </div>
         </nav>
+        
+        <div class="mobile-menu" id="mobileMenu">
+            <div class="mobile-menu-header">
+                <div class="brand-logo">
+                    <a href="index.html" class="gold-s" aria-label="Sensual Home">S</a>
+                </div>
+                <button class="close-mobile-menu" id="closeMobileMenu">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <ul class="mobile-nav-links">
+                <li><a href="index.html" class="mobile-nav-link">Home</a></li>
+                <li><a href="shop.html" class="mobile-nav-link">Shop</a></li>
+                <li><a href="company.html" class="mobile-nav-link">Company</a></li>
+                <li><a href="reviews.html" class="mobile-nav-link active">Reviews</a></li>
+                <li><a href="contacts.html" class="mobile-nav-link">Contacts</a></li>
+            </ul>
+            <div class="mobile-categories">
+                <h4 class="mobile-categories-title">Categories</h4>
+                <ul class="mobile-categories-list">
+                    <li><a href="shop.html#scrubs">Scrubs & Exfoliants</a></li>
+                    <li><a href="shop.html#creams">Body Creams & Lotions</a></li>
+                    <li><a href="shop.html#shower-gels">Shower Gels</a></li>
+                    <li><a href="shop.html#soaps">Artisan Soaps</a></li>
+                    <li><a href="shop.html#for-men">For Men</a></li>
+                    <li><a href="shop.html#for-women">For Women</a></li>
+                    <li><a href="shop.html#gift-sets">Gift Sets</a></li>
+                </ul>
+            </div>
+            <div class="mobile-contact">
+                <a href="tel:+15551234567" class="mobile-phone">
+                    <i class="fas fa-phone-alt"></i> +1 (555) 123-4567
+                </a>
+                <div class="mobile-social">
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+                </div>
+            </div>
+        </div>
     </header>
 
     <!-- Main Reviews Content -->
     <main class="reviews-page">
-        <!-- Hero Section -->
         <section class="reviews-hero">
             <div class="container">
                 <div class="reviews-hero-content">
@@ -353,7 +391,6 @@
             </div>
         </section>
 
-        <!-- Reviews Grid -->
         <section class="reviews-section container">
             <div class="reviews-filter">
                 <div class="filter-options">
@@ -368,7 +405,6 @@
             </div>
 
             <div class="reviews-grid">
-                <!-- Review 1 -->
                 <div class="review-card glass-panel scroll-animate" data-rating="5">
                     <div class="review-header">
                         <div class="reviewer-info">
@@ -406,7 +442,6 @@
                     </div>
                 </div>
 
-                <!-- Review 2 -->
                 <div class="review-card glass-panel scroll-animate" data-rating="5">
                     <div class="review-header">
                         <div class="reviewer-info">
@@ -444,7 +479,6 @@
                     </div>
                 </div>
 
-                <!-- Review 3 -->
                 <div class="review-card glass-panel scroll-animate" data-rating="5">
                     <div class="review-header">
                         <div class="reviewer-info">
@@ -482,7 +516,6 @@
                     </div>
                 </div>
 
-                <!-- Review 4 -->
                 <div class="review-card glass-panel scroll-animate" data-rating="4">
                     <div class="review-header">
                         <div class="reviewer-info">
@@ -520,7 +553,6 @@
                     </div>
                 </div>
 
-                <!-- Review 5 -->
                 <div class="review-card glass-panel scroll-animate" data-rating="5">
                     <div class="review-header">
                         <div class="reviewer-info">
@@ -558,7 +590,6 @@
                     </div>
                 </div>
 
-                <!-- Review 6 -->
                 <div class="review-card glass-panel scroll-animate" data-rating="5">
                     <div class="review-header">
                         <div class="reviewer-info">
@@ -609,9 +640,9 @@
     <footer class="main-footer">
         <div class="container footer-content">
             <div class="footer-brand">
-               <div class="brand-logo">
-                <a href="index.html" class="gold-s" aria-label="Sensual Home">S</a>
-            </div>              
+                <div class="brand-logo">
+                    <a href="index.html" class="gold-s" aria-label="Sensual Home">S</a>
+                </div>              
                 <p class="footer-tagline">Elevating your daily ritual.</p>
             </div>
             <div class="footer-links">
@@ -709,25 +740,91 @@
         </div>
     </div>
 
-    <!-- Подключение JavaScript -->
     <script src="js/main.js"></script>
     <script src="js/cart.js"></script>
+    
     <script>
-        // Reviews page specific JavaScript
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('current-year').textContent = new Date().getFullYear();
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+        
+        // ========== БУРГЕР-МЕНЮ ==========
+        const burgerMenu = document.getElementById('burgerMenu');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const closeMobileMenu = document.getElementById('closeMobileMenu');
+        
+        function saveMenuState(isOpen) {
+            sessionStorage.setItem('mobileMenuOpen', isOpen ? 'true' : 'false');
+        }
+        
+        function openMobileMenu() {
+            mobileMenu.classList.add('active');
+            burgerMenu.classList.add('active');
+            document.body.classList.add('menu-open');
+            saveMenuState(true);
+        }
+        
+        function closeMobileMenuFunc() {
+            mobileMenu.classList.remove('active');
+            burgerMenu.classList.remove('active');
+            document.body.classList.remove('menu-open');
+            saveMenuState(false);
+        }
+        
+        if (burgerMenu && mobileMenu) {
+            burgerMenu.addEventListener('click', openMobileMenu);
             
-            // Review filtering
+            if (closeMobileMenu) {
+                closeMobileMenu.addEventListener('click', closeMobileMenuFunc);
+            }
+            
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    mobileNavLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            window.addEventListener('click', function(e) {
+                if (mobileMenu.classList.contains('active')) {
+                    if (!mobileMenu.contains(e.target) && !burgerMenu.contains(e.target)) {
+                        closeMobileMenuFunc();
+                    }
+                }
+            });
+            
+            window.addEventListener('pageshow', function() {
+                if (sessionStorage.getItem('mobileMenuOpen') === 'true') {
+                    openMobileMenu();
+                }
+                setActiveNavLink();
+            });
+        }
+        
+        function setActiveNavLink() {
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                const href = link.getAttribute('href');
+                if (href === currentPage) {
+                    link.classList.add('active');
+                }
+            });
+        }
+        
+        setActiveNavLink();
+        
+        // ========== REVIEWS PAGE SPECIFIC JAVASCRIPT ==========
+        document.addEventListener('DOMContentLoaded', function() {
             const filterBtns = document.querySelectorAll('.filter-btn');
             const reviewCards = document.querySelectorAll('.review-card');
             
             filterBtns.forEach(btn => {
                 btn.addEventListener('click', function() {
-                    // Update active button
                     filterBtns.forEach(b => b.classList.remove('active'));
                     this.classList.add('active');
                     
-                    // Filter reviews
                     const filterValue = this.dataset.filter;
                     
                     reviewCards.forEach(card => {
@@ -741,7 +838,6 @@
                 });
             });
             
-            // Review modal
             const writeReviewBtn = document.querySelector('.write-review-btn');
             const reviewModal = document.getElementById('review-modal');
             const closeModalBtn = document.querySelector('.close-review-modal');
@@ -764,7 +860,6 @@
                     }
                 });
                 
-                // Close modal with Escape key
                 document.addEventListener('keydown', function(e) {
                     if (e.key === 'Escape' && reviewModal.style.display === 'flex') {
                         reviewModal.style.display = 'none';
@@ -773,13 +868,11 @@
                 });
             }
             
-            // Star rating input
             const starIcons = document.querySelectorAll('.rating-input i');
             starIcons.forEach(star => {
                 star.addEventListener('click', function() {
                     const rating = parseInt(this.dataset.rating);
                     
-                    // Update stars
                     starIcons.forEach((s, index) => {
                         if (index < rating) {
                             s.classList.remove('far');
@@ -806,18 +899,15 @@
                 });
             });
             
-            // Review form submission
             const reviewForm = document.getElementById('review-form');
             if (reviewForm) {
                 reviewForm.addEventListener('submit', function(e) {
                     e.preventDefault();
                     
-                    // Get form values
                     const product = this.querySelector('select').value;
                     const title = this.querySelector('input[type="text"]').value;
                     const reviewText = this.querySelector('textarea').value;
                     
-                    // Get selected rating
                     let selectedRating = 0;
                     starIcons.forEach((star, index) => {
                         if (star.classList.contains('fas')) {
@@ -825,7 +915,6 @@
                         }
                     });
                     
-                    // Validate form
                     if (selectedRating === 0) {
                         alert('Please select a rating');
                         return;
@@ -836,16 +925,12 @@
                         return;
                     }
                     
-                    // In a real application, you would send this data to a server
-                    // For demo purposes, we'll just show a success message
                     alert('Thank you for your review! It has been submitted for moderation.');
                     
-                    // Reset form and close modal
                     this.reset();
                     reviewModal.style.display = 'none';
                     document.body.style.overflow = 'auto';
                     
-                    // Reset stars
                     starIcons.forEach(star => {
                         star.classList.remove('fas');
                         star.classList.add('far');
@@ -853,7 +938,6 @@
                 });
             }
             
-            // Scroll animations
             const animatedElements = document.querySelectorAll('.scroll-animate');
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {

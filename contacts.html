@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Contact Us | Sensual - Premium Body Cosmetics</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/animations.css">
@@ -11,10 +11,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
-    <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <style>
-        /* Все ваши существующие стили остаются БЕЗ ИЗМЕНЕНИЙ */
+        .tooltip-indicators {
+            display: none !important;
+        }
+
         .input-wrapper, .textarea-wrapper, .select-wrapper {
             position: relative;
             margin-bottom: 25px;
@@ -247,7 +249,6 @@
             line-height: 1.6;
         }
         
-        /* FAQ Accordion Styles */
         .faq-item {
             margin-bottom: 15px;
             transition: var(--transition-smooth);
@@ -416,7 +417,6 @@
             }
         }
 
-        /* ===== КАРТА ===== */
         .map-container {
             width: 100%;
             height: 450px;
@@ -431,10 +431,9 @@
             width: 100%;
             height: 100%;
             z-index: 1;
-            background: #e5e3df; /* цвет фона пока грузится */
+            background: #e5e3df;
         }
         
-        /* Стили для тултипа */
         .leaflet-popup-content-wrapper {
             background: rgba(10, 20, 30, 0.95);
             backdrop-filter: blur(10px);
@@ -487,12 +486,10 @@
             font-weight: 500;
         }
         
-        /* Убираем атрибуцию полностью */
         .leaflet-control-attribution {
             display: none !important;
         }
         
-        /* Кастомная золотая метка */
         .custom-marker {
             background: transparent;
             border: none;
@@ -501,17 +498,29 @@
         .custom-marker i {
             filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.6));
         }
+        
+        select.glass-select::-ms-expand { display: none; }
+        select.glass-select {
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        select.glass-select:-moz-focusring {
+            color: transparent;
+            text-shadow: 0 0 0 var(--text-light);
+        }
     </style>
 </head>
 <body>
-    <!-- Динамическая стеклянная шапка -->
+    <!-- ДИНАМИЧЕСКАЯ СТЕКЛЯННАЯ ШАПКА -->
     <header id="main-header" class="glass-header">
         <nav class="container header-nav">
             <div class="brand-logo">
                 <a href="index.html" class="gold-s" aria-label="Sensual Home">S</a>
             </div>
             
-            <ul class="nav-links">
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html" class="nav-link" data-text="Home">Home</a></li>
                 <li><a href="shop.html" class="nav-link" data-text="Shop">Shop</a></li>
                 <li><a href="company.html" class="nav-link" data-text="Company">Company</a></li>
                 <li><a href="reviews.html" class="nav-link" data-text="Reviews">Reviews</a></li>
@@ -524,7 +533,8 @@
                     <i class="fas fa-shopping-bag"></i>
                     <span class="cart-count">0</span>
                 </a>
-                <div class="dropdown-menu">
+                
+                <div class="dropdown-menu desktop-only">
                     <button class="menu-toggle glass-btn" id="menu-toggle" aria-expanded="false" aria-controls="categories-dropdown">
                         <i class="fas fa-bars"></i> Categories
                     </button>
@@ -538,13 +548,58 @@
                         <li><a href="shop.html#gift-sets" class="dropdown-link">Gift Sets</a></li>
                     </ul>
                 </div>
+                
+                <button class="burger-menu" id="burgerMenu" aria-label="Menu">
+                    <span class="burger-line"></span>
+                    <span class="burger-line"></span>
+                    <span class="burger-line"></span>
+                </button>
             </div>
         </nav>
+        
+        <div class="mobile-menu" id="mobileMenu">
+            <div class="mobile-menu-header">
+                <div class="brand-logo">
+                    <a href="index.html" class="gold-s" aria-label="Sensual Home">S</a>
+                </div>
+                <button class="close-mobile-menu" id="closeMobileMenu">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <ul class="mobile-nav-links">
+                <li><a href="index.html" class="mobile-nav-link">Home</a></li>
+                <li><a href="shop.html" class="mobile-nav-link">Shop</a></li>
+                <li><a href="company.html" class="mobile-nav-link">Company</a></li>
+                <li><a href="reviews.html" class="mobile-nav-link">Reviews</a></li>
+                <li><a href="contacts.html" class="mobile-nav-link active">Contacts</a></li>
+            </ul>
+            <div class="mobile-categories">
+                <h4 class="mobile-categories-title">Categories</h4>
+                <ul class="mobile-categories-list">
+                    <li><a href="shop.html#scrubs">Scrubs & Exfoliants</a></li>
+                    <li><a href="shop.html#creams">Body Creams & Lotions</a></li>
+                    <li><a href="shop.html#shower-gels">Shower Gels</a></li>
+                    <li><a href="shop.html#soaps">Artisan Soaps</a></li>
+                    <li><a href="shop.html#for-men">For Men</a></li>
+                    <li><a href="shop.html#for-women">For Women</a></li>
+                    <li><a href="shop.html#gift-sets">Gift Sets</a></li>
+                </ul>
+            </div>
+            <div class="mobile-contact">
+                <a href="tel:+15551234567" class="mobile-phone">
+                    <i class="fas fa-phone-alt"></i> +1 (555) 123-4567
+                </a>
+                <div class="mobile-social">
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+                </div>
+            </div>
+        </div>
     </header>
 
     <!-- Main Contacts Content -->
     <main class="contacts-page">
-        <!-- Hero Section -->
         <section class="contacts-hero">
             <div class="container">
                 <div class="contacts-hero-content">
@@ -556,10 +611,8 @@
             </div>
         </section>
 
-        <!-- Contact Grid -->
         <section class="contact-section container">
             <div class="contact-grid">
-                <!-- Contact Information -->
                 <div class="contact-info scroll-animate">
                     <div class="info-card glass-panel">
                         <div class="info-icon">
@@ -603,7 +656,6 @@
                     </div>
                 </div>
 
-                <!-- Contact Form -->
                 <div class="contact-form-container scroll-animate" style="height: 100%;">
                     <div class="contact-form glass-panel" style="height: 100%; display: flex; flex-direction: column;">
                         <h2>Send us a Message</h2>
@@ -675,7 +727,6 @@
             </div>
         </section>
 
-        <!-- FAQ Section -->
         <section class="faq-section container">
             <h2 class="section-title">Frequently Asked Questions</h2>
             <div class="faq-grid">
@@ -721,7 +772,6 @@
             </div>
         </section>
 
-        <!-- MAP SECTION -->
         <section class="map-section">
             <div class="container">
                 <div class="map-container glass-panel">
@@ -736,8 +786,8 @@
         <div class="container footer-content">
             <div class="footer-brand">
                 <div class="brand-logo">
-                <a href="index.html" class="gold-s" aria-label="Sensual Home">S</a>
-            </div>               
+                    <a href="index.html" class="gold-s" aria-label="Sensual Home">S</a>
+                </div>               
                 <p class="footer-tagline">Elevating your daily ritual.</p>
             </div>
             <div class="footer-links">
@@ -786,14 +836,84 @@
         </div>
     </footer>
 
-    <!-- Скрипты -->
     <script src="js/main.js"></script>
     <script src="js/cart.js"></script>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('current-year').textContent = new Date().getFullYear();
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+        
+        // ========== БУРГЕР-МЕНЮ ==========
+        const burgerMenu = document.getElementById('burgerMenu');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const closeMobileMenu = document.getElementById('closeMobileMenu');
+        
+        function saveMenuState(isOpen) {
+            sessionStorage.setItem('mobileMenuOpen', isOpen ? 'true' : 'false');
+        }
+        
+        function openMobileMenu() {
+            mobileMenu.classList.add('active');
+            burgerMenu.classList.add('active');
+            document.body.classList.add('menu-open');
+            saveMenuState(true);
+        }
+        
+        function closeMobileMenuFunc() {
+            mobileMenu.classList.remove('active');
+            burgerMenu.classList.remove('active');
+            document.body.classList.remove('menu-open');
+            saveMenuState(false);
+        }
+        
+        if (burgerMenu && mobileMenu) {
+            burgerMenu.addEventListener('click', openMobileMenu);
             
+            if (closeMobileMenu) {
+                closeMobileMenu.addEventListener('click', closeMobileMenuFunc);
+            }
+            
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    mobileNavLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            window.addEventListener('click', function(e) {
+                if (mobileMenu.classList.contains('active')) {
+                    if (!mobileMenu.contains(e.target) && !burgerMenu.contains(e.target)) {
+                        closeMobileMenuFunc();
+                    }
+                }
+            });
+            
+            window.addEventListener('pageshow', function() {
+                if (sessionStorage.getItem('mobileMenuOpen') === 'true') {
+                    openMobileMenu();
+                }
+                setActiveNavLink();
+            });
+        }
+        
+        function setActiveNavLink() {
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                const href = link.getAttribute('href');
+                if (href === currentPage) {
+                    link.classList.add('active');
+                }
+            });
+        }
+        
+        setActiveNavLink();
+        
+        // ========== CONTACTS PAGE SPECIFIC JAVASCRIPT ==========
+        document.addEventListener('DOMContentLoaded', function() {
             // FAQ Accordion
             const faqQuestions = document.querySelectorAll('.faq-question');
             faqQuestions.forEach(question => {
@@ -875,22 +995,18 @@
             animatedElements.forEach(el => observer.observe(el));
             
             // ============ КАРТА ============
-            // Координаты Beverly Hills
             const storeLat = 34.0739;
             const storeLng = -118.3999;
             
-            // Инициализация карты - СВЕТЛАЯ ТЕМА
             const map = L.map('store-map', {
-                attributionControl: false // Полностью убираем атрибуцию
+                attributionControl: false
             }).setView([storeLat, storeLng], 16);
             
-            // Стандартные тайлы OpenStreetMap - светлые, с улицами и названиями
             L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19,
                 detectRetina: true
             }).addTo(map);
             
-            // Кастомная золотая метка
             const goldIcon = L.divIcon({
                 html: '<i class="fas fa-map-marker-alt" style="color: #D4AF37; font-size: 36px; text-shadow: 0 0 15px rgba(0,0,0,0.5);"></i>',
                 className: 'custom-marker',
@@ -899,10 +1015,8 @@
                 popupAnchor: [0, -36]
             });
             
-            // Маркер
             const marker = L.marker([storeLat, storeLng], { icon: goldIcon }).addTo(map);
             
-            // Тултип с адресом и часами работы
             const popupContent = `
                 <div>
                     <div class="popup-title">✨ Sensual Studio</div>
@@ -922,23 +1036,10 @@
             
             marker.bindPopup(popupContent).openPopup();
             
-            // Корректировка размера карты
             setTimeout(() => {
                 map.invalidateSize();
             }, 200);
         });
     </script>
-    <style>
-        select.glass-select::-ms-expand { display: none; }
-        select.glass-select {
-            -moz-appearance: none;
-            -webkit-appearance: none;
-            appearance: none;
-        }
-        select.glass-select:-moz-focusring {
-            color: transparent;
-            text-shadow: 0 0 0 var(--text-light);
-        }
-    </style>
 </body>
 </html>

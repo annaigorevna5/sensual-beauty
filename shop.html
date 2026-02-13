@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Shop | Sensual - Premium Body Cosmetics</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/animations.css">
@@ -11,7 +11,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
-    <!-- Добавляем стили для магазина -->
     <style>
         /* Shop-specific animations */
         @keyframes fadeIn {
@@ -66,6 +65,10 @@
                 opacity: 0;
                 transform: translateX(100px);
             }
+        }
+        
+        .tooltip-indicators {
+            display: none !important;
         }
         
         /* Shop page styles */
@@ -334,7 +337,6 @@
             margin-top: 10px;
         }
         
-               /* УЛУЧШЕННЫЙ СТИЛЬ ДЛЯ ПОЛЗУНКА (Range Input) */
         .glass-slider {
             width: 100%;
             height: 8px;
@@ -348,7 +350,6 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        /* Стиль для трека ползунка */
         .glass-slider::-webkit-slider-track {
             width: 100%;
             height: 8px;
@@ -365,7 +366,6 @@
             border-radius: 10px;
         }
         
-        /* УЛУЧШЕННЫЙ СТИЛЬ ДЛЯ ПОЛЗУНКА (Thumb) */
         .glass-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             width: 28px;
@@ -380,7 +380,6 @@
             border: 2px solid rgba(255, 255, 255, 0.9);
             transition: var(--transition-smooth);
             margin-top: -10px;
-            position: relative;
         }
         
         .glass-slider::-moz-range-thumb {
@@ -415,16 +414,6 @@
             background: var(--color-gold-light);
         }
         
-        .glass-slider::-webkit-slider-thumb:active {
-            transform: scale(1.4);
-            box-shadow: 
-                0 0 0 4px rgba(10, 35, 34, 1),
-                0 0 25px rgba(212, 175, 55, 1.2),
-                0 0 40px rgba(212, 175, 55, 0.8);
-            background: var(--color-gold-light);
-        }
-        
-        /* Индикатор значения на ползунке */
         .glass-slider-container {
             position: relative;
             margin-top: 15px;
@@ -433,7 +422,7 @@
         .slider-value {
             position: absolute;
             top: -35px;
-            left: var(--slider-pos, 50%);
+            left: 50%;
             transform: translateX(-50%);
             background: rgba(10, 35, 34, 0.9);
             color: var(--color-gold);
@@ -464,12 +453,11 @@
             padding: 0 5px;
         }
         
-        /* УЛУЧШЕННЫЙ СТИЛЬ ДЛЯ КНОПКИ LOAD MORE */
         .load-more-container {
             display: none;
             text-align: center;
-            margin: 60px auto 40px; /* УВЕЛИЧЕННЫЙ ОТСТУП */
-            padding: 40px 0; /* ДОБАВЛЕН ПАДДИНГ */
+            margin: 60px auto 40px;
+            padding: 40px 0;
         }
         
         #load-more {
@@ -502,7 +490,6 @@
             transform: rotate(90deg);
         }
         
-        /* Анимация загрузки для кнопки Load More */
         @keyframes pulseLoadMore {
             0%, 100% {
                 box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4);
@@ -516,9 +503,8 @@
             animation: pulseLoadMore 0.4s ease;
         }
         
-        /* Контейнер для продуктов с дополнительным отступом */
         .products-section {
-            padding: 60px 0 120px; /* УВЕЛИЧЕННЫЙ ОТСТУП СНИЗУ */
+            padding: 60px 0 120px;
         }
         
         .tag-filters {
@@ -576,10 +562,6 @@
         .filter-actions .glass-btn {
             flex-grow: 1;
             padding: 14px;
-        }
-        
-        .products-section {
-            padding: 60px 0 100px;
         }
         
         .category-nav {
@@ -731,7 +713,6 @@
             transform: rotate(90deg);
         }
         
-        /* Toast notifications */
         .shop-toast {
             position: fixed;
             bottom: 30px;
@@ -793,54 +774,112 @@
                 right: -100%;
             }
         }
+        
+        select.glass-select::-ms-expand { display: none; }
+        select.glass-select {
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        select.glass-select:-moz-focusring {
+            color: transparent;
+            text-shadow: 0 0 0 var(--text-light);
+        }
+        
+        .tooltip-indicators {
+            display: none !important;
+        }
     </style>
 </head>
 <body>
-    <!-- Динамическая стеклянная шапка -->
+    <!-- ДИНАМИЧЕСКАЯ СТЕКЛЯННАЯ ШАПКА -->
     <header id="main-header" class="glass-header">
         <nav class="container header-nav">
-            <!-- Золотая буква S с тенью -->
             <div class="brand-logo">
                 <a href="index.html" class="gold-s" aria-label="Sensual Home">S</a>
             </div>
             
-            <!-- Основные навигационные ссылки -->
-            <ul class="nav-links">
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html" class="nav-link" data-text="Home">Home</a></li>
                 <li><a href="shop.html" class="nav-link active" data-text="Shop">Shop</a></li>
                 <li><a href="company.html" class="nav-link" data-text="Company">Company</a></li>
                 <li><a href="reviews.html" class="nav-link" data-text="Reviews">Reviews</a></li>
                 <li><a href="contacts.html" class="nav-link" data-text="Contacts">Contacts</a></li>
             </ul>
             
-            <!-- Правая часть: телефон, корзина, меню -->
             <div class="header-right">
                 <a href="tel:+15551234567" class="phone-link">+1 (555) 123-4567</a>
                 <a href="cart.html" class="cart-icon" aria-label="Shopping Cart">
                     <i class="fas fa-shopping-bag"></i>
                     <span class="cart-count">0</span>
                 </a>
-                <!-- Кнопка меню с выпадающими категориями -->
-                <div class="dropdown-menu">
+                
+                <div class="dropdown-menu desktop-only">
                     <button class="menu-toggle glass-btn" id="menu-toggle" aria-expanded="false" aria-controls="categories-dropdown">
                         <i class="fas fa-bars"></i> Categories
                     </button>
                     <ul class="dropdown-content glass-panel" id="categories-dropdown">
-                        <li><a href="#scrubs" class="dropdown-link filter-category" data-category="scrubs">Scrubs & Exfoliants</a></li>
-                        <li><a href="#creams" class="dropdown-link filter-category" data-category="creams">Body Creams & Lotions</a></li>
-                        <li><a href="#shower-gels" class="dropdown-link filter-category" data-category="shower-gels">Shower Gels</a></li>
-                        <li><a href="#soaps" class="dropdown-link filter-category" data-category="soaps">Artisan Soaps</a></li>
-                        <li><a href="#for-men" class="dropdown-link filter-category" data-category="for-men">For Men</a></li>
-                        <li><a href="#for-women" class="dropdown-link filter-category" data-category="for-women">For Women</a></li>
-                        <li><a href="#gift-sets" class="dropdown-link filter-category" data-category="gift-sets">Gift Sets</a></li>
+                        <li><a href="shop.html#scrubs" class="dropdown-link">Scrubs & Exfoliants</a></li>
+                        <li><a href="shop.html#creams" class="dropdown-link">Body Creams & Lotions</a></li>
+                        <li><a href="shop.html#shower-gels" class="dropdown-link">Shower Gels</a></li>
+                        <li><a href="shop.html#soaps" class="dropdown-link">Artisan Soaps</a></li>
+                        <li><a href="shop.html#for-men" class="dropdown-link">For Men</a></li>
+                        <li><a href="shop.html#for-women" class="dropdown-link">For Women</a></li>
+                        <li><a href="shop.html#gift-sets" class="dropdown-link">Gift Sets</a></li>
                     </ul>
                 </div>
+                
+                <button class="burger-menu" id="burgerMenu" aria-label="Menu">
+                    <span class="burger-line"></span>
+                    <span class="burger-line"></span>
+                    <span class="burger-line"></span>
+                </button>
             </div>
         </nav>
+        
+        <div class="mobile-menu" id="mobileMenu">
+            <div class="mobile-menu-header">
+                <div class="brand-logo">
+                    <a href="index.html" class="gold-s" aria-label="Sensual Home">S</a>
+                </div>
+                <button class="close-mobile-menu" id="closeMobileMenu">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <ul class="mobile-nav-links">
+                <li><a href="index.html" class="mobile-nav-link">Home</a></li>
+                <li><a href="shop.html" class="mobile-nav-link active">Shop</a></li>
+                <li><a href="company.html" class="mobile-nav-link">Company</a></li>
+                <li><a href="reviews.html" class="mobile-nav-link">Reviews</a></li>
+                <li><a href="contacts.html" class="mobile-nav-link">Contacts</a></li>
+            </ul>
+            <div class="mobile-categories">
+                <h4 class="mobile-categories-title">Categories</h4>
+                <ul class="mobile-categories-list">
+                    <li><a href="shop.html#scrubs">Scrubs & Exfoliants</a></li>
+                    <li><a href="shop.html#creams">Body Creams & Lotions</a></li>
+                    <li><a href="shop.html#shower-gels">Shower Gels</a></li>
+                    <li><a href="shop.html#soaps">Artisan Soaps</a></li>
+                    <li><a href="shop.html#for-men">For Men</a></li>
+                    <li><a href="shop.html#for-women">For Women</a></li>
+                    <li><a href="shop.html#gift-sets">Gift Sets</a></li>
+                </ul>
+            </div>
+            <div class="mobile-contact">
+                <a href="tel:+15551234567" class="mobile-phone">
+                    <i class="fas fa-phone-alt"></i> +1 (555) 123-4567
+                </a>
+                <div class="mobile-social">
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+                </div>
+            </div>
+        </div>
     </header>
 
     <!-- Main Shop Content -->
     <main class="shop-page">
-        <!-- Shop Hero Section -->
         <section class="shop-hero">
             <div class="container">
                 <div class="shop-hero-content">
@@ -849,7 +888,6 @@
                         Discover our collection of meticulously crafted products, designed to transform your daily rituals into moments of luxury.
                     </p>
                     
-                    <!-- Search and Filter Bar -->
                     <div class="shop-controls glass-panel animate-fade-scale">
                         <div class="search-bar">
                             <i class="fas fa-search"></i>
@@ -875,7 +913,6 @@
             </div>
         </section>
 
-        <!-- Filter Sidebar (Mobile/Desktop) -->
         <aside id="filter-sidebar" class="filter-sidebar glass-panel">
             <div class="filter-header">
                 <h3><i class="fas fa-filter"></i> Filters</h3>
@@ -886,9 +923,7 @@
             
             <div class="filter-section">
                 <h4 class="filter-title">Categories</h4>
-                <div class="category-filters" id="category-filters">
-                    <!-- Will be populated by JavaScript -->
-                </div>
+                <div class="category-filters" id="category-filters"></div>
             </div>
             
             <div class="filter-section">
@@ -911,9 +946,7 @@
             
             <div class="filter-section">
                 <h4 class="filter-title">Tags</h4>
-                <div class="tag-filters" id="tag-filters">
-                    <!-- Will be populated by JavaScript -->
-                </div>
+                <div class="tag-filters" id="tag-filters"></div>
             </div>
             
             <div class="filter-actions">
@@ -922,25 +955,18 @@
             </div>
         </aside>
 
-        <!-- Products Grid -->
         <section class="products-section container">
-            <!-- Category Navigation -->
             <div class="category-nav scroll-animate">
-                <div class="category-tabs" id="category-tabs">
-                    <!-- Will be populated by JavaScript -->
-                </div>
+                <div class="category-tabs" id="category-tabs"></div>
             </div>
             
-            <!-- Products Grid -->
             <div class="products-grid" id="products-grid">
-                <!-- Products will be loaded here by JavaScript -->
                 <div class="products-loading">
                     <div class="spinner-gold" style="width: 50px; height: 50px; margin: 50px auto;"></div>
                     <p style="text-align: center; color: var(--text-gray); margin-top: 20px;">Loading luxurious products...</p>
                 </div>
             </div>
             
-            <!-- No Results Message -->
             <div id="no-results" class="no-results glass-panel" style="display: none; text-align: center; padding: 60px 30px;">
                 <i class="fas fa-search" style="font-size: 3rem; color: var(--color-gold); opacity: 0.5; margin-bottom: 20px;"></i>
                 <h3 style="margin-bottom: 15px; color: var(--text-light);">No products found</h3>
@@ -950,7 +976,6 @@
                 </button>
             </div>
             
-            <!-- Load More Button -->
             <div class="load-more-container" id="load-more-container" style="display: none;">
                 <button id="load-more" class="glass-btn">
                     <i class="fas fa-plus"></i> Load More Products
@@ -958,15 +983,11 @@
             </div>
         </section>
 
-        <!-- Featured Products -->
         <section class="featured-section container">
             <h2 class="section-title">Best Sellers</h2>
-            <div class="featured-grid" id="featured-products">
-                <!-- Featured products will be loaded here -->
-            </div>
+            <div class="featured-grid" id="featured-products"></div>
         </section>
 
-        <!-- Newsletter Signup -->
         <section class="newsletter-section">
             <div class="container">
                 <div class="newsletter-content glass-panel">
@@ -990,9 +1011,9 @@
     <footer class="main-footer">
         <div class="container footer-content">
             <div class="footer-brand">
-               <div class="brand-logo">
-                <a href="index.html" class="gold-s" aria-label="Sensual Home">S</a>
-            </div>              
+                <div class="brand-logo">
+                    <a href="index.html" class="gold-s" aria-label="Sensual Home">S</a>
+                </div>              
                 <p class="footer-tagline">Elevating your daily ritual.</p>
             </div>
             <div class="footer-links">
@@ -1041,10 +1062,81 @@
         </div>
     </footer>
 
-    <!-- Подключение JavaScript -->
     <script src="js/product-data.js"></script>
     <script src="js/main.js"></script>
     <script src="js/cart.js"></script>
     <script src="js/shop.js"></script>
+    
+    <script>
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+        
+        const burgerMenu = document.getElementById('burgerMenu');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const closeMobileMenu = document.getElementById('closeMobileMenu');
+        
+        function saveMenuState(isOpen) {
+            sessionStorage.setItem('mobileMenuOpen', isOpen ? 'true' : 'false');
+        }
+        
+        function openMobileMenu() {
+            mobileMenu.classList.add('active');
+            burgerMenu.classList.add('active');
+            document.body.classList.add('menu-open');
+            saveMenuState(true);
+        }
+        
+        function closeMobileMenuFunc() {
+            mobileMenu.classList.remove('active');
+            burgerMenu.classList.remove('active');
+            document.body.classList.remove('menu-open');
+            saveMenuState(false);
+        }
+        
+        if (burgerMenu && mobileMenu) {
+            burgerMenu.addEventListener('click', openMobileMenu);
+            
+            if (closeMobileMenu) {
+                closeMobileMenu.addEventListener('click', closeMobileMenuFunc);
+            }
+            
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    mobileNavLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            window.addEventListener('click', function(e) {
+                if (mobileMenu.classList.contains('active')) {
+                    if (!mobileMenu.contains(e.target) && !burgerMenu.contains(e.target)) {
+                        closeMobileMenuFunc();
+                    }
+                }
+            });
+            
+            window.addEventListener('pageshow', function() {
+                if (sessionStorage.getItem('mobileMenuOpen') === 'true') {
+                    openMobileMenu();
+                }
+                setActiveNavLink();
+            });
+        }
+        
+        function setActiveNavLink() {
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                const href = link.getAttribute('href');
+                if (href === currentPage) {
+                    link.classList.add('active');
+                }
+            });
+        }
+        
+        setActiveNavLink();
+    </script>
 </body>
 </html>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Our Story | Sensual - Premium Body Cosmetics</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/animations.css">
@@ -11,33 +11,36 @@
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+    <style>
+        .tooltip-indicators {
+            display: none !important;
+        }
+    </style>
 </head>
 <body>
-    <!-- Динамическая стеклянная шапка -->
+    <!-- ДИНАМИЧЕСКАЯ СТЕКЛЯННАЯ ШАПКА -->
     <header id="main-header" class="glass-header">
         <nav class="container header-nav">
-            <!-- Золотая буква S с тенью -->
             <div class="brand-logo">
                 <a href="index.html" class="gold-s" aria-label="Sensual Home">S</a>
             </div>
             
-            <!-- Основные навигационные ссылки -->
-            <ul class="nav-links">
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html" class="nav-link" data-text="Home">Home</a></li>
                 <li><a href="shop.html" class="nav-link" data-text="Shop">Shop</a></li>
                 <li><a href="company.html" class="nav-link active" data-text="Company">Company</a></li>
                 <li><a href="reviews.html" class="nav-link" data-text="Reviews">Reviews</a></li>
                 <li><a href="contacts.html" class="nav-link" data-text="Contacts">Contacts</a></li>
             </ul>
             
-            <!-- Правая часть: телефон, корзина, меню -->
             <div class="header-right">
                 <a href="tel:+15551234567" class="phone-link">+1 (555) 123-4567</a>
                 <a href="cart.html" class="cart-icon" aria-label="Shopping Cart">
                     <i class="fas fa-shopping-bag"></i>
                     <span class="cart-count">0</span>
                 </a>
-                <!-- Кнопка меню с выпадающими категориями -->
-                <div class="dropdown-menu">
+                
+                <div class="dropdown-menu desktop-only">
                     <button class="menu-toggle glass-btn" id="menu-toggle" aria-expanded="false" aria-controls="categories-dropdown">
                         <i class="fas fa-bars"></i> Categories
                     </button>
@@ -51,13 +54,58 @@
                         <li><a href="shop.html#gift-sets" class="dropdown-link">Gift Sets</a></li>
                     </ul>
                 </div>
+                
+                <button class="burger-menu" id="burgerMenu" aria-label="Menu">
+                    <span class="burger-line"></span>
+                    <span class="burger-line"></span>
+                    <span class="burger-line"></span>
+                </button>
             </div>
         </nav>
+        
+        <div class="mobile-menu" id="mobileMenu">
+            <div class="mobile-menu-header">
+                <div class="brand-logo">
+                    <a href="index.html" class="gold-s" aria-label="Sensual Home">S</a>
+                </div>
+                <button class="close-mobile-menu" id="closeMobileMenu">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <ul class="mobile-nav-links">
+                <li><a href="index.html" class="mobile-nav-link">Home</a></li>
+                <li><a href="shop.html" class="mobile-nav-link">Shop</a></li>
+                <li><a href="company.html" class="mobile-nav-link active">Company</a></li>
+                <li><a href="reviews.html" class="mobile-nav-link">Reviews</a></li>
+                <li><a href="contacts.html" class="mobile-nav-link">Contacts</a></li>
+            </ul>
+            <div class="mobile-categories">
+                <h4 class="mobile-categories-title">Categories</h4>
+                <ul class="mobile-categories-list">
+                    <li><a href="shop.html#scrubs">Scrubs & Exfoliants</a></li>
+                    <li><a href="shop.html#creams">Body Creams & Lotions</a></li>
+                    <li><a href="shop.html#shower-gels">Shower Gels</a></li>
+                    <li><a href="shop.html#soaps">Artisan Soaps</a></li>
+                    <li><a href="shop.html#for-men">For Men</a></li>
+                    <li><a href="shop.html#for-women">For Women</a></li>
+                    <li><a href="shop.html#gift-sets">Gift Sets</a></li>
+                </ul>
+            </div>
+            <div class="mobile-contact">
+                <a href="tel:+15551234567" class="mobile-phone">
+                    <i class="fas fa-phone-alt"></i> +1 (555) 123-4567
+                </a>
+                <div class="mobile-social">
+                    <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+                </div>
+            </div>
+        </div>
     </header>
 
     <!-- Main Company Content -->
     <main class="company-page">
-        <!-- Hero Section -->
         <section class="company-hero">
             <div class="container">
                 <div class="company-hero-content">
@@ -69,7 +117,6 @@
             </div>
         </section>
 
-        <!-- Story Section -->
         <section class="story-section container">
             <div class="story-grid">
                 <div class="story-content scroll-animate">
@@ -85,7 +132,6 @@
                     </p>
                 </div>
                 <div class="story-image glass-panel scroll-animate">
-                    <!-- ПРОСТО ЗАМЕНИТЕ ПУТЬ К ФОТО -->
                     <img src="images/Company Logo.jpeg" 
                          alt="The beginning of Sensual" 
                          style="width: 100%; height: 400px; object-fit: cover; border-radius: 12px;">
@@ -93,7 +139,6 @@
             </div>
         </section>
 
-        <!-- Values Section -->
         <section class="values-section">
             <div class="container">
                 <h2 class="section-title">Our Values</h2>
@@ -123,12 +168,10 @@
             </div>
         </section>
 
-        <!-- Team Section -->
         <section class="team-section container">
             <h2 class="section-title">Meet Our Founders</h2>
             <div class="team-grid">
                 <div class="team-member glass-panel scroll-animate">
-                    <!-- ЗАМЕНИТЕ ПУТЬ К ФОТО Isabelle -->
                     <div style="height: 200px; border-radius: 12px; margin-bottom: 20px; overflow: hidden;">
                         <img src="images/Company isabella.jpeg" 
                              alt="Isabelle Moreau" 
@@ -139,7 +182,6 @@
                     <p class="member-bio">Former cosmetic chemist with 15 years experience in luxury skincare.</p>
                 </div>
                 <div class="team-member glass-panel scroll-animate">
-                    <!-- ЗАМЕНИТЕ ПУТЬ К ФОТО Marcus -->
                     <div style="height: 200px; border-radius: 12px; margin-bottom: 20px; overflow: hidden;">
                         <img src="images/Company man.jpeg" 
                              alt="Dr. Marcus Chen" 
@@ -150,7 +192,6 @@
                     <p class="member-bio">Dermatologist specializing in botanical formulations and skin biochemistry.</p>
                 </div>
                 <div class="team-member glass-panel scroll-animate">
-                    <!-- ЗАМЕНИТЕ ПУТЬ К ФОТО Sophia -->
                     <div style="height: 200px; border-radius: 12px; margin-bottom: 20px; overflow: hidden;">
                         <img src="images/Company Rodrigez.jpeg" 
                              alt="Sophia Rodriguez" 
@@ -163,7 +204,6 @@
             </div>
         </section>
 
-        <!-- Sustainability Section -->
         <section class="sustainability-section">
             <div class="container">
                 <div class="sustainability-content glass-panel">
@@ -196,8 +236,8 @@
         <div class="container footer-content">
             <div class="footer-brand">
                 <div class="brand-logo">
-                <a href="index.html" class="gold-s" aria-label="Sensual Home">S</a>
-            </div>
+                    <a href="index.html" class="gold-s" aria-label="Sensual Home">S</a>
+                </div>
                 <p class="footer-tagline">Elevating your daily ritual.</p>
             </div>
             <div class="footer-links">
@@ -246,15 +286,83 @@
         </div>
     </footer>
 
-    <!-- Подключение JavaScript -->
     <script src="js/main.js"></script>
     <script src="js/cart.js"></script>
+    
     <script>
-        // Company page specific JavaScript
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('current-year').textContent = new Date().getFullYear();
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+        
+        // ========== БУРГЕР-МЕНЮ ==========
+        const burgerMenu = document.getElementById('burgerMenu');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const closeMobileMenu = document.getElementById('closeMobileMenu');
+        
+        function saveMenuState(isOpen) {
+            sessionStorage.setItem('mobileMenuOpen', isOpen ? 'true' : 'false');
+        }
+        
+        function openMobileMenu() {
+            mobileMenu.classList.add('active');
+            burgerMenu.classList.add('active');
+            document.body.classList.add('menu-open');
+            saveMenuState(true);
+        }
+        
+        function closeMobileMenuFunc() {
+            mobileMenu.classList.remove('active');
+            burgerMenu.classList.remove('active');
+            document.body.classList.remove('menu-open');
+            saveMenuState(false);
+        }
+        
+        if (burgerMenu && mobileMenu) {
+            burgerMenu.addEventListener('click', openMobileMenu);
             
-            // Scroll animations
+            if (closeMobileMenu) {
+                closeMobileMenu.addEventListener('click', closeMobileMenuFunc);
+            }
+            
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    mobileNavLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+            
+            window.addEventListener('click', function(e) {
+                if (mobileMenu.classList.contains('active')) {
+                    if (!mobileMenu.contains(e.target) && !burgerMenu.contains(e.target)) {
+                        closeMobileMenuFunc();
+                    }
+                }
+            });
+            
+            window.addEventListener('pageshow', function() {
+                if (sessionStorage.getItem('mobileMenuOpen') === 'true') {
+                    openMobileMenu();
+                }
+                setActiveNavLink();
+            });
+        }
+        
+        function setActiveNavLink() {
+            const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+            const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                const href = link.getAttribute('href');
+                if (href === currentPage) {
+                    link.classList.add('active');
+                }
+            });
+        }
+        
+        setActiveNavLink();
+        
+        // ========== COMPANY PAGE SPECIFIC JAVASCRIPT ==========
+        document.addEventListener('DOMContentLoaded', function() {
             const animatedElements = document.querySelectorAll('.scroll-animate');
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -266,7 +374,6 @@
             
             animatedElements.forEach(el => observer.observe(el));
             
-            // Простая обработка ошибок для фото
             function handleImageError(img) {
                 img.style.display = 'none';
                 const placeholder = document.createElement('div');
@@ -283,7 +390,6 @@
                 img.parentElement.appendChild(placeholder);
             }
             
-            // Назначаем обработчики для всех изображений
             document.querySelectorAll('.story-image img, .team-member img').forEach(img => {
                 img.addEventListener('error', function() {
                     handleImageError(this);
