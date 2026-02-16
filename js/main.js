@@ -5,17 +5,20 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('Sensual Beauty - Premium Cosmetics Website Loaded');
     
     // Set current year in footer
-    document.getElementById('current-year').textContent = new Date().getFullYear();
+    const yearElement = document.getElementById('current-year');
+    if (yearElement) {
+        yearElement.textContent = new Date().getFullYear();
+    }
     
-    // Initialize all modules
+    // Initialize all modules (ВИДЕО ТЕПЕРЬ УПРАВЛЯЕТСЯ ИЗ INDEX.HTML)
     initDynamicHeader();
     initDropdownMenu();
     initScrollAnimations();
     initProductInteractions();
     initPageTransitions();
-    initVideoBackground();
+    // initVideoBackground(); // ОТКЛЮЧЕНО - видео управляется из index.html
     initCyclingTooltips();
-    initCartIconBehavior(); // ДОБАВЛЕНО: обработка иконки корзины
+    initCartIconBehavior();
 });
 
 // ============================================
@@ -27,27 +30,35 @@ function initDynamicHeader() {
     
     let lastScrollTop = 0;
     const headerHeight = header.offsetHeight;
+    let ticking = false;
     
     window.addEventListener('scroll', function() {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         
-        // Add scrolled class for background intensity
-        if (scrollTop > 50) {
-            header.classList.add('header-scrolled');
-        } else {
-            header.classList.remove('header-scrolled');
+        if (!ticking) {
+            window.requestAnimationFrame(function() {
+                // Add scrolled class for background intensity
+                if (scrollTop > 50) {
+                    header.classList.add('header-scrolled');
+                } else {
+                    header.classList.remove('header-scrolled');
+                }
+                
+                // Hide/show header based on scroll direction
+                if (scrollTop > lastScrollTop && scrollTop > headerHeight) {
+                    // Scrolling down
+                    header.classList.add('header-hidden');
+                } else {
+                    // Scrolling up
+                    header.classList.remove('header-hidden');
+                }
+                
+                lastScrollTop = scrollTop;
+                ticking = false;
+            });
+            
+            ticking = true;
         }
-        
-        // Hide/show header based on scroll direction
-        if (scrollTop > lastScrollTop && scrollTop > headerHeight) {
-            // Scrolling down
-            header.classList.add('header-hidden');
-        } else {
-            // Scrolling up
-            header.classList.remove('header-hidden');
-        }
-        
-        lastScrollTop = scrollTop;
     });
 }
 
@@ -67,12 +78,6 @@ function initDropdownMenu() {
         menuToggle.setAttribute('aria-expanded', 
             dropdown.classList.contains('active') ? 'true' : 'false'
         );
-        
-        // Add animation class
-        if (dropdown.classList.contains('active')) {
-            dropdown.classList.add('bounce-in');
-            setTimeout(() => dropdown.classList.remove('bounce-in'), 800);
-        }
     });
     
     // Close dropdown when clicking outside
@@ -93,32 +98,6 @@ function initDropdownMenu() {
         item.addEventListener('mouseleave', function() {
             this.classList.remove('glass-shine');
         });
-        
-        // Click animation
-        item.addEventListener('click', function(e) {
-            // Create ripple effect
-            const ripple = document.createElement('span');
-            const rect = this.getBoundingClientRect();
-            const size = Math.max(rect.width, rect.height);
-            
-            ripple.style.width = ripple.style.height = size + 'px';
-            ripple.style.left = e.clientX - rect.left - size/2 + 'px';
-            ripple.style.top = e.clientY - rect.top - size/2 + 'px';
-            ripple.classList.add('btn-ripple-effect');
-            
-            this.appendChild(ripple);
-            
-            // Remove ripple after animation
-            setTimeout(() => {
-                ripple.remove();
-            }, 600);
-            
-            // Close dropdown after delay
-            setTimeout(() => {
-                dropdown.classList.remove('active');
-                menuToggle.setAttribute('aria-expanded', 'false');
-            }, 300);
-        });
     });
 }
 
@@ -133,14 +112,6 @@ function initScrollAnimations() {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.classList.add('animated');
-                    
-                    // Add staggered animation to children if applicable
-                    if (entry.target.classList.contains('stagger-container')) {
-                        const children = entry.target.children;
-                        Array.from(children).forEach((child, index) => {
-                            child.style.animationDelay = `${index * 0.1}s`;
-                        });
-                    }
                 }
             });
         }, {
@@ -162,19 +133,18 @@ function initProductInteractions() {
     const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
     
     addToCartButtons.forEach(button => {
-        // Проверяем, что кнопка находится в видимой области (не в модальном окне, которое скрыто)
-        const isVisible = button.offsetParent !== null;
-        
-        if (!isVisible) return;
+        // Проверяем, что кнопка не обработана ранее
+        if (button.hasAttribute('data-initialized')) return;
+        button.setAttribute('data-initialized', 'true');
         
         button.addEventListener('click', function(e) {
             e.preventDefault();
-            e.stopPropagation(); // Предотвращаем всплытие
+            e.stopPropagation();
             
             const productId = this.getAttribute('data-product-id');
             if (!productId) return;
             
-            // Ищем информацию о продукте в ближайших родительских элементах
+            // Ищем информацию о продукте
             const productCard = this.closest('.product-card, .featured-product, .set-card, .product-preview');
             let productName = '';
             let productPrice = 0;
@@ -190,17 +160,8 @@ function initProductInteractions() {
                 }
             }
             
-            // Если не нашли в DOM, проверяем глобальные данные продуктов
-            if (!productName && window.SensualProducts) {
-                const product = window.SensualProducts.products.find(p => p.id === productId);
-                if (product) {
-                    productName = product.name;
-                    productPrice = product.price;
-                }
-            }
-            
             // Create ripple effect
-            createRippleEffect(this);
+            createRippleEffect(this, e);
             
             // Add bounce animation to cart icon
             const cartIcon = document.querySelector('.cart-icon');
@@ -223,25 +184,16 @@ function initProductInteractions() {
             // Show feedback
             showAddToCartFeedback(this, productName);
         });
-        
-        // Hover effect
-        button.addEventListener('mouseenter', function() {
-            this.classList.add('floating-element-slow');
-        });
-        
-        button.addEventListener('mouseleave', function() {
-            this.classList.remove('floating-element-slow');
-        });
     });
 }
 
 // Ripple effect for buttons
-function createRippleEffect(button) {
+function createRippleEffect(button, event) {
     const ripple = document.createElement('span');
     const rect = button.getBoundingClientRect();
     const size = Math.max(rect.width, rect.height);
-    const x = event.clientX - rect.left - size/2;
-    const y = event.clientY - rect.top - size/2;
+    const x = (event?.clientX || rect.left + rect.width/2) - rect.left - size/2;
+    const y = (event?.clientY || rect.top + rect.height/2) - rect.top - size/2;
     
     ripple.style.width = ripple.style.height = size + 'px';
     ripple.style.left = x + 'px';
@@ -278,27 +230,27 @@ function updateCartCount(increment = 0) {
 
 // Add item to cart
 function addToCart(product) {
-    // Проверяем наличие глобальной корзины
-    if (window.SensualCart && typeof window.SensualCart.addItem === 'function') {
-        // Используем глобальную корзину
-        const productData = window.SensualProducts?.products.find(p => p.id === product.id);
-        if (productData) {
-            window.SensualCart.addItem(productData, product.quantity);
-        }
+    console.log('Added to cart:', product);
+    
+    let cart = [];
+    try {
+        cart = JSON.parse(sessionStorage.getItem('sensual-cart')) || [];
+    } catch (e) {
+        console.log('Error reading cart:', e);
+    }
+    
+    const existingItem = cart.find(item => item.id === product.id);
+    
+    if (existingItem) {
+        existingItem.quantity += product.quantity;
     } else {
-        // Fallback: сохраняем в sessionStorage
-        console.log('Added to cart (fallback):', product);
-        
-        let cart = JSON.parse(sessionStorage.getItem('sensual-cart')) || [];
-        const existingItem = cart.find(item => item.id === product.id);
-        
-        if (existingItem) {
-            existingItem.quantity += product.quantity;
-        } else {
-            cart.push(product);
-        }
-        
+        cart.push(product);
+    }
+    
+    try {
         sessionStorage.setItem('sensual-cart', JSON.stringify(cart));
+    } catch (e) {
+        console.log('Error saving cart:', e);
     }
 }
 
@@ -391,95 +343,12 @@ function initPageTransitions() {
 }
 
 // ============================================
-// 6. VIDEO BACKGROUND - SIMPLE VERSION
+// 6. VIDEO BACKGROUND - ОТКЛЮЧЕНО (УПРАВЛЯЕТСЯ ИЗ INDEX.HTML)
 // ============================================
 function initVideoBackground() {
-    const video = document.getElementById('hero-video');
-    if (!video) return;
-    
-    // Simple video setup - autoplay muted loop
-    video.autoplay = true;
-    video.muted = true;
-    video.loop = true;
-    video.playsInline = true;
-    
-    // Try to play the video
-    const playPromise = video.play();
-    
-    if (playPromise !== undefined) {
-        playPromise.catch(error => {
-            console.log('Video autoplay failed:', error);
-            // If autoplay fails, show a play button
-            showVideoPlayButton(video);
-        });
-    }
-    
-    // Handle video errors
-    video.addEventListener('error', function() {
-        console.log('Video failed to load, using fallback background');
-        // Create fallback gradient background
-        const videoContainer = document.querySelector('.video-container');
-        if (videoContainer) {
-            const fallback = document.createElement('div');
-            fallback.style.cssText = `
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background: linear-gradient(135deg, 
-                    var(--color-primary) 0%, 
-                    var(--color-primary-dark) 50%, 
-                    var(--color-primary) 100%);
-                z-index: -2;
-            `;
-            videoContainer.appendChild(fallback);
-        }
-    });
-    
-    // Video loaded successfully
-    video.addEventListener('loadeddata', function() {
-        console.log('Video loaded and playing');
-    });
-}
-
-// Show play button if autoplay is blocked
-function showVideoPlayButton(video) {
-    const videoContainer = document.querySelector('.video-container');
-    if (!videoContainer) return;
-    
-    // Remove any existing play button
-    const existingBtn = videoContainer.querySelector('.video-play-btn');
-    if (existingBtn) existingBtn.remove();
-    
-    const playButton = document.createElement('button');
-    playButton.className = 'video-play-btn glass-btn';
-    playButton.innerHTML = '<i class="fas fa-play"></i> Play Video';
-    playButton.style.cssText = `
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 3;
-        padding: 15px 30px;
-        font-size: 1.1rem;
-        background: rgba(212, 175, 55, 0.2);
-        border: 1px solid rgba(212, 175, 55, 0.4);
-    `;
-    
-    playButton.addEventListener('click', function() {
-        video.play()
-            .then(() => {
-                playButton.style.opacity = '0';
-                playButton.style.visibility = 'hidden';
-                setTimeout(() => playButton.remove(), 500);
-            })
-            .catch(error => {
-                console.log('Manual play failed:', error);
-            });
-    });
-    
-    videoContainer.appendChild(playButton);
+    // Функция отключена для избежания конфликтов с inline-скриптом
+    console.log('Video background handled by inline script');
+    return;
 }
 
 // ============================================
@@ -540,12 +409,12 @@ function initCyclingTooltips() {
         // Задержка перед появлением следующего
         setTimeout(() => {
             showTooltip(nextIndex);
-        }, 800); // Задержка соответствует длительности анимации fade-out
+        }, 800);
     }
     
     // Запустить автоматическое переключение
     function startTooltipCycle() {
-        tooltipInterval = setInterval(nextTooltip, 4000); // Менять каждые 4 секунды
+        tooltipInterval = setInterval(nextTooltip, 4000);
     }
     
     // Остановить автоматическое переключение
@@ -561,33 +430,25 @@ function initCyclingTooltips() {
     // Запустить цикл
     startTooltipCycle();
     
-    // Добавить обработчики для индикаторов (ручное переключение)
+    // Добавить обработчики для индикаторов
     indicators.forEach((indicator, index) => {
         indicator.addEventListener('click', function() {
             stopTooltipCycle();
             showTooltip(index);
-            
-            // Перезапустить цикл через 10 секунд
             setTimeout(startTooltipCycle, 10000);
         });
     });
     
-    // Остановить цикл при наведении на тултип
-    tooltips.forEach(tooltip => {
-        tooltip.addEventListener('mouseenter', stopTooltipCycle);
-        tooltip.addEventListener('mouseleave', startTooltipCycle);
-    });
-    
-    // Остановить цикл при наведении на индикаторы
-    const indicatorsContainer = document.querySelector('.tooltip-indicators');
-    if (indicatorsContainer) {
-        indicatorsContainer.addEventListener('mouseenter', stopTooltipCycle);
-        indicatorsContainer.addEventListener('mouseleave', startTooltipCycle);
+    // Остановить цикл при наведении
+    const container = document.querySelector('.tooltips-container');
+    if (container) {
+        container.addEventListener('mouseenter', stopTooltipCycle);
+        container.addEventListener('mouseleave', startTooltipCycle);
     }
 }
 
 // ============================================
-// 8. CART ICON BEHAVIOR - НОВЫЙ МОДУЛЬ
+// 8. CART ICON BEHAVIOR
 // ============================================
 function initCartIconBehavior() {
     // Проверяем, находимся ли мы на странице корзины
@@ -599,7 +460,7 @@ function initCartIconBehavior() {
         const cartIcons = document.querySelectorAll('.cart-icon');
         
         cartIcons.forEach(icon => {
-            // Сохраняем оригинальный href (если есть)
+            // Сохраняем оригинальный href
             const originalHref = icon.getAttribute('href');
             if (originalHref) {
                 icon.setAttribute('data-original-href', originalHref);
@@ -609,15 +470,11 @@ function initCartIconBehavior() {
             icon.setAttribute('href', 'shop.html');
             icon.setAttribute('title', 'Continue Shopping');
             
-            // Добавляем специальный класс для стилизации
+            // Добавляем специальный класс
             icon.classList.add('cart-icon-close');
             
-            // Добавляем атрибут для подсказки
-            icon.setAttribute('data-tooltip', 'Click to continue shopping');
-            
             // Добавляем обработчик для анимации
-            icon.addEventListener('click', function(e) {
-                // Показываем анимацию закрытия
+            icon.addEventListener('click', function() {
                 this.classList.add('cart-bounce-gold');
                 setTimeout(() => {
                     this.classList.remove('cart-bounce-gold');
@@ -625,16 +482,19 @@ function initCartIconBehavior() {
             });
         });
         
-        // Добавляем CSS стили для иконки корзины на странице корзины
+        // Добавляем CSS стили
         addCartIconStyles();
     }
 }
 
 // Добавляем стили для иконки корзины
 function addCartIconStyles() {
+    // Проверяем, не добавлены ли уже стили
+    if (document.getElementById('cart-icon-styles')) return;
+    
     const style = document.createElement('style');
+    style.id = 'cart-icon-styles';
     style.textContent = `
-        /* Стили для иконки корзины на странице корзины */
         .cart-page .cart-icon,
         .cart-icon-close {
             position: relative;
@@ -677,59 +537,44 @@ function addCartIconStyles() {
             bottom: -35px;
         }
         
-        /* Анимация для иконки корзины при клике */
         @keyframes cartBackToShop {
-            0% {
-                transform: scale(1) rotate(0deg);
-                color: var(--text-gray);
-            }
-            25% {
-                transform: scale(1.2) rotate(-15deg);
-                color: var(--color-gold);
-            }
-            50% {
-                transform: scale(1.1) rotate(0deg);
-                color: var(--color-gold);
-            }
-            75% {
-                transform: scale(1.2) rotate(15deg);
-                color: var(--color-gold);
-            }
-            100% {
-                transform: scale(1) rotate(0deg);
-                color: var(--text-gray);
-            }
+            0% { transform: scale(1) rotate(0deg); color: var(--text-gray); }
+            25% { transform: scale(1.2) rotate(-15deg); color: var(--color-gold); }
+            50% { transform: scale(1.1) rotate(0deg); color: var(--color-gold); }
+            75% { transform: scale(1.2) rotate(15deg); color: var(--color-gold); }
+            100% { transform: scale(1) rotate(0deg); color: var(--text-gray); }
         }
         
         .cart-bounce-gold {
             animation: cartBackToShop 0.6s ease;
         }
         
-        /* Уведомление о добавлении в корзину */
         .cart-notification-temp {
             animation: fadeInRight 0.5s ease forwards !important;
         }
         
         @keyframes fadeInRight {
-            from {
-                opacity: 0;
-                transform: translateX(100px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+            from { opacity: 0; transform: translateX(100px); }
+            to { opacity: 1; transform: translateX(0); }
         }
         
         @keyframes fadeOutRight {
-            from {
-                opacity: 1;
-                transform: translateX(0);
-            }
-            to {
-                opacity: 0;
-                transform: translateX(100px);
-            }
+            from { opacity: 1; transform: translateX(0); }
+            to { opacity: 0; transform: translateX(100px); }
+        }
+        
+        .btn-ripple-effect {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(212, 175, 55, 0.4);
+            transform: scale(0);
+            animation: ripple 0.6s ease-out;
+            pointer-events: none;
+            z-index: 0;
+        }
+        
+        @keyframes ripple {
+            to { transform: scale(4); opacity: 0; }
         }
     `;
     document.head.appendChild(style);

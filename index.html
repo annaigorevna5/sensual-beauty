@@ -21,6 +21,10 @@
             height: 100%;
             object-fit: cover;
             pointer-events: none;
+            will-change: transform;
+            transform: translateZ(0);
+            backface-visibility: hidden;
+            perspective: 1000px;
         }
         
         .video-container {
@@ -44,6 +48,41 @@
         /* СКРЫВАЕМ ТОЧКИ ПЕРЕКЛЮЧЕНИЯ ТУЛТИПОВ */
         .tooltip-indicators {
             display: none !important;
+        }
+        
+        /* Фикс для видео на десктопе */
+        @media (min-width: 993px) {
+            .hero-video {
+                -webkit-transform: translate3d(0, 0, 0);
+                transform: translate3d(0, 0, 0);
+                -webkit-backface-visibility: hidden;
+                backface-visibility: hidden;
+            }
+        }
+        
+        /* Фикс для Firefox */
+        @-moz-document url-prefix() {
+            .hero-video {
+                background: #0a2322;
+            }
+        }
+        
+        /* Плавное появление видео */
+        .hero-video {
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+        
+        /* Если видео не загрузилось */
+        .video-fallback {
+            background: linear-gradient(135deg, #0a5c5a 0%, #053e3c 50%, #0a5c5a 100%);
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
         }
     </style>
 </head>
@@ -144,7 +183,7 @@
     <main>
         <section class="hero-section">
             <div class="video-container">
-                <div class="video-fallback" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);"></div>
+                <div class="video-fallback"></div>
                 <video autoplay muted loop playsinline webkit-playsinline x5-playsinline disablepictureinpicture disableremoteplayback class="hero-video" id="heroVideo">
                     <source src="video/video.mp4" type="video/mp4">
                     Your browser does not support the video tag.
@@ -337,10 +376,12 @@
         // ========== ТЕКУЩИЙ ГОД В ФУТЕРЕ ==========
         document.getElementById('current-year').textContent = new Date().getFullYear();
         
-        // ========== ВИДЕО - ИСПРАВЛЕННЫЙ АВТОПЛЕЙ ==========
-        const heroVideo = document.getElementById('heroVideo');
-        
-        if (heroVideo) {
+        // ========== ВИДЕО - ИСПРАВЛЕННАЯ ВЕРСИЯ ДЛЯ ДЕСКТОПА ==========
+        (function initHeroVideo() {
+            const heroVideo = document.getElementById('heroVideo');
+            if (!heroVideo) return;
+            
+            // Принудительно устанавливаем все необходимые атрибуты
             heroVideo.setAttribute('playsinline', '');
             heroVideo.setAttribute('webkit-playsinline', '');
             heroVideo.setAttribute('x5-playsinline', '');
@@ -348,84 +389,131 @@
             heroVideo.setAttribute('loop', '');
             heroVideo.setAttribute('autoplay', '');
             
-            const playPromise = heroVideo.play();
+            // Убираем все контролы
+            heroVideo.controls = false;
+            heroVideo.removeAttribute('controls');
+            heroVideo.disableRemotePlayback = true;
             
-            if (playPromise !== undefined) {
-                playPromise.then(() => {
-                    console.log('Видео успешно запущено');
-                    const fallback = document.querySelector('.video-fallback');
-                    if (fallback) fallback.style.display = 'none';
-                }).catch(error => {
-                    console.log('Автоплей заблокирован браузером:', error);
-                    const fallback = document.querySelector('.video-fallback');
-                    if (fallback) fallback.style.display = 'block';
-                    
-                    const startVideo = () => {
-                        heroVideo.play().then(() => {
-                            if (fallback) fallback.style.display = 'none';
-                        }).catch(e => console.log('Видео не запустилось'));
-                        document.removeEventListener('touchstart', startVideo);
-                        document.removeEventListener('click', startVideo);
-                    };
-                    
-                    document.addEventListener('touchstart', startVideo);
-                    document.addEventListener('click', startVideo);
-                });
+            // Принудительно muted (обязательно для autoplay)
+            heroVideo.muted = true;
+            
+            // Сброс видео (важно для перезагрузки)
+            heroVideo.load();
+            
+            // Функция показа fallback
+            const showFallback = () => {
+                const fallback = document.querySelector('.video-fallback');
+                if (fallback) fallback.style.display = 'block';
+            };
+            
+            // Функция скрытия fallback
+            const hideFallback = () => {
+                const fallback = document.querySelector('.video-fallback');
+                if (fallback) fallback.style.display = 'none';
+            };
+            
+            // Пытаемся воспроизвести видео
+            const attemptPlay = () => {
+                const playPromise = heroVideo.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise
+                        .then(() => {
+                            console.log('✅ Видео успешно запущено');
+                            hideFallback();
+                            document.querySelector('.video-container')?.classList.add('video-loaded');
+                        })
+                        .catch(error => {
+                            console.log('⚠️ Автоплей заблокирован:', error);
+                            showFallback();
+                            
+                            // Пытаемся запустить при взаимодействии
+                            const startOnInteraction = () => {
+                                heroVideo.play()
+                                    .then(() => {
+                                        hideFallback();
+                                        document.querySelector('.video-container')?.classList.add('video-loaded');
+                                    })
+                                    .catch(e => console.log('❌ Не удалось запустить видео:', e));
+                                
+                                document.removeEventListener('touchstart', startOnInteraction);
+                                document.removeEventListener('click', startOnInteraction);
+                            };
+                            
+                            document.addEventListener('touchstart', startOnInteraction, { once: true });
+                            document.addEventListener('click', startOnInteraction, { once: true });
+                        });
+                }
+            };
+            
+            // Обработчики событий видео
+            heroVideo.addEventListener('loadedmetadata', () => {
+                console.log('✅ Метаданные видео загружены');
+                heroVideo.currentTime = 0;
+            });
+            
+            heroVideo.addEventListener('canplay', () => {
+                console.log('✅ Видео готово к воспроизведению');
+                if (heroVideo.paused) {
+                    attemptPlay();
+                }
+            });
+            
+            heroVideo.addEventListener('error', (e) => {
+                console.log('❌ Ошибка загрузки видео:', e);
+                showFallback();
+            });
+            
+            heroVideo.addEventListener('stalled', () => {
+                console.log('⚠️ Видео зависло, перезапускаем');
+                heroVideo.load();
+                setTimeout(attemptPlay, 1000);
+            });
+            
+            heroVideo.addEventListener('waiting', () => {
+                console.log('⏳ Видео буферизируется...');
+            });
+            
+            // Запускаем попытку воспроизведения
+            attemptPlay();
+            
+            // Проверяем, не зависло ли видео через 3 секунды
+            setTimeout(() => {
+                if (heroVideo.readyState >= 2 && heroVideo.paused) {
+                    console.log('⚠️ Видео не играет, пробуем снова');
+                    attemptPlay();
+                }
+            }, 3000);
+        })();
+        
+        // ========== БУРГЕР-МЕНЮ ==========
+        (function initMobileMenu() {
+            const burgerMenu = document.getElementById('burgerMenu');
+            const mobileMenu = document.getElementById('mobileMenu');
+            const closeMobileMenu = document.getElementById('closeMobileMenu');
+            
+            if (!burgerMenu || !mobileMenu) return;
+            
+            function openMobileMenu() {
+                mobileMenu.classList.add('active');
+                burgerMenu.classList.add('active');
+                document.body.classList.add('menu-open');
             }
             
-            heroVideo.controls = false;
-            heroVideo.disableRemotePlayback = true;
-            heroVideo.removeAttribute('controls');
-        }
-        
-        // ========== БУРГЕР-МЕНЮ - ИСПРАВЛЕНО (МЕНЮ НЕ ЗАКРЫВАЕТСЯ ПРИ ПЕРЕХОДЕ) ==========
-        const burgerMenu = document.getElementById('burgerMenu');
-        const mobileMenu = document.getElementById('mobileMenu');
-        const closeMobileMenu = document.getElementById('closeMobileMenu');
-        
-        // СОХРАНЯЕМ СОСТОЯНИЕ МЕНЮ В SESSIONSTORAGE
-        function saveMenuState(isOpen) {
-            sessionStorage.setItem('mobileMenuOpen', isOpen ? 'true' : 'false');
-        }
-        
-        function getMenuState() {
-            return sessionStorage.getItem('mobileMenuOpen') === 'true';
-        }
-        
-        function openMobileMenu() {
-            mobileMenu.classList.add('active');
-            burgerMenu.classList.add('active');
-            document.body.classList.add('menu-open');
-            saveMenuState(true);
-        }
-        
-        function closeMobileMenuFunc() {
-            mobileMenu.classList.remove('active');
-            burgerMenu.classList.remove('active');
-            document.body.classList.remove('menu-open');
-            saveMenuState(false);
-        }
-        
-        if (burgerMenu && mobileMenu) {
+            function closeMobileMenuFunc() {
+                mobileMenu.classList.remove('active');
+                burgerMenu.classList.remove('active');
+                document.body.classList.remove('menu-open');
+            }
+            
             burgerMenu.addEventListener('click', openMobileMenu);
             
             if (closeMobileMenu) {
                 closeMobileMenu.addEventListener('click', closeMobileMenuFunc);
             }
             
-            // ИСПРАВЛЕНИЕ: НЕ ЗАКРЫВАЕМ МЕНЮ ПРИ КЛИКЕ НА ССЫЛКИ
-            const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
-            mobileNavLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    // НЕ вызываем closeMobileMenuFunc() - меню остается открытым!
-                    // Просто добавляем класс active
-                    mobileNavLinks.forEach(l => l.classList.remove('active'));
-                    this.classList.add('active');
-                });
-            });
-            
-            // Закрыть только при клике на крестик или вне меню
-            window.addEventListener('click', function(e) {
+            // Закрытие при клике вне меню
+            window.addEventListener('click', (e) => {
                 if (mobileMenu.classList.contains('active')) {
                     if (!mobileMenu.contains(e.target) && !burgerMenu.contains(e.target)) {
                         closeMobileMenuFunc();
@@ -433,63 +521,84 @@
                 }
             });
             
-            // ПРИ ЗАГРУЗКЕ СТРАНИЦЫ - ВОССТАНАВЛИВАЕМ СОСТОЯНИЕ МЕНЮ
-            window.addEventListener('pageshow', function() {
-                if (getMenuState()) {
-                    openMobileMenu();
+            // Не закрываем при клике на ссылки
+            const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+            mobileNavLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileNavLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        })();
+        
+        // ========== ЦИКЛИЧЕСКИЕ ТУЛТИПЫ ==========
+        (function initTooltips() {
+            const tooltips = document.querySelectorAll('.tooltip');
+            if (tooltips.length === 0) return;
+            
+            let currentTooltip = 1;
+            let tooltipInterval;
+            
+            function showTooltip(index) {
+                tooltips.forEach(t => {
+                    t.classList.remove('active', 'fade-in', 'fade-out');
+                });
+                
+                const activeTooltip = document.querySelector(`.tooltip[data-tooltip="${index}"]`);
+                if (activeTooltip) {
+                    activeTooltip.classList.add('active', 'fade-in');
                 }
                 
-                // Обновляем активные ссылки
-                setActiveNavLink();
-            });
-        }
-        
-        // ========== ЦИКЛИЧЕСКИЕ ТУЛТИПЫ (БЕЗ ИНДИКАТОРОВ) ==========
-        const tooltips = document.querySelectorAll('.tooltip');
-        let currentTooltip = 1;
-        let tooltipInterval;
-        
-        function showTooltip(index) {
-            tooltips.forEach(t => {
-                t.classList.remove('active');
-            });
-            
-            const activeTooltip = document.querySelector(`.tooltip[data-tooltip="${index}"]`);
-            if (activeTooltip) {
-                activeTooltip.classList.add('active');
+                currentTooltip = index;
             }
             
-            currentTooltip = index;
-        }
-        
-        function nextTooltip() {
-            let next = currentTooltip + 1;
-            if (next > tooltips.length) {
-                next = 1;
+            function nextTooltip() {
+                const current = document.querySelector(`.tooltip[data-tooltip="${currentTooltip}"]`);
+                if (current) {
+                    current.classList.add('fade-out');
+                    current.classList.remove('fade-in');
+                }
+                
+                setTimeout(() => {
+                    let next = currentTooltip + 1;
+                    if (next > tooltips.length) {
+                        next = 1;
+                    }
+                    showTooltip(next);
+                }, 300);
             }
-            showTooltip(next);
-        }
-        
-        if (tooltips.length > 0) {
+            
             showTooltip(1);
-            tooltipInterval = setInterval(nextTooltip, 5000);
-        }
+            tooltipInterval = setInterval(nextTooltip, 6000);
+            
+            // Останавливаем при наведении
+            const container = document.querySelector('.tooltips-container');
+            if (container) {
+                container.addEventListener('mouseenter', () => {
+                    clearInterval(tooltipInterval);
+                });
+                
+                container.addEventListener('mouseleave', () => {
+                    tooltipInterval = setInterval(nextTooltip, 6000);
+                });
+            }
+        })();
         
-        // ========== ИСПРАВЛЕННЫЙ СКРОЛЛ ШАПКИ ==========
-        const header = document.getElementById('main-header');
-        let lastScroll = 0;
-        let ticking = false;
-        
-        if (header) {
+        // ========== ДИНАМИЧЕСКАЯ ШАПКА ==========
+        (function initHeader() {
+            const header = document.getElementById('main-header');
+            if (!header) return;
+            
+            let lastScroll = 0;
+            let ticking = false;
+            
             header.classList.remove('header-hidden');
             
-            window.addEventListener('scroll', function() {
-                lastScroll = window.pageYOffset;
+            window.addEventListener('scroll', () => {
+                const currentScroll = window.pageYOffset;
                 
                 if (!ticking) {
-                    window.requestAnimationFrame(function() {
-                        const currentScroll = lastScroll;
-                        
+                    window.requestAnimationFrame(() => {
                         if (currentScroll > 50) {
                             header.classList.add('header-scrolled');
                         } else {
@@ -513,10 +622,10 @@
                     ticking = true;
                 }
             });
-        }
+        })();
         
-        // ========== АКТИВНАЯ ССЫЛКА В МЕНЮ ==========
-        function setActiveNavLink() {
+        // ========== АКТИВНАЯ ССЫЛКА ==========
+        (function setActiveLink() {
             const currentPage = window.location.pathname.split('/').pop() || 'index.html';
             const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
             
@@ -529,24 +638,26 @@
                     link.classList.add('active');
                 }
             });
-        }
+        })();
         
-        setActiveNavLink();
-        
-        // ========== ПРИНУДИТЕЛЬНО ПОКАЗЫВАЕМ КНОПКИ ==========
-        document.addEventListener('DOMContentLoaded', function() {
+        // ========== ПОКАЗЫВАЕМ КНОПКИ ==========
+        document.addEventListener('DOMContentLoaded', () => {
             const addToCartBtns = document.querySelectorAll('.add-to-cart-btn');
             addToCartBtns.forEach(btn => {
                 btn.style.display = 'inline-flex';
                 btn.style.visibility = 'visible';
                 btn.style.opacity = '1';
             });
-            
-            // Сохраняем состояние меню при уходе со страницы
-            window.addEventListener('beforeunload', function() {
-                const isMenuOpen = mobileMenu && mobileMenu.classList.contains('active');
-                saveMenuState(isMenuOpen);
-            });
+        });
+        
+        // ========== ВОЗВРАЩЕНИЕ НА СТРАНИЦУ ==========
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) {
+                const heroVideo = document.getElementById('heroVideo');
+                if (heroVideo && heroVideo.paused && heroVideo.readyState >= 2) {
+                    heroVideo.play().catch(() => {});
+                }
+            }
         });
     </script>
 </body>
