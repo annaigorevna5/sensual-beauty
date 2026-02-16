@@ -10,14 +10,14 @@ document.addEventListener('DOMContentLoaded', function() {
         yearElement.textContent = new Date().getFullYear();
     }
     
-    // Initialize all modules (видео управляется из index.html)
+    // Initialize all modules (ВИДЕО ТЕПЕРЬ УПРАВЛЯЕТСЯ ИЗ INDEX.HTML)
     initDynamicHeader();
     initDropdownMenu();
     initScrollAnimations();
     initProductInteractions();
     initPageTransitions();
-    // Video is handled by inline script - не вызываем
-    // initCyclingTooltips(); // Отключаем, так как тултипы теперь в index.html
+    // initVideoBackground(); // ОТКЛЮЧЕНО - видео управляется из index.html
+    initCyclingTooltips();
     initCartIconBehavior();
 });
 
@@ -29,35 +29,32 @@ function initDynamicHeader() {
     if (!header) return;
     
     let lastScrollTop = 0;
+    const headerHeight = header.offsetHeight;
     let ticking = false;
-    let scrollTimeout;
     
     window.addEventListener('scroll', function() {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         
         if (!ticking) {
             window.requestAnimationFrame(function() {
-                clearTimeout(scrollTimeout);
-                scrollTimeout = setTimeout(() => {
-                    // Add scrolled class for background intensity
-                    if (scrollTop > 50) {
-                        header.classList.add('header-scrolled');
-                    } else {
-                        header.classList.remove('header-scrolled');
-                    }
-                    
-                    // Hide/show header based on scroll direction
-                    if (scrollTop > lastScrollTop && scrollTop > 200) {
-                        // Scrolling down
-                        header.classList.add('header-hidden');
-                    } else {
-                        // Scrolling up
-                        header.classList.remove('header-hidden');
-                    }
-                    
-                    lastScrollTop = scrollTop;
-                    ticking = false;
-                }, 10);
+                // Add scrolled class for background intensity
+                if (scrollTop > 50) {
+                    header.classList.add('header-scrolled');
+                } else {
+                    header.classList.remove('header-scrolled');
+                }
+                
+                // Hide/show header based on scroll direction
+                if (scrollTop > lastScrollTop && scrollTop > headerHeight) {
+                    // Scrolling down
+                    header.classList.add('header-hidden');
+                } else {
+                    // Scrolling up
+                    header.classList.remove('header-hidden');
+                }
+                
+                lastScrollTop = scrollTop;
+                ticking = false;
             });
             
             ticking = true;
@@ -284,7 +281,6 @@ function showAddToCartFeedback(button, productName) {
         border: 1px solid rgba(136, 211, 206, 0.3);
         min-width: 250px;
         max-width: 350px;
-        pointer-events: none;
     `;
     
     const itemCount = parseInt(document.querySelector('.cart-count')?.textContent || '0');
@@ -347,12 +343,112 @@ function initPageTransitions() {
 }
 
 // ============================================
-// 6. VIDEO BACKGROUND - ПОЛНОСТЬЮ ОТКЛЮЧЕНО
+// 6. VIDEO BACKGROUND - ОТКЛЮЧЕНО (УПРАВЛЯЕТСЯ ИЗ INDEX.HTML)
 // ============================================
-// Видео полностью управляется из index.html для избежания конфликтов
+function initVideoBackground() {
+    // Функция отключена для избежания конфликтов с inline-скриптом
+    console.log('Video background handled by inline script');
+    return;
+}
 
 // ============================================
-// 7. CART ICON BEHAVIOR
+// 7. CYCLING TOOLTIPS ON HERO SECTION
+// ============================================
+function initCyclingTooltips() {
+    const tooltips = document.querySelectorAll('.tooltip');
+    const indicators = document.querySelectorAll('.tooltip-indicator');
+    
+    if (tooltips.length === 0) return;
+    
+    let currentTooltip = 0;
+    const totalTooltips = tooltips.length;
+    let tooltipInterval;
+    
+    // Функция для показа конкретного тултипа
+    function showTooltip(index) {
+        // Скрыть все тултипы
+        tooltips.forEach(tooltip => {
+            tooltip.classList.remove('active', 'fade-in', 'fade-out');
+            tooltip.style.opacity = '0';
+            tooltip.style.visibility = 'hidden';
+        });
+        
+        // Обновить индикаторы
+        indicators.forEach(indicator => {
+            indicator.classList.remove('active');
+        });
+        
+        // Показать выбранный тултип
+        if (tooltips[index]) {
+            tooltips[index].classList.add('active', 'fade-in');
+            tooltips[index].style.opacity = '1';
+            tooltips[index].style.visibility = 'visible';
+        }
+        
+        // Активировать соответствующий индикатор
+        if (indicators[index]) {
+            indicators[index].classList.add('active');
+        }
+        
+        currentTooltip = index;
+    }
+    
+    // Функция для переключения на следующий тултип
+    function nextTooltip() {
+        let nextIndex = currentTooltip + 1;
+        if (nextIndex >= totalTooltips) {
+            nextIndex = 0;
+        }
+        
+        // Анимация исчезновения текущего
+        if (tooltips[currentTooltip]) {
+            tooltips[currentTooltip].classList.add('fade-out');
+            tooltips[currentTooltip].classList.remove('fade-in');
+        }
+        
+        // Задержка перед появлением следующего
+        setTimeout(() => {
+            showTooltip(nextIndex);
+        }, 800);
+    }
+    
+    // Запустить автоматическое переключение
+    function startTooltipCycle() {
+        tooltipInterval = setInterval(nextTooltip, 4000);
+    }
+    
+    // Остановить автоматическое переключение
+    function stopTooltipCycle() {
+        if (tooltipInterval) {
+            clearInterval(tooltipInterval);
+        }
+    }
+    
+    // Инициализация - показать первый тултип
+    showTooltip(0);
+    
+    // Запустить цикл
+    startTooltipCycle();
+    
+    // Добавить обработчики для индикаторов
+    indicators.forEach((indicator, index) => {
+        indicator.addEventListener('click', function() {
+            stopTooltipCycle();
+            showTooltip(index);
+            setTimeout(startTooltipCycle, 10000);
+        });
+    });
+    
+    // Остановить цикл при наведении
+    const container = document.querySelector('.tooltips-container');
+    if (container) {
+        container.addEventListener('mouseenter', stopTooltipCycle);
+        container.addEventListener('mouseleave', startTooltipCycle);
+    }
+}
+
+// ============================================
+// 8. CART ICON BEHAVIOR
 // ============================================
 function initCartIconBehavior() {
     // Проверяем, находимся ли мы на странице корзины
@@ -479,13 +575,6 @@ function addCartIconStyles() {
         
         @keyframes ripple {
             to { transform: scale(4); opacity: 0; }
-        }
-        
-        /* Оптимизация производительности */
-        .glass-header,
-        .hero-video,
-        .video-container {
-            will-change: transform;
         }
     `;
     document.head.appendChild(style);
